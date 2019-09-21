@@ -1,0 +1,184 @@
+{
+  "products": [
+    {
+      "_id": 1,
+      "title": "Jeans coat",
+      "featured": false,
+      "category": "none",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/another+jeans.jpg"
+    },
+    {
+      "_id": 2,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": true,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 3,
+      "title": "Youth coat",
+      "featured": true,
+      "category": "coats",
+      "newarrival": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/youth+coat.jpg"
+    },
+    {
+      "_id": 4,
+      "title": "Fur coat",
+      "featured": true,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/fur-coat.jpg"
+    },
+    {
+      "_id": 5,
+      "title": "Youth coat",
+      "featured": true,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/youth+coat+2.jpg"
+    },
+    {
+      "_id": 6,
+      "title": "Long gray coat",
+      "featured": true,
+      "category": "shoes",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/long-gray-coat.jpg"
+    },
+    {
+      "_id": 7,
+      "title": "Jeans coat",
+      "featured": true,
+      "category": "shoes",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/jeans+coat.jpg"
+    },
+    {
+      "_id": 8,
+      "title": "Cotton Hand Towel",
+      "featured": true,
+      "category": "shoes",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/gray-coat.jpg"
+    },
+    {
+      "_id": 9,
+      "title": "Fictich coat",
+      "featured": true,
+      "category": "shoes",
+      "newarrival": true,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/fictich+coat.jpg"
+    },
+    {
+      "_id": 10,
+      "title": "Professional coat",
+      "featured": true,
+      "category": "shoes",
+      "newarrival": true,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/coat-t-shirt.jpg"
+    },
+    {
+      "_id": 11,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 12,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 13,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 14,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 15,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 16,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 17,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    },
+    {
+      "_id": 18,
+      "title": "Bomber coat",
+      "featured": false,
+      "category": "coats",
+      "newarrival": false,
+      "liked": false,
+      "price": "200",
+      "imgUrl": "https://scarabjsx.s3.amazonaws.com/bomber-coat.jpg"
+    }
+  ],
+  "users": []
+}
