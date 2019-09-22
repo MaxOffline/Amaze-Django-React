@@ -7,23 +7,23 @@ I will try to use as much native as I can to avoid future issues.
 ### Tech
 
 * HTML5
-..* CSS3-Grid
-..* ReactJs
-..* Django
-..* ResAPI
+* CSS3-Grid
+* ReactJs
+* Django
+* ResAPI
 
 
 ### On going development.
 
-..* User authenticaion
-..* Data-base architecting.
+* User authenticaion
+* Data-base architecting.
 
 ### Coming updates.
 
-..* Flex-box
-..* Axios
-..* Joi
-..* Stripe
+* Flex-box
+* Axios
+* Joi
+* Stripe
 
 
 
