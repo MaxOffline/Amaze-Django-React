@@ -6,7 +6,7 @@ I will try to use as much native as I can to avoid future issues.
 
 ### Tech
 
-..* HTML5
+* HTML5
 ..* CSS3-Grid
 ..* ReactJs
 ..* Django
