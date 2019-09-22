@@ -19,7 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 """ Defined to point to our frontend app then passed in "DIRS" in templates"""
-TEMPLATES = os.path.join(BASE_DIR,"frontend/build")
+# TEMPLATES = os.path.join(BASE_DIR,"frontend/build")
+
+
+
+# Trying out moving the index to the root dir
+TEMPLATES = os.path.join(BASE_DIR)
+
 
 
 # Quick-start development settings - unsuitable for production
