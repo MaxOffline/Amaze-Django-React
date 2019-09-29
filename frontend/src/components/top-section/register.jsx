@@ -1,20 +1,73 @@
 import React, { Component } from "react";
 import Footer from "../bottom-section/footer";
+import DjangoCSRFToken from "django-react-csrftoken";
 
 class Register extends Component {
+  state = {
+    username: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: ""
+  };
+
   handleSubmit = event => {
     event.preventDefault();
-    console.log("We would be sending a request to the DB at this time.");
+    console.log(this.state);
+    fetch("/SignupAPI/", {
+      headers: { "Content-Type": "application/json" },
+      mode: "same-origin",
+      method: "POST",
+      body: JSON.stringify({
+        username: this.state.username,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
+        email: this.state.email,
+        password: this.state.password
+      })
+    }).then(data => {
+      const refs = [
+        this.refs.username,
+        this.refs.password,
+        this.refs.confirm_password,
+        this.refs.email,
+        this.refs.confirm_email,
+        this.refs.first_name,
+        this.refs.last_name
+      ];
+      refs.forEach(ref => (ref.value = ""));
+      // Redirect to the following URL
+      this.props.history.replace("/");
+    });
   };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
   render() {
     return (
       <React.Fragment>
         <div className="sign-up">
           <form onSubmit={this.handleSubmit}>
+            <DjangoCSRFToken />
             <div className="first-last-input">
-              <input type="text" placeholder="   First name" />
-
-              <input type="text" placeholder="    Last name" />
+              <input
+                type="text"
+                placeholder="   First name"
+                ref="first_name"
+                name="first_name"
+                onChange={this.handleChange}
+              />
+              <input
+                type="text"
+                placeholder="    Last name"
+                ref="last_name"
+                name="last_name"
+                onChange={this.handleChange}
+              />
             </div>
             <select className="input" defaultValue="United States">
               <option value="Afghanistan">Afghanistan</option>
@@ -299,19 +352,46 @@ class Register extends Component {
               <option value="Zambia">Zambia</option>
               <option value="Zimbabwe">Zimbabwe</option>
             </select>
-            <input type="text" placeholder="    Password" className="input" />
+            <input
+              type="text"
+              placeholder="    Username"
+              ref="username"
+              className="input"
+              name="username"
+              onChange={this.handleChange}
+            />
+            <input
+              type="password"
+              placeholder="    Password"
+              className="input"
+              ref="password"
+              name="password"
+              onChange={this.handleChange}
+            />
+
+            <input
+              type="password"
+              placeholder="    Confirm password"
+              className="input"
+              ref="confirm_password"
+              name="confirm_password"
+              onChange={this.handleChange}
+            />
 
             <input
               type="text"
-              placeholder="    Confirm password"
+              placeholder="    E-mail"
               className="input"
+              ref="email"
+              name="email"
+              onChange={this.handleChange}
             />
-
-            <input type="text" placeholder="    E-mail" className="input" />
 
             <input
               type="text"
               placeholder="    Confirm e-mail"
+              name="confirm_email"
+              ref="confirm_email"
               className="input"
             />
 

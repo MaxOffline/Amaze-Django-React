@@ -9,6 +9,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
     "@fortawesome/react-fontawesome": "^0.1.4",
+    "django-react-csrftoken": "^1.0.4",
     "fbjs": "^1.0.0",
     "password-hash": "^1.2.2",
     "react": "^16.8.6",

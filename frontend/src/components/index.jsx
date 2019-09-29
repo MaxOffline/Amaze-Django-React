@@ -24,7 +24,8 @@ class Index extends Component {
     loading: false,
     searchInput: false,
     selectedCategory: "coats",
-    menuOn: false
+    menuOn: false,
+    userLoggedIn: false
   };
   mounted = false;
 
@@ -127,6 +128,10 @@ class Index extends Component {
     this.props.history.replace("/home/search");
   };
 
+  handleUserLogin = () => {
+    if (!this.state.userLoggedIn) this.setState({ userLoggedIn: true });
+  };
+
   render() {
     const { history } = this.props;
     const {
@@ -146,11 +151,17 @@ class Index extends Component {
               cartProducts={cartProducts}
               onMenuClick={this.handleMenuClick}
               onLinkClick={this.handleClick}
+              userLoggedIn={this.state.userLoggedIn}
             />
             {this.homePageComponents()}
             <Switch>
               <Route path="/home/register" component={Register} />
-              <Route path="/home/login" component={Login} />
+              <Route
+                path="/home/login"
+                component={Login}
+                userLoggedIn={this.state.userLoggedIn}
+                onUserLogin={this.handleUserLogin}
+              />
               <Route
                 path="/home/cart"
                 component={props => (
@@ -212,6 +223,7 @@ class Index extends Component {
             cartProducts={cartProducts}
             onMenuClick={this.handleMenuClick}
             onLinkClick={this.handleClick}
+            userLoggedIn={this.state.userLoggedIn}
           />
           <div className="menu-items">
             <form

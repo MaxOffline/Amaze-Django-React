@@ -5,11 +5,18 @@ index-main {
   height: 100%;
   margin: 0;
 }
-* {
+*,
+*:before,
+*:after {
   -moz-user-select: none;
   -webkit-user-select: none;
   margin: 0;
   outline: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* MAIN SECTION */
@@ -424,18 +431,17 @@ index-main {
   color: #b2ebf2;
 }
 
-
 /* Product Details */
 
-.product-details img{
-  height:50vh;
+.product-details img {
+  height: 50vh;
 }
 
 .product-details > div {
   text-align: center;
 }
 
-.product-details h1{
+.product-details h1 {
   font-family: "Ubuntu", sans-serif;
 }
 /* ************************************Responsiveness*************************************** */

@@ -8,11 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 """ Defined to point to our frontend app then passed in "DIRS" in templates"""
 # Developement Templates Directory
-TEMP = os.path.join(BASE_DIR,"frontend/build")
-
-# PRODUCTION Templates Directory
-TEMP_PRODUCTION = os.path.join(BASE_DIR)
-
+TEMP = os.path.join(BASE_DIR, "frontend/build")
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,6 +24,10 @@ DEBUG = True
 ALLOWED_HOSTS = [""]
 
 
+# Changing templates location for production.
+if DEBUG == False:
+    TEMP = os.path.join(BASE_DIR)
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,11 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'backend',
     "rest_framework",
-    "corsheaders", # added to solve CORS
+    "corsheaders",  # added to solve CORS
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',# added to solve CORS
+    'corsheaders.middleware.CorsMiddleware',  # added to solve CORS
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,7 +61,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # dirs here will be our root directory inside our project so we
         # we can use it in our views.
-        'DIRS': [TEMP if DEBUG else TEMP_PRODUCTION],
+        'DIRS': [TEMP],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'Amaze.wsgi.application'
 
@@ -121,22 +122,25 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 """Used to select the folder containing the static files of the project.
 The value of the STATIC_URL must match the name of the directory containing
 Static in STATIC_ROOT
 e.g STATIC_URL = "sss"
 STATIC_ROOT = os.path.join(BASE_DIR, "/Amaze/sss")"""
 STATIC_URL = '/static/'
+
+# Location of static files in production enviroment.
 STATIC_ROOT = os.path.join(BASE_DIR, "/Amaze/static")
 
 """ "STATICFILES_DIR" is the location of which Django will grab it's files 
 # then move it to the "STATIC_ROOT"  """
-STATICFILES_DIRS = [os.path.join(BASE_DIR,"frontend/build/static")]
+# Also the location of static files in developement enviroment
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 
 # added to solve CORS
-CORS_ORIGIN_ALLOW_ALL = True 
-
+CORS_ORIGIN_ALLOW_ALL = True
+# Maybe used if having CSRF issues/
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Activate Django-Heroku.

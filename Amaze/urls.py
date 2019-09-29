@@ -16,6 +16,6 @@ urlpatterns = [
     path("LoginAPI/", Login.as_view()),
     # Logout endpoint
     path("LogoutAPI/", Logout.as_view()),
-    #backend application url connection
+    # backend application url connection
     path("", include("backend.urls")),
 ]

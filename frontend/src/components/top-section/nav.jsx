@@ -32,6 +32,39 @@ class Nav extends Component {
     this.props.onMenuClick();
   };
 
+  handleLogout = () => {
+    fetch("/LogoutAPI/", {
+      headers: { "Content-Type": "application/json" },
+      mode: "same-origin",
+      method: "POST",
+      body: {}
+    });
+  };
+
+  userAuthentication = () => {
+    const { userLoggedIn } = this.props;
+    if (!userLoggedIn) {
+      return (
+        <React.Fragment>
+          <li
+            className="sign-in-link"
+            onClick={() => this.handleLinkClick("/home/login")}
+          >
+            Sign In
+          </li>
+          <li
+            className="sign-up-link"
+            onClick={() => this.handleLinkClick("/home/register")}
+          >
+            Sign Up
+          </li>
+        </React.Fragment>
+      );
+    }
+
+    return <li className="logout" onClick={() => this.handleLogout()}></li>;
+  };
+
   render() {
     const { handleLinkClick, handleMenuClick } = this;
     const { products } = this.props;
@@ -59,19 +92,7 @@ class Nav extends Component {
             Products
           </li>
 
-          <li
-            className="sign-in-link"
-            onClick={() => handleLinkClick("/home/login")}
-          >
-            Sign In
-          </li>
-
-          <li
-            className="sign-up-link"
-            onClick={() => handleLinkClick("/home/register")}
-          >
-            Sign Up
-          </li>
+          {this.userAuthentication()}
 
           <li
             className="contact-us-link"
