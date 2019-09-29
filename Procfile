@@ -1,2 +1,2 @@
 web: gunicorn Amaze.wsgi
-web npm install
+web:npm install
