@@ -21,7 +21,7 @@ SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
 DEBUG = False
 
 # Allowing all hosts for now
-ALLOWED_HOSTS = [""]
+ALLOWED_HOSTS = ["*"]
 
 
 # Changing templates location for production.
