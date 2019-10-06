@@ -1,6 +1,5 @@
 import os
 
-import django_heroku
 
 """Build paths inside the project like this: os.path.join(BASE_DIR, ...)"""
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,8 +24,12 @@ ALLOWED_HOSTS = [""]
 
 
 # Changing templates location for production.
-if DEBUG == False:
+if not DEBUG:
     TEMP = os.path.join(BASE_DIR)
+    # Activate Django-Heroku.
+    import django_heroku
+    jango_heroku.settings(locals())
+
 
 # Application definition
 
@@ -143,5 +146,4 @@ CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+
