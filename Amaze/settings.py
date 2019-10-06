@@ -17,10 +17,10 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allowing all hosts for now
-ALLOWED_HOSTS = [""]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Changing templates location for production.

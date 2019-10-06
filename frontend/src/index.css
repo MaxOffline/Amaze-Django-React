@@ -457,8 +457,10 @@ input, input:before, input:after {
   .nav-main {
     grid-template-columns: 33.3333% 33.3333% 33.333%;
     min-height: 10vh;
-    max-height: 10vh;
     min-width: 100vw;
+  }
+  .home-link {
+    font-size:3vh;
   }
   .first-li {
     display: none;
@@ -551,10 +553,10 @@ input, input:before, input:after {
     min-width: 70vw;
   }
   .cart-icon {
-    font-size: 20px;
+    font-size: 2.6vh;
   }
   .cart-count {
-    font-size: 20px;
+    font-size: 2.6vh;
   }
   .products-main {
     grid-template-columns: 1fr;

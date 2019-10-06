@@ -71,11 +71,9 @@ class Nav extends Component {
     return (
       <div id="nav-main">
         <ul className="nav-main" ref="nav">
-          <FontAwesomeIcon
-            icon={faBars}
-            className="menu-bars"
-            onClick={() => handleMenuClick()}
-          />
+        <li className="menu-bars" onClick={() => handleMenuClick()}>
+        <FontAwesomeIcon icon={faBars}/>
+        </li>
           <li className="first-li" />
 
           <li

@@ -284,10 +284,6 @@ class Index extends Component {
                   searchInput={searchInput}
                   onAddToCart={this.handleAddToCart}
                   {...props}
-                  cartRef={
-                    this.refs.main.childNodes[0].childNodes[0].childNodes[8]
-                  }
-                  navRef={this.refs.main.childNodes[0].childNodes[0]}
                 />
               )}
             />
