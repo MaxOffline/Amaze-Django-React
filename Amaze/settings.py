@@ -144,5 +144,5 @@ CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-    # Activate Django-Heroku.
-    django_heroku.settings(locals())
+# Activate Django-Heroku.
+django_heroku.settings(locals())
