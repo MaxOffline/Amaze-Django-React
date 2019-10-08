@@ -181,14 +181,12 @@ input, input:before, input:after {
   font-size: 30px;
   cursor: pointer;
   color: #050831;
-  height: 100%;
 }
 .prev-arrow {
   margin: auto;
   font-size: 30px;
   cursor: pointer;
   color: #050831;
-  height: 100%;
 }
 
 .next-arrow:hover,
@@ -352,7 +350,7 @@ input, input:before, input:after {
 .first-last-input :nth-child(1),
 .first-last-input :nth-child(2) {
   margin-top: 10px;
-  margin-right: 20px;
+  margin-right:12px;
   margin-bottom: 20px;
   border: 1px solid #c6c6cb;
   border-radius: 3px;
@@ -364,6 +362,20 @@ input, input:before, input:after {
 }
 
 .input {
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  border: 1px solid #c6c6cb;
+  border-radius: 3px;
+  padding: 20px 0 20px;
+  font-size: 17px;
+  font-family: "Ubuntu", sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+
+.country-select {
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 20px;
@@ -558,6 +570,16 @@ input, input:before, input:after {
   .cart-count {
     font-size: 2.6vh;
   }
+
+
+.first-last-input :nth-child(1),
+.first-last-input :nth-child(2) {
+  margin-right:0;
+}
+
+.country-select{
+  width: 62vw;
+}
   .products-main {
     grid-template-columns: 1fr;
   }

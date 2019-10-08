@@ -69,7 +69,7 @@ class Register extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <select className="input" defaultValue="United States">
+            <select className="country-select" defaultValue="United States">
               <option value="Afghanistan">Afghanistan</option>
               <option value="Albania">Albania</option>
               <option value="Algeria">Algeria</option>
