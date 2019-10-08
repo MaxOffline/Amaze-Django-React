@@ -122,15 +122,15 @@ USE_L10N = True
 USE_TZ = True
 
 
-"""Used to select the folder containing the static files of the project.
-The value of the STATIC_URL must match the name of the directory containing
-Static in STATIC_ROOT
-e.g STATIC_URL = "sss"
-STATIC_ROOT = os.path.join(BASE_DIR, "/Amaze/sss")"""
+
+# STATIC_URL is the name of the directory where it will look for static files
+# So it will go thought your app and look for a directory called static and read all the files from.
+# We could possibly name is anything else but then we need to make sure that
+# The value of the STATIC_URL must match the name of the directory containing the static files.
 STATIC_URL = '/static/'
 
 # Location of static files in production enviroment.
-STATIC_ROOT = os.path.join(BASE_DIR, "/staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
 
 """ "STATICFILES_DIR" is the location of which Django will grab it's files 
 # then move it to the "STATIC_ROOT"  """
