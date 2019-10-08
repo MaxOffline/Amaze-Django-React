@@ -25,10 +25,18 @@ class Featured extends Component {
     return options;
   }
 
+  // We are using this to force the Component to update so we could get initial values for our select element.
+  // The reason we didn't need to do that in <Products/> is because it's being passed in a switch as a route and 
+  // the default behavior for that is it will make the componenet remound and reupdate
+  componentDidMount(){
+    if( !this.state.updated){this.setSelectValues()}
+  }
+
+
   //call the setSelectValues then change the updated to true to prevent rerendering to prevent the
   // MaximumDepthExceeded error.
-
   componentDidUpdate() {
+    console.log(this.state, "updated")
     if (this.state.updated === false) {
       this.setSelectValues();
       this.setState({ updated: true });
@@ -83,6 +91,7 @@ class Featured extends Component {
                       product._id,
                       event.currentTarget.value
                     );
+                    console.log(this.state)
                   }}
                 >
                   {this.returnSelectElements()}
@@ -91,11 +100,12 @@ class Featured extends Component {
               <button
                 className="add-to-cart-button"
                 onClick={() =>
-                  this.props.onAddToCart(
+                  {this.props.onAddToCart(
                     product,
                     this.state.selectValues[product._id]
-                  )
-                }
+                  );
+                  console.log(this.state)
+                }}
               >
                 Add to Cart
                 <FontAwesomeIcon

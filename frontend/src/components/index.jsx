@@ -64,6 +64,7 @@ class Index extends Component {
   };
 
   handleAddToCart = (product, quantity) => {
+    console.log(product, quantity)
     const cartProducts = [...this.state.cartProducts];
     if (cartProducts.includes(product)) {
       let foundProduct = cartProducts.find(prod => prod._id === product._id);
@@ -111,7 +112,7 @@ class Index extends Component {
       );
     }
   };
-
+;
   handleMenuClick = () => {
     if (!this.state.menuOn) {
       this.setState({ menuOn: true });

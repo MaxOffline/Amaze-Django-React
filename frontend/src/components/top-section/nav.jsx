@@ -21,9 +21,10 @@ class Nav extends Component {
 
   cartQuantity = () => {
     const cartProducts = this.props.cartProducts;
+    // console.log(this.props.cartProducts)
     let quantity = 0;
     for (let product of cartProducts) {
-      quantity += product.quantity;
+      quantity += parseInt(product.quantity);
     }
     return quantity;
   };
