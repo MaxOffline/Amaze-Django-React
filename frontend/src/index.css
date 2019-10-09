@@ -421,7 +421,7 @@ input, input:before, input:after {
   grid-template-columns: 1fr;
   text-align: center;
 }
-.contact-us input {
+.contact-us .input {
   margin-left: 20px;
 }
 

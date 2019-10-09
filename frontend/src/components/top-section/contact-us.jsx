@@ -19,14 +19,15 @@ class ContactUs extends Component {
               <input className="input" placeholder="    Phone" />
               <input className="input" placeholder="    E-mail" />
             </div>
-
-            <textarea
-              className="input"
-              placeholder="    Message...."
-              form="contact-us-form"
-              rows="10"
-              cols="45"
-            />
+            <div>
+              <textarea
+                className="input"
+                placeholder="    Message...."
+                form="contact-us-form"
+                rows="10"
+                cols="45"
+              />
+            </div>
             <button type="submit">Send</button>
           </form>
         </div>

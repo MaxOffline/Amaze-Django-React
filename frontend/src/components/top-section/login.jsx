@@ -47,7 +47,7 @@ class Login extends Component {
               onChange={this.handleChange}
             />
             <input
-              type="text"
+              type="password"
               className="input"
               ref="password"
               name="password"

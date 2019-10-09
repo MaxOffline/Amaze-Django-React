@@ -29,15 +29,17 @@ class Featured extends Component {
   // The reason we didn't need to do that in <Products/> is because it's being passed in a switch as a route and 
   // the default behavior for that is it will make the componenet remound and reupdate
   componentDidMount(){
-    if( !this.state.updated){this.setSelectValues()}
+    if (!this.state.updated && this.props.featuredProducts.length > 0) {
+      this.setSelectValues();
+      this.setState({ updated: true });
+    }
   }
 
 
   //call the setSelectValues then change the updated to true to prevent rerendering to prevent the
   // MaximumDepthExceeded error.
   componentDidUpdate() {
-    console.log(this.state, "updated")
-    if (this.state.updated === false) {
+    if (!this.state.updated && this.props.featuredProducts.length > 0) {
       this.setSelectValues();
       this.setState({ updated: true });
     }
@@ -60,6 +62,7 @@ class Featured extends Component {
   };
 
   render() {
+    
     return (
       <div className="featured-products">
         {this.props.featuredProducts.map(product => (
@@ -85,13 +88,11 @@ class Featured extends Component {
               </span>
               <span>
                 <select
-                  ref={String(product._id)}
                   onChange={event => {
                     this.handleQuantityChange(
                       product._id,
                       event.currentTarget.value
                     );
-                    console.log(this.state)
                   }}
                 >
                   {this.returnSelectElements()}
@@ -104,7 +105,6 @@ class Featured extends Component {
                     product,
                     this.state.selectValues[product._id]
                   );
-                  console.log(this.state)
                 }}
               >
                 Add to Cart

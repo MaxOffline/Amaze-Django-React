@@ -102,7 +102,6 @@ class Products extends Component {
                   </span>
                   <span>
                   <select
-                  ref={String(product._id)}
                   onChange={event => {
                     this.handleQuantityChange(
                       product._id,
