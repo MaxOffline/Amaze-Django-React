@@ -35,7 +35,6 @@ class Index extends Component {
         // Once the request is back and we check for any NetWork errors or User Errors
         // And handle them set state.
         this.mounted = true;
-
         new Promise(function (resolve, reject) {
             resolve(DB.products)
         })
@@ -132,8 +131,12 @@ class Index extends Component {
     };
 
     handleUserLogin = () => {
-        if (!this.state.userLoggedIn) this.setState({ userLoggedIn: true });
+        if (!this.state.userLoggedIn && this.mounted) this.setState({ userLoggedIn: true });
     };
+
+    handleUserLogout = () => {
+        if (this.state.userLoggedIn) this.setState({ userLoggedIn: false })
+    }
 
     render() {
         const { history } = this.props;
@@ -150,15 +153,20 @@ class Index extends Component {
                             onMenuClick={this.handleMenuClick}
                             onLinkClick={this.handleClick}
                             userLoggedIn={this.state.userLoggedIn}
+                            onUserLogout={this.handleUserLogout}
                         />
                         {this.homePageComponents()}
                         <Switch>
                             <Route path="/home/register" component={Register} />
                             <Route
+
                                 path="/home/login"
-                                component={Login}
-                                userLoggedIn={this.state.userLoggedIn}
-                                onUserLogin={this.handleUserLogin}
+                                component={props => (
+                                    <Login {...props}
+                                        userLoggedIn={this.state.userLoggedIn}
+                                        onUserLogin={this.handleUserLogin} />
+                                )}
+
                             />
                             <Route
                                 path="/home/cart"
@@ -222,6 +230,7 @@ class Index extends Component {
                         onMenuClick={this.handleMenuClick}
                         onLinkClick={this.handleClick}
                         userLoggedIn={this.state.userLoggedIn}
+                        onUserLogout={this.handleUserLogout}
                     />
                     <div className="menu-items">
                         <form className="search-form-menu" onSubmit={this.handleSearchSubmit}>
