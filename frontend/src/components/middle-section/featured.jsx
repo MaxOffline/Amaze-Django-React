@@ -68,7 +68,7 @@ class Featured extends Component {
                 {this.props.featuredProducts.map(product => (
                     <div key={product._id}>
                         <Link to={{ pathname: "/home/productdetails", state: { product, title: product._id } }}>
-                            <img src={product.imgUrl} lt={product.title} className="featured-show" />
+                            <img src={product.imgUrl} alt={product.title} className="featured-show" />
                         </Link>
                         <div className="price-add">
                             <span>
