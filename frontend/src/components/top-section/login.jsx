@@ -40,10 +40,22 @@ class Login extends Component {
                 password: this.state.password
             })
         }).then(async (response) => {
-            this.refs.username.value = "";
-            this.refs.password.value = "";
-            this.props.history.replace("/");
-            await response.json().then(data => console.log(data, "json"))
+
+            await response.json().then(data =>{
+                if (data === "allow"){
+                    // store the id and password in the local storage
+                    localStorage.setItem("logged", true)
+
+                    // Set logged in in the index state to true.
+                    this.props.onUserLogin();
+
+                    // redirect.
+                    this.props.history.replace("/");
+                }else{
+                    // Do something if user isn't authenticated
+                    console.log("user not logged in")
+                }
+            } )
         })
 
     };

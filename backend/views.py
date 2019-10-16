@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authtoken.models import Token
 # ******Local Directories******
 from backend.serializers import CategoriesSerializer, SignupSerializer, LoginSerializer, LogoutSerializer
 from backend import serializers
@@ -22,6 +23,7 @@ from backend.models import Categories
 class index(View):
 
     def get(self, request):
+        
         return render(request, "index.html", {})
 
 
@@ -51,19 +53,17 @@ class Signup(APIView):
                     email=serializer.validated_data.get('email'),
                     password=serializer.validated_data.get('password')
                 )
-                # Hash password then save it
-                user.set_password(user.password)
                 user.save()
-                # redirect to nome happens in the frontend  so the following return will not trigger
-                return redirect("/home/products")
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                return Response("allow", status = status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Logout(APIView):
 
-    def post(self, request):
+    def get(self, request):
         logout(request)
-        return redirect("/home/products")
+        return Response("logged out", status = status.HTTP_200_OK)
+        
 
 
 class Login(APIView):
@@ -78,10 +78,8 @@ class Login(APIView):
                 username=serializer.validated_data.get('username'), password=serializer.validated_data.get('password')
             )
             if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect("/home/products")
-            return Response("Sucess")
+                login(request, user)
+                return Response("allow", status = status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

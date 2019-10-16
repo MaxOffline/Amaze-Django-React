@@ -13,7 +13,6 @@ class Register extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state);
         fetch("/SignupAPI/", {
             headers: { "Content-Type": "application/json" },
             mode: "same-origin",
@@ -25,21 +24,38 @@ class Register extends Component {
                 email: this.state.email,
                 password: this.state.password
             })
-        }).then(data => {
-            const refs = [
-                this.refs.username,
-                this.refs.password,
-                this.refs.confirm_password,
-                this.refs.email,
-                this.refs.confirm_email,
-                this.refs.first_name,
-                this.refs.last_name
-            ];
-            refs.forEach(ref => (ref.value = ""));
-            // Redirect to the following URL
-            this.props.history.replace("/");
+        }).then( async response => {
+            await response.json().then(data => {
+                if (data === "allow"){
+                    const refs = [
+                        this.refs.username,
+                        this.refs.password,
+                        this.refs.confirm_password,
+                        this.refs.email,
+                        this.refs.confirm_email,
+                        this.refs.first_name,
+                        this.refs.last_name
+                    ];
+                    refs.forEach(ref => (ref.value = ""));
+
+                    // store the id and password in the local storage
+                    localStorage.setItem("logged", true)
+                    this.props.onUserLogin();
+                    alert(`Thank you for signing up ${this.state.first_name}`)
+                    // Redirect to the following URL
+                    this.props.history.replace("/");
+                }else{
+                    alert("Username is already taken")
+                }
+                
+            })
+
         });
     };
+
+
+
+
 
     handleChange = event => {
         this.setState({

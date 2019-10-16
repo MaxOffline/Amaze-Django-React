@@ -34,6 +34,8 @@ class Index extends Component {
         // This is supposed to be a HTTP request using Axios or XMLHtppRequest
         // Once the request is back and we check for any NetWork errors or User Errors
         // And handle them set state.
+
+        
         this.mounted = true;
         new Promise(function (resolve, reject) {
             resolve(DB.products)
@@ -41,6 +43,9 @@ class Index extends Component {
             .then(products => {
                 if (this.mounted) this.setState({ products, loading: false });
             });
+    }
+    componentDidUpdate(){
+        console.log(this.state.userLoggedIn)
     }
 
     componentWillUnmount() {
@@ -65,7 +70,6 @@ class Index extends Component {
     };
 
     handleAddToCart = (product, quantity) => {
-        console.log(product, quantity)
         const cartProducts = [...this.state.cartProducts];
         if (cartProducts.includes(product)) {
             let foundProduct = cartProducts.find(prod => prod._id === product._id);
@@ -136,6 +140,7 @@ class Index extends Component {
 
     handleUserLogout = () => {
         if (this.state.userLoggedIn) this.setState({ userLoggedIn: false })
+        this.forceUpdate();
     }
 
     render() {
@@ -157,16 +162,16 @@ class Index extends Component {
                         />
                         {this.homePageComponents()}
                         <Switch>
-                            <Route path="/home/register" component={Register} />
+                            <Route path="/home/register" component={props => (
+                                <Register {...props}  onUserLogin={this.handleUserLogin} />)} 
+                            />
                             <Route
-
                                 path="/home/login"
                                 component={props => (
                                     <Login {...props}
                                         userLoggedIn={this.state.userLoggedIn}
                                         onUserLogin={this.handleUserLogin} />
                                 )}
-
                             />
                             <Route
                                 path="/home/cart"
