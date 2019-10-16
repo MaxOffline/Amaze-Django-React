@@ -43,8 +43,7 @@ class Login extends Component {
 
             await response.json().then(data =>{
                 if (data === "allow"){
-                    // store the id and password in the local storage
-                    localStorage.setItem("logged", true)
+
 
                     // Set logged in in the index state to true.
                     this.props.onUserLogin();

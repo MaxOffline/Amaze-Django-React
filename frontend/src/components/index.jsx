@@ -133,7 +133,11 @@ class Index extends Component {
     };
 
     handleUserLogin = () => {
-        if (!this.state.userLoggedIn && this.mounted) this.setState({ userLoggedIn: true });
+        if (!this.state.userLoggedIn && this.mounted) {
+            this.setState({ userLoggedIn: true });
+            // store the id and password in the local storage
+            localStorage.setItem("logged", true)
+        }
     };
 
     handleUserLogout = () => {
