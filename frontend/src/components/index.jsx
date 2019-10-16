@@ -14,6 +14,7 @@ import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { handleLogout } from "../services/logout";
 
 class Index extends Component {
     state = {
@@ -43,9 +44,6 @@ class Index extends Component {
             .then(products => {
                 if (this.mounted) this.setState({ products, loading: false });
             });
-    }
-    componentDidUpdate(){
-        console.log(this.state.userLoggedIn)
     }
 
     componentWillUnmount() {
@@ -146,6 +144,18 @@ class Index extends Component {
             this.setState({ userLoggedIn: false })
         }
     }
+
+
+    menuOnAuthenticationItems = () => {
+        if (localStorage.getItem("logged")) {
+            return <li className="sign-in-lin" onClick = {() => this.handleUserLogout()}>Logout</li>
+        }else{
+            return (
+            <React.Fragment>
+                <li className="sign-in-lin" onClick={() => this.handleClick("/home/login")}>Sign In</li>
+                <li className="sign-up-lin" onClick={() => this.handleClick("/home/register")}>Sign Up</li>
+            </React.Fragment>)
+        }
     }
 
     render() {
@@ -258,8 +268,8 @@ class Index extends Component {
 
                         <ul className="nav-main-menu" ref="nav">
                             <li className="products-lin" onClick={() => this.handleClick("/home/products")}>Products</li>
-                            <li className="sign-in-lin" onClick={() => this.handleClick("/home/login")}>Sign In</li>
-                            <li className="sign-up-lin" onClick={() => this.handleClick("/home/register")}>Sign Up</li>
+                            {/* Login, logout and sign-up */}
+                            {this.menuOnAuthenticationItems()}
                             <li className="contact-us-lin" onClick={() => this.handleClick("/home/contact-us")}>Contact Us</li>
                         </ul>
 
