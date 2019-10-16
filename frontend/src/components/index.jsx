@@ -139,8 +139,13 @@ class Index extends Component {
     };
 
     handleUserLogout = () => {
-        if (this.state.userLoggedIn) this.setState({ userLoggedIn: false })
-        this.forceUpdate();
+        if (localStorage.getItem("logged")) { 
+            localStorage.removeItem("logged")
+            handleLogout();
+            this.props.history.replace("/")
+            this.setState({ userLoggedIn: false })
+        }
+    }
     }
 
     render() {
