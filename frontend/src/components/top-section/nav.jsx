@@ -34,19 +34,9 @@ class Nav extends Component {
     };
 
     handleLogout = () => {
-        fetch("/LogoutAPI/", {
-            headers: { "Content-Type": "application/json" },
-            mode: "same-origin",
-            method: "GET",
-        }).then( response => {
-            localStorage.removeItem("logged")
-            this.props.onUserLogout();
-            this.props.history.replace("/products")
-        })
+        this.props.onUserLogout();
+        this.props.history.replace("/products")
     };
-
-
-
 
 
 
