@@ -69,7 +69,6 @@ class Index extends Component {
 
     handleAddToCart = (product, quantity) => {
         const cartProducts = [...this.state.cartProducts];
-        let cartProducts = [...this.state.cartProducts];
         if (cartProducts.includes(product)) {
             let foundProduct = cartProducts.find(prod => prod._id === product._id);
             foundProduct.quantity += parseInt(quantity);
