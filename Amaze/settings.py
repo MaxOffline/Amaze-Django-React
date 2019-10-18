@@ -130,7 +130,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Location of static files in production enviroment.
-STATIC_ROOT = os.path.join(BASE_DIR, "/static/")
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 
 """ "STATICFILES_DIR" is the location of which Django will grab it's files 
 # then move it to the "STATIC_ROOT"  """
