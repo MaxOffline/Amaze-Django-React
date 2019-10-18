@@ -20,7 +20,7 @@ class Index extends Component {
         products: [],
         featuredProducts: [],
         newArrivals: [],
-        cartProducts: [],
+        cartProducts: JSON.parse(localStorage.getItem("cart")) || [],
         loading: false,
         searchInput: false,
         selectedCategory: "coats",
@@ -65,16 +65,17 @@ class Index extends Component {
     };
 
     handleAddToCart = (product, quantity) => {
-        console.log(product, quantity)
-        const cartProducts = [...this.state.cartProducts];
+        let cartProducts = [...this.state.cartProducts];
         if (cartProducts.includes(product)) {
             let foundProduct = cartProducts.find(prod => prod._id === product._id);
             foundProduct.quantity += parseInt(quantity);
             this.setState({ cartProducts });
+            localStorage.setItem("cart", JSON.stringify(cartProducts))
         } else {
             product.quantity = parseInt(quantity);
             cartProducts.push(product);
             this.setState({ cartProducts });
+            localStorage.setItem("cart", JSON.stringify(cartProducts))
         }
     };
 
@@ -83,6 +84,7 @@ class Index extends Component {
         let foundProduct = cartProducts.find(prod => prod._id === parseInt(id));
         foundProduct.quantity = parseInt(quantity);
         this.setState({ cartProducts });
+        localStorage.setItem("cart", JSON.stringify(cartProducts))
     };
 
     handleSearchInput = searchInput => {
