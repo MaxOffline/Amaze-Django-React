@@ -15,7 +15,7 @@ class Cart extends Component {
                 optionElements.push(element);
                 return (
                     // Default value is equals to selected on one of the lements in regular HTML5 but it's placed in the select element.
-                    <select id={id} efaultValue={quantity} onChange={this.handleSelectChange} >
+                    <select id={id} defaultValue={quantity} onChange={this.handleSelectChange} >
                         {optionElements}
                     </select>
                 );
