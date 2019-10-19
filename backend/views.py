@@ -12,9 +12,11 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 # ******Local Directories******
-from backend.serializers import CategoriesSerializer, SignupSerializer, LoginSerializer, LogoutSerializer
+from backend.serializers import SignupSerializer, LoginSerializer, LogoutSerializer
 from backend import serializers
-from backend.models import Categories
+from django.core import serializers as sers
+from backend.models import Products, Cart, CartProduct
+import json
 
 
 """ Home Page View """
@@ -53,6 +55,7 @@ class Signup(APIView):
                     email=serializer.validated_data.get('email'),
                     password=serializer.validated_data.get('password')
                 )
+                user.cart_set.create(user = request.user.username)
                 user.save()
                 return Response("allow", status = status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -85,18 +88,33 @@ class Login(APIView):
 
 """ Products Section """
 
+class ProductsList(APIView):
 
-class CategoriesList(APIView):
+    def get(self, request, format = None):
+        products = Products.objects.filter(active = True)
+        products = sers.serialize("json", products)
+        return Response({products})
+
+""" Cart Section """
+class CartList(APIView):
 
     # Needs to be defined so we can get HTML form option in the API view
-    serializer_class = serializers.CategoriesSerializer
+    # serializer_class = serializers.CartSerializer
 
     def get(self, request, format=None):
-        categories = Categories.objects.all()
-        serializer = CategoriesSerializer(categories, many=True)
+        # cart = Cart.objects.all()
+        # serializer = CartSerializer(cart, many=True)
+
+
+
         if request.user.is_authenticated:
-            return Response({"authenticated": True})
-        return Response(serializer.data)
+            current_user = User.objects.get(username = request.user.username)
+            cart = Cart.objects.get(user = request.user.id)
+            cart_products = cart.cartproduct_set.all()
+            cart_products = sers.serialize("json", cart_products)
+            print(cart_products)
+            return Response({cart_products})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
         """serializer will accept the data input and push it back to
@@ -110,7 +128,11 @@ class CategoriesList(APIView):
             """Specfic fields can be selected as follows,
                 name = serializer.validated_data.get('name') """
 
-            serializer.save()
+            current_user = User.objects.get(username = request.user.username)
+            x = current_user.cart_set.all()
+            print(x)
+
+            
             # Response can be anything...
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

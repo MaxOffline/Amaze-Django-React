@@ -1,16 +1,11 @@
 from rest_framework import serializers
-from backend.models import Categories
+from backend.models import Cart, CartProduct
 
 # class name has to match the model name Seriazliers
 
 
-class CategoriesSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        # "model" and "fields"  variable name can't be modified because they are preset or inherited that way
-        model = Categories
-        fields = ["name"]
-        # we can use fields = "__all__" to get all fields
+
 
 
 class SignupSerializer(serializers.Serializer):

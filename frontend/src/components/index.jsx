@@ -21,7 +21,7 @@ class Index extends Component {
         products: [],
         featuredProducts: [],
         newArrivals: [],
-        cartProducts: JSON.parse(localStorage.getItem("cart")) || [],
+        cartProducts: [],
         loading: false,
         searchInput: false,
         selectedCategory: "coats",
@@ -32,18 +32,50 @@ class Index extends Component {
     mounted = false;
 
     componentDidMount() {
+        fetch("/DBProductsAPI/", {
+            // headers: { "Content-Type": "application/json", 'X-XSRF-TOKEN': this.csrfToken },
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            mode: "same-origin",
+            method: "GET",
+        }).then(response => {
+            response.json().then(products => {
+                products = JSON.parse(products).map(product => product.fields)
+                this.setState({ products, loading: false });
+            })
+        })
+
+
+        fetch("/CartProducts/", {
+            // headers: { "Content-Type": "application/json", 'X-XSRF-TOKEN': this.csrfToken },
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            mode: "same-origin",
+            method: "GET",
+        }).then(response => {
+            response.json().then(cart_products => {
+                console.log(JSON.parse(cart_products))
+                cart_products = JSON.parse(cart_products).map(product => product.fields)
+                this.setState({ cartProducts:cart_products });
+
+            })
+        })
+        
+
+
+
         // This is supposed to be a HTTP request using Axios or XMLHtppRequest
         // Once the request is back and we check for any NetWork errors or User Errors
         // And handle them set state.
 
         
         this.mounted = true;
-        new Promise(function (resolve, reject) {
-            resolve(DB.products)
-        })
-            .then(products => {
-                if (this.mounted) this.setState({ products, loading: false });
-            });
+        // new Promise(function (resolve, reject) {
+        //     resolve(DB.products)
+        // })
+        //     .then(products => {
+        //         if (this.mounted) this.setState({ products, loading: false });
+        //     });
     }
 
     componentWillUnmount() {

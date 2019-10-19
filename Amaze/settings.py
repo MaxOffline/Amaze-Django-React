@@ -1,5 +1,5 @@
 import os
-import django_heroku
+# import django_heroku
 
 """Build paths inside the project like this: os.path.join(BASE_DIR, ...)"""
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,7 +17,7 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = ["127.0.0.1"]
@@ -145,4 +145,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

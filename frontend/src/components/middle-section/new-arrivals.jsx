@@ -13,12 +13,21 @@ class NewArrivals extends Component {
 
     componentDidMount() {
         // The number 2 here must match one of the products in the DB with newarrival obj set to true.
-        for (let i of this.refs.newarrivals.childNodes) {
-            if (parseInt(i.id) === 2) { i.firstChild.className = "show" }
+        // for (let i of this.refs.newarrivals.childNodes) {
+        //     if (parseInt(i.id) === 2) { i.firstChild.className = "show" }
+        // }
+        // this.refs.newarrivals.childNodes[0].className = "show"
+
+        if (this.refs.newarrivals.childNodes.length > 0 ){
+            this.refs.newarrivals.childNodes[0].childNodes[0].className = "show"
         }
+
+
     }
 
     componentDidUpdate() {
+        console.log(this.refs.newarrivals.childNodes)
+        console.log(this.refs.newarrivals.children[0])
         const length = this.refs.newarrivals.childNodes.length;
         for (let index = 1; index < length; index++) {
             this.refs.newarrivals.childNodes[index].firstChild.className = "hide";
@@ -31,9 +40,9 @@ class NewArrivals extends Component {
             product => product.newarrival === true
         );
         const imgs = newArrivals.map(product => (
-            <Link to={{ pathname: "/home/productdetails", state: { product, title: product._id } }}
-                key={product._id}
-                id={product._id}>
+            <Link to={{ pathname: "/home/productdetails", state: { product, title: product.product_id } }}
+                key={product.product_id}
+                id={product.product_id}>
                 <img src={product.imgUrl} alt={product.title} className="hide" />
             </Link>
         ));
