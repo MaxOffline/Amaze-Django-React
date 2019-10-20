@@ -54,7 +54,6 @@ class Index extends Component {
             method: "GET",
         }).then(response => {
             response.json().then(cart_products => {
-                console.log(JSON.parse(cart_products))
                 cart_products = JSON.parse(cart_products).map(product => product.fields)
                 this.setState({ cartProducts:cart_products });
 
