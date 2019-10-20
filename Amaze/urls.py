@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 # ******Local Directories******
-from backend.views import ProductsList,CartList
+from backend.views import ProductsList,CartList,CartProducts
 from backend.views import Signup, Login, Logout
 
 urlpatterns = [
@@ -12,6 +12,8 @@ urlpatterns = [
     path("DBProductsAPI/", ProductsList.as_view()),
     # Cart products
     path("CartProducts/", CartList.as_view()),
+    # Add Product
+    path("AddToCart/", CartProducts.as_view()),
     # Signup endpoint
     path("SignupAPI/", Signup.as_view()),
     # Login endpoint

@@ -15,6 +15,7 @@ import SearchResults from "./middle-section/search-results";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { handleLogout } from "../services/logout";
+import Cookies from 'js-cookie'
 
 class Index extends Component {
     state = {
@@ -53,9 +54,11 @@ class Index extends Component {
             mode: "same-origin",
             method: "GET",
         }).then(response => {
+            // Check if response is 200, if so do the reponse.json
             response.json().then(cart_products => {
                 cart_products = JSON.parse(cart_products).map(product => product.fields)
                 this.setState({ cartProducts:cart_products });
+            // Else, add it to localStorage
 
             })
         })
@@ -97,8 +100,26 @@ class Index extends Component {
             navContainer.style.display = "none";
         else navContainer.style.display = "grid";
     };
+    csrftoken = Cookies.get('csrftoken');
+
 
     handleAddToCart = (product, quantity) => {
+        // Send the ID and the quantity of the product to the DB. 
+        fetch("/AddToCart/", {
+            headers: {
+                "Content-Type": "application/json" ,
+                'X-CSRFToken': this.csrftoken,
+                "Accept": "application/json",
+            },
+            credentials: "same-origin",
+            mode: "same-origin",
+            method: "POST",
+            body: JSON.stringify({"_id":1,"quantity":2})
+        }).then(response => console.log("something"))
+
+
+
+
         const cartProducts = [...this.state.cartProducts];
         if (cartProducts.includes(product)) {
             let foundProduct = cartProducts.find(prod => prod._id === product._id);

@@ -10,28 +10,28 @@ class Login extends Component {
 
 
 
-    // getCookie = (name) => {
-    //     var cookieValue = null;
-    //     if (document.cookie && document.cookie !== '') {
-    //         var cookies = document.cookie.split(';');
-    //         for (var i = 0; i < cookies.length; i++) {
-    //             var cookie = cookies[i].trim();
-    //             // Does this cookie string begin with the name we want?
-    //             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-    //                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return cookieValue;
-    // }
-    // csrftoken = this.getCookie('csrftoken');
+    getCookie = (name) => {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    csrftoken = this.getCookie('csrftoken');
 
     handleSubmit = (event) => {
         event.preventDefault();
         fetch("/LoginAPI/", {
-            // headers: { "Content-Type": "application/json", 'X-XSRF-TOKEN': this.csrfToken },
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json", 'X-CSRFToken': this.csrfToken },
+            // headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
             method: "POST",
