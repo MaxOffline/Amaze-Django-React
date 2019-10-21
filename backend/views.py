@@ -101,7 +101,6 @@ class CartList(APIView):
 
     def get(self, request):
 
-
         if request.user.is_authenticated:
             current_user = User.objects.get(username = request.user.username)
             cart = Cart.objects.get(user = request.user.id)
@@ -109,6 +108,28 @@ class CartList(APIView):
             cart_products = sers.serialize("json", cart_products)
             return Response({cart_products})
         return Response("Error", status=status.HTTP_400_BAD_REQUEST)
+
+            # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.CartProductSerializer
+
+
+    def post(self, request):
+        """serializer will accept the data input and push it back to
+            the CategoriesSerializer in serializers.py """
+        serializer = CartProductSerializer(data=request.data)
+        print("something")
+
+        """is_valid() will run validation on the model fields attributes as specified
+            in models.py """
+        if serializer.is_valid():
+            # Get the cart of that current user
+            # Get all the objects related to that cart
+            # Get or create the product Model.objects.get_or_create("""")
+            return Response("allow", status = status.HTTP_200_OK)
+
+        """Specfic fields can be selected as follows,
+            name = serializer.validated_data.get('name') """
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # Replace the whole object with every field with the new input in the request
     def put(self, request, pk=None):
@@ -124,25 +145,6 @@ class CartList(APIView):
 
 
 
-class CartProducts(APIView):
-
-    # Needs to be defined so we can get HTML form option in the API view
-    serializer_class = serializers.CartProductSerializer
 
 
-    def post(self, request):
-        """serializer will accept the data input and push it back to
-            the CategoriesSerializer in serializers.py """
-        serializer = CartProductSerializer(data=request.data)
-        print("something")
-
-        """is_valid() will run validation on the model fields attributes as specified
-            in models.py """
-        if serializer.is_valid():
-            print("something")
-            return Response("allow", status = status.HTTP_200_OK)
-
-        """Specfic fields can be selected as follows,
-            name = serializer.validated_data.get('name') """
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

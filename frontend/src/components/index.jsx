@@ -34,7 +34,6 @@ class Index extends Component {
 
     componentDidMount() {
         fetch("/DBProductsAPI/", {
-            // headers: { "Content-Type": "application/json", 'X-XSRF-TOKEN': this.csrfToken },
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
@@ -48,7 +47,6 @@ class Index extends Component {
 
 
         fetch("/CartProducts/", {
-            // headers: { "Content-Type": "application/json", 'X-XSRF-TOKEN': this.csrfToken },
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
@@ -64,20 +62,9 @@ class Index extends Component {
         })
         
 
-
-
-        // This is supposed to be a HTTP request using Axios or XMLHtppRequest
-        // Once the request is back and we check for any NetWork errors or User Errors
-        // And handle them set state.
-
         
         this.mounted = true;
-        // new Promise(function (resolve, reject) {
-        //     resolve(DB.products)
-        // })
-        //     .then(products => {
-        //         if (this.mounted) this.setState({ products, loading: false });
-        //     });
+
     }
 
     componentWillUnmount() {
@@ -105,7 +92,7 @@ class Index extends Component {
 
     handleAddToCart = (product, quantity) => {
         // Send the ID and the quantity of the product to the DB. 
-        fetch("/AddToCart/", {
+        fetch("/CartProducts/", {
             headers: {
                 "Content-Type": "application/json" ,
                 'X-CSRFToken': this.csrftoken,

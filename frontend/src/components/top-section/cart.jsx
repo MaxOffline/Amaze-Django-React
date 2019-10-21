@@ -45,9 +45,9 @@ class Cart extends Component {
                     <div className="products-list-section">
 
                         {this.props.cartProducts.map(product => (
-                            <div key={product._id}>
+                            <div key={product.product_id}>
                                 <Link to={{
-                                    pathname: "/home/productdetails", state: { product, title: product._id }
+                                    pathname: "/home/productdetails", state: { product, title: product.product_id }
                                 }}>
                                     <img src={product.imgUrl} alt={product.title} className="featured-show" />
                                 </Link>
@@ -57,7 +57,7 @@ class Cart extends Component {
                                     </span>
                                     <span>
                                         <em>Quantity: </em>
-                                        {this.returnOptionElements(product.quantity, product._id)}
+                                        {this.returnOptionElements(product.quantity, product.product_id)}
                                     </span>
                                 </div>
                             </div>
