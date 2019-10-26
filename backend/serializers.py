@@ -13,8 +13,9 @@ class CartProductSerializer(serializers.ModelSerializer):
     class Meta:
         # "model" and "fields"  variable name can't be modified because they are preset or inherited that way
         model = CartProduct
-        fields = ["_id", "quantity"]
-        # we can use fields = "__all__" to get all fields
+        # We will expect all the fields except the cart because that's a foreign key.
+        exclude = ['cart']
+
 
 
 class SignupSerializer(serializers.Serializer):

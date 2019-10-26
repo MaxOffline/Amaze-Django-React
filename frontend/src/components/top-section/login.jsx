@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Footer from "../bottom-section/footer";
 import DjangoCSRFToken from "django-react-csrftoken";
+import Cookies from 'js-cookie'
+
 
 class Login extends Component {
     state = {
@@ -10,22 +12,7 @@ class Login extends Component {
 
 
 
-    getCookie = (name) => {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = cookies[i].trim();
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    csrftoken = this.getCookie('csrftoken');
+    csrftoken = Cookies.get('csrftoken');
 
     handleSubmit = (event) => {
         event.preventDefault();

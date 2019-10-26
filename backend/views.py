@@ -117,14 +117,33 @@ class CartList(APIView):
         """serializer will accept the data input and push it back to
             the CategoriesSerializer in serializers.py """
         serializer = CartProductSerializer(data=request.data)
-        print("something")
 
         """is_valid() will run validation on the model fields attributes as specified
             in models.py """
         if serializer.is_valid():
-            # Get the cart of that current user
-            # Get all the objects related to that cart
-            # Get or create the product Model.objects.get_or_create("""")
+
+            current_user = User.objects.get(username = request.user.username)
+            cart = Cart.objects.get(user = request.user.id)
+            try:
+                getProduct = cart.cartproduct_set.get(
+                    product_id=serializer.validated_data.get('product_id')
+                    )
+                getProduct.quantity += serializer.validated_data.get('quantity')
+                getProduct.save()
+                
+            except CartProduct.DoesNotExist:
+
+                createProduct = cart.cartproduct_set.create(
+                    product_id=serializer.validated_data.get('product_id'),
+                    newarrival=serializer.validated_data.get('newarrival'),
+                    liked=serializer.validated_data.get('liked'),
+                    active=serializer.validated_data.get('active'),
+                    featured=serializer.validated_data.get('featured'),
+                    title=serializer.validated_data.get('title'),
+                    category=serializer.validated_data.get('category'),
+                    price=serializer.validated_data.get('price'),
+                    imgUrl=serializer.validated_data.get('imgUrl'),
+                    quantity=serializer.validated_data.get('quantity'))
             return Response("allow", status = status.HTTP_200_OK)
 
         """Specfic fields can be selected as follows,

@@ -89,8 +89,10 @@ class Index extends Component {
     };
     csrftoken = Cookies.get('csrftoken');
 
-
     handleAddToCart = (product, quantity) => {
+        // Add the quantity to the product
+        product.quantity = quantity
+        console.log(JSON.stringify(product), "stringified")
         // Send the ID and the quantity of the product to the DB. 
         fetch("/CartProducts/", {
             headers: {
@@ -101,8 +103,8 @@ class Index extends Component {
             credentials: "same-origin",
             mode: "same-origin",
             method: "POST",
-            body: JSON.stringify({"_id":1,"quantity":2})
-        }).then(response => console.log("something"))
+            body: JSON.stringify(product)
+        }).then(response => console.log("Alert product has been added successfuly"))
 
 
 
