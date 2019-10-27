@@ -12,11 +12,6 @@ class NewArrivals extends Component {
     counter = 0;
 
     componentDidMount() {
-        // The number 2 here must match one of the products in the DB with     // for (let i of this.refs.newarrivals.childNodes) {
-        //     if (parseInt(i.id) === 2) { i.firstChild.className = "show" }
-        // }
-        // this.refs.newarrivals.childNodes[0].className = "show"newarrival obj set to true.
-    
 
         if (this.refs.newarrivals.childNodes.length > 0 ){
             this.refs.newarrivals.childNodes[0].childNodes[0].className = "show"
@@ -26,12 +21,15 @@ class NewArrivals extends Component {
     }
 
     componentDidUpdate() {
+        if (!this.props.loading) {
 
         const length = this.refs.newarrivals.childNodes.length;
         for (let index = 1; index < length; index++) {
             this.refs.newarrivals.childNodes[index].firstChild.className = "hide";
         }
         this.refs.newarrivals.childNodes[this.counter].firstChild.className = "show";
+
+        }
     }
 
     getSlideImages = () => {
