@@ -19,10 +19,7 @@ class Products (models.Model):
     
     def __str__(self):
         return self.title
-class TestModel (models.Model):
-    bomba = models.IntegerField(blank = False)
-    def __str__(self):
-        return str(self.bomba)
+
 
 
 
@@ -52,3 +49,4 @@ class CartProduct (models.Model):
 
     def __str__(self):
         return self.title
+
