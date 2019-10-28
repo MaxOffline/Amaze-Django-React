@@ -93,7 +93,10 @@ class ProductsList(APIView):
     def get(self, request, format = None):
         products = Products.objects.filter(active = True)
         products = sers.serialize("json", products)
-        return Response({products})
+        user_authenticated = False
+        if request.user.is_authenticated:
+            user_authenticated = True
+        return Response({products, user_authenticated })
 
 """ Cart Section """
 class CartList(APIView):
@@ -121,34 +124,32 @@ class CartList(APIView):
         """is_valid() will run validation on the model fields attributes as specified
             in models.py """
         if serializer.is_valid():
+            if (request.user.is_authenticated):
+                current_user = User.objects.get(username = request.user.username)
+                cart = Cart.objects.get(user = request.user.id)
+                try:
+                    getProduct = cart.cartproduct_set.get(
+                        product_id=serializer.validated_data.get('product_id')
+                        )
+                    getProduct.quantity += serializer.validated_data.get('quantity')
+                    getProduct.save()
+                    
+                except CartProduct.DoesNotExist:
 
-            current_user = User.objects.get(username = request.user.username)
-            cart = Cart.objects.get(user = request.user.id)
-            try:
-                getProduct = cart.cartproduct_set.get(
-                    product_id=serializer.validated_data.get('product_id')
-                    )
-                getProduct.quantity += serializer.validated_data.get('quantity')
-                getProduct.save()
-                
-            except CartProduct.DoesNotExist:
-
-                createProduct = cart.cartproduct_set.create(
-                    product_id=serializer.validated_data.get('product_id'),
-                    newarrival=serializer.validated_data.get('newarrival'),
-                    liked=serializer.validated_data.get('liked'),
-                    active=serializer.validated_data.get('active'),
-                    featured=serializer.validated_data.get('featured'),
-                    title=serializer.validated_data.get('title'),
-                    category=serializer.validated_data.get('category'),
-                    price=serializer.validated_data.get('price'),
-                    imgUrl=serializer.validated_data.get('imgUrl'),
-                    quantity=serializer.validated_data.get('quantity'))
-            return Response("allow", status = status.HTTP_200_OK)
-
-        """Specfic fields can be selected as follows,
-            name = serializer.validated_data.get('name') """
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    createProduct = cart.cartproduct_set.create(
+                        product_id=serializer.validated_data.get('product_id'),
+                        newarrival=serializer.validated_data.get('newarrival'),
+                        liked=serializer.validated_data.get('liked'),
+                        active=serializer.validated_data.get('active'),
+                        featured=serializer.validated_data.get('featured'),
+                        title=serializer.validated_data.get('title'),
+                        category=serializer.validated_data.get('category'),
+                        price=serializer.validated_data.get('price'),
+                        imgUrl=serializer.validated_data.get('imgUrl'),
+                        quantity=serializer.validated_data.get('quantity'))
+                return Response("allow", status = status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # Replace the whole object with every field with the new input in the request
     def put(self, request, pk=None):

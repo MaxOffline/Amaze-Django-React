@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Nav from "./top-section/nav";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Featured from "./middle-section/featured";
-import DB from "../fakeDB/products";
 import Register from "./top-section/register";
 import Login from "./top-section/login";
 import Cart from "./top-section/cart";
@@ -19,55 +18,61 @@ import Cookies from 'js-cookie'
 
 class Index extends Component {
     state = {
-        products: [],
         featuredProducts: [],
-        newArrivals: [],
         cartProducts: [],
-        loading: false,
+        newArrivals: [],
+        products: [],
+        userAuthenticated: false,
+        userLoggedIn: false,
         searchInput: false,
-        selectedCategory: "coats",
         menuOn: false,
-        userLoggedIn: false
+        loading: true,
+        selectedCategory: "coats",
     };
 
     mounted = false;
 
-    componentDidMount() {
-        fetch("/DBProductsAPI/", {
+    async componentDidMount() {
+        console.log("mounted")
+        await fetch("/DBProductsAPI/", {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
             method: "GET",
-        }).then(response => {
-            response.json().then(products => {
-                products = JSON.parse(products).map(product => product.fields)
-                this.setState({ products, loading: false });
+        }).then(async (response) => {
+            await response.json().then((data) => {
+                const  products =  JSON.parse(data[1]).map(product => product.fields)
+                this.setState({ products, loading: false, userAuthenticated:data[0] });
             })
         })
 
-
-        fetch("/CartProducts/", {
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            mode: "same-origin",
-            method: "GET",
-        }).then(response => {
-            // Check if response is 200, if so do the reponse.json
-            response.json().then(cart_products => {
-                cart_products = JSON.parse(cart_products).map(product => product.fields)
-                this.setState({ cartProducts:cart_products });
-            // Else, add it to localStorage
-
+        if (this.state.userAuthenticated){
+            fetch("/CartProducts/", {
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                mode: "same-origin",
+                method: "GET",
+            }).then(async (response) => {
+                if (response.status === 200){
+                    await response.json().then(cartProducts => {
+                        cartProducts = JSON.parse(cartProducts).map(product => product.fields)
+                        this.setState({ cartProducts, loading:false  });
+                    })
+                }
             })
-        })
-        
+        // Else, get it from localStorage
+        }else{
+            const cartProducts = JSON.parse(localStorage.getItem("cart"));
+            if(cartProducts)
+                this.setState({cartProducts, loading:false});
+        }
 
-        
         this.mounted = true;
 
     }
 
     componentWillUnmount() {
+        this.setState({loading:true})
         this.mounted = false;
     }
 
@@ -92,36 +97,52 @@ class Index extends Component {
     handleAddToCart = (product, quantity) => {
         // Add the quantity to the product
         product.quantity = quantity
-        console.log(JSON.stringify(product), "stringified")
         // Send the ID and the quantity of the product to the DB. 
-        fetch("/CartProducts/", {
-            headers: {
-                "Content-Type": "application/json" ,
-                'X-CSRFToken': this.csrftoken,
-                "Accept": "application/json",
-            },
-            credentials: "same-origin",
-            mode: "same-origin",
-            method: "POST",
-            body: JSON.stringify(product)
-        }).then(response => console.log("Alert product has been added successfuly"))
+        if (this.state.userAuthenticated){
 
-
-
-
-        const cartProducts = [...this.state.cartProducts];
-        if (cartProducts.includes(product)) {
-            let foundProduct = cartProducts.find(prod => prod._id === product._id);
-            foundProduct.quantity += parseInt(quantity);
-            this.setState({ cartProducts });
-            localStorage.setItem("cart", JSON.stringify(cartProducts))
-        } else {
-            product.quantity = parseInt(quantity);
-            cartProducts.push(product);
-            this.setState({ cartProducts });
-            localStorage.setItem("cart", JSON.stringify(cartProducts))
+            fetch("/CartProducts/", {
+                headers: {
+                    "Content-Type": "application/json" ,
+                    'X-CSRFToken': this.csrftoken,
+                    "Accept": "application/json",
+                },
+                credentials: "same-origin",
+                mode: "same-origin",
+                method: "POST",
+                body: JSON.stringify(product)
+            }).then(response => {
+                // The reason there is no check wether the user was logged in or not is because we will do the same steps either way.
+                const cartProducts = [...this.state.cartProducts];
+                if (cartProducts.includes(product)) {
+                    let foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
+                    foundProduct.quantity += parseInt(quantity);
+                    this.setState({ cartProducts });
+                    localStorage.setItem("cart", JSON.stringify(cartProducts))
+                } else {
+                    product.quantity = parseInt(quantity);
+                    cartProducts.push(product);
+                    this.setState({ cartProducts });
+                    // localStorage.setItem("cart", JSON.stringify(cartProducts))
+                }
+            })
+        // If user idn't authenticated
         }
-    };
+        else{
+                const cartProducts = [...this.state.cartProducts];
+                const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
+                if (foundProduct){
+                    foundProduct.quantity += quantity
+                    localStorage.setItem("cart", JSON.stringify(cartProducts))
+                    this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
+                }else{
+                    cartProducts.push(product)
+                    localStorage.setItem("cart", JSON.stringify(cartProducts))
+                    this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
+                }
+
+        }
+        
+    }
 
     handleQuantityUpdate = (id, quantity) => {
         let cartProducts = [...this.state.cartProducts];

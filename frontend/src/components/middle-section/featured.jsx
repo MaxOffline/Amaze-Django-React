@@ -49,7 +49,7 @@ class Featured extends Component {
     setSelectValues = () => {
         let selectValues = { ...this.state.selectValues };
         this.props.featuredProducts.forEach(product => {
-            selectValues[product._id] = 1;
+            selectValues[product.product_id] = 1;
         });
         this.setState({ selectValues });
     };
@@ -66,8 +66,8 @@ class Featured extends Component {
         return (
             <div className="featured-products">
                 {this.props.featuredProducts.map(product => (
-                    <div key={product._id}>
-                        <Link to={{ pathname: "/home/productdetails", state: { product, title: product._id } }}>
+                    <div key={product.product_id}>
+                        <Link to={{ pathname: "/home/productdetails", state: { product, title: product.product_id } }}>
                             <img src={product.imgUrl} alt={product.title} className="featured-show" />
                         </Link>
                         <div className="price-add">
@@ -75,15 +75,15 @@ class Featured extends Component {
                                 <em>Price:{product.price}$</em>
                             </span>
                             <span>
-                                <select onChange={event => { this.handleQuantityChange(product._id, event.currentTarget.value) }}>
+                                <select onChange={event => { this.handleQuantityChange(product.product_id, event.currentTarget.value) }}>
                                     {this.returnSelectElements()}
                                 </select>
                             </span>
                             <button
                                 className="add-to-cart-button"
-                                onClick={() => { this.props.onAddToCart(product, this.state.selectValues[product._id]) }}>Add to Cart
+                                onClick={() => { this.props.onAddToCart(product, this.state.selectValues[product.product_id]) }}>Add to Cart
                                 <FontAwesomeIcon className="add-to-cart-icon" icon={faShoppingCart}
-                                    onClick={() => this.props.onAddToCart(product, this.state.selectValues[product._id])} />
+                                    onClick={() => this.props.onAddToCart(product, this.state.selectValues[product.product_id])} />
                             </button>
                         </div>
                     </div>

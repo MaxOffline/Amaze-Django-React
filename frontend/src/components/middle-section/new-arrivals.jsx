@@ -12,23 +12,20 @@ class NewArrivals extends Component {
     counter = 0;
 
     componentDidMount() {
-
+        if (!this.props.loading) {
         if (this.refs.newarrivals.childNodes.length > 0 ){
             this.refs.newarrivals.childNodes[0].childNodes[0].className = "show"
         }
-
-
     }
+}
 
     componentDidUpdate() {
         if (!this.props.loading) {
-
         const length = this.refs.newarrivals.childNodes.length;
         for (let index = 1; index < length; index++) {
             this.refs.newarrivals.childNodes[index].firstChild.className = "hide";
         }
         this.refs.newarrivals.childNodes[this.counter].firstChild.className = "show";
-
         }
     }
 
