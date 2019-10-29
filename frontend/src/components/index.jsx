@@ -23,7 +23,6 @@ class Index extends Component {
         newArrivals: [],
         products: [],
         userAuthenticated: false,
-        userLoggedIn: false,
         searchInput: false,
         menuOn: false,
         loading: true,
@@ -32,17 +31,20 @@ class Index extends Component {
 
     mounted = false;
 
-    async componentDidMount() {
-        console.log("mounted")
-        await fetch("/DBProductsAPI/", {
+    componentDidMount() {
+        console.log("component mounted")
+        fetch("/DBProductsAPI/", {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
             method: "GET",
-        }).then(async (response) => {
-            await response.json().then((data) => {
-                const  products =  JSON.parse(data[1]).map(product => product.fields)
-                this.setState({ products, loading: false, userAuthenticated:data[0] });
+        }).then( (response) => {
+            response.json().then((data) => {
+                if (data){
+                    const  products =  JSON.parse(data[1]).map(product => product.fields)
+                    this.setState({ products, loading: false, userAuthenticated:data[0] });
+                }
+
             })
         })
 
@@ -52,14 +54,15 @@ class Index extends Component {
                 credentials: "include",
                 mode: "same-origin",
                 method: "GET",
-            }).then(async (response) => {
+            }).then( (response) => {
                 if (response.status === 200){
-                    await response.json().then(cartProducts => {
+                    response.json().then(cartProducts => {
                         cartProducts = JSON.parse(cartProducts).map(product => product.fields)
                         this.setState({ cartProducts, loading:false  });
                     })
                 }
-            })
+            }
+            )
         // Else, get it from localStorage
         }else{
             const cartProducts = JSON.parse(localStorage.getItem("cart"));
@@ -72,7 +75,7 @@ class Index extends Component {
     }
 
     componentWillUnmount() {
-        this.setState({loading:true})
+        this.setState({loading:true, userAuthenticated:false})
         this.mounted = false;
     }
 
@@ -97,9 +100,22 @@ class Index extends Component {
     handleAddToCart = (product, quantity) => {
         // Add the quantity to the product
         product.quantity = quantity
-        // Send the ID and the quantity of the product to the DB. 
+        quantity = parseInt(quantity)
+        const cartProducts = [...this.state.cartProducts];
+        const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
         if (this.state.userAuthenticated){
-
+            let quantityTotal = 0
+            if (foundProduct){
+                quantityTotal = (foundProduct.quantity + quantity)
+                if (quantityTotal > 10){
+                    alert("Maximum quantity to purchase is 10 items.")
+                    return;
+                }else{
+                    foundProduct.quantity += quantity
+                }
+            }else{
+                cartProducts.push(product)
+            }
             fetch("/CartProducts/", {
                 headers: {
                     "Content-Type": "application/json" ,
@@ -111,25 +127,10 @@ class Index extends Component {
                 method: "POST",
                 body: JSON.stringify(product)
             }).then(response => {
-                // The reason there is no check wether the user was logged in or not is because we will do the same steps either way.
-                const cartProducts = [...this.state.cartProducts];
-                if (cartProducts.includes(product)) {
-                    let foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
-                    foundProduct.quantity += parseInt(quantity);
-                    this.setState({ cartProducts });
-                    localStorage.setItem("cart", JSON.stringify(cartProducts))
-                } else {
-                    product.quantity = parseInt(quantity);
-                    cartProducts.push(product);
-                    this.setState({ cartProducts });
-                    // localStorage.setItem("cart", JSON.stringify(cartProducts))
-                }
+                window.location.reload();
             })
         // If user idn't authenticated
-        }
-        else{
-                const cartProducts = [...this.state.cartProducts];
-                const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
+        }else{
                 if (foundProduct){
                     foundProduct.quantity += quantity
                     localStorage.setItem("cart", JSON.stringify(cartProducts))
@@ -141,15 +142,55 @@ class Index extends Component {
                 }
 
         }
-        
+
+
+
     }
 
     handleQuantityUpdate = (id, quantity) => {
+        quantity = parseInt(quantity)
         let cartProducts = [...this.state.cartProducts];
-        let foundProduct = cartProducts.find(prod => prod._id === parseInt(id));
-        foundProduct.quantity = parseInt(quantity);
-        this.setState({ cartProducts });
-        localStorage.setItem("cart", JSON.stringify(cartProducts))
+        let foundProduct = cartProducts.find(prod => prod.product_id === parseInt(id));
+        let difference = 0
+        // if the current quantity in the state is smaller than the quantity given
+        if (this.state.userAuthenticated){
+            switch (true){
+                case (quantity > foundProduct.quantity) :
+                    difference = (quantity - foundProduct.quantity)
+                    break;
+                case (foundProduct.quantity > quantity):
+                    difference  = -(foundProduct.quantity - quantity)
+                    break;
+                default:
+                    break;
+            }
+
+            foundProduct.quantity = difference
+            fetch("/CartProducts/", {
+                headers: {
+                    "Content-Type": "application/json" ,
+                    'X-CSRFToken': this.csrftoken,
+                    "Accept": "application/json",
+                },
+                credentials: "same-origin",
+                mode: "same-origin",
+                method: "POST",
+                body: JSON.stringify(foundProduct)
+            }).then(response => {
+                window.location.reload();
+            })
+            // this.handleAddToCart(foundProduct, difference)
+
+
+        }else{
+            console.log("User isn't authenticated")
+            // foundProduct.quantity = parseInt(quantity);
+            // this.setState({ cartProducts });
+            // localStorage.setItem("cart", JSON.stringify(cartProducts))
+
+            
+        }
+
     };
 
     handleSearchInput = searchInput => {
@@ -198,20 +239,15 @@ class Index extends Component {
     };
 
     handleUserLogin = () => {
-        if (!this.state.userLoggedIn && this.mounted) {
-            this.setState({ userLoggedIn: true });
-            // store the id and password in the local storage
-            localStorage.setItem("logged", true)
-        }
+        // if (!this.state.userAuthenticated && this.mounted) {
+            this.setState({ userAuthenticated:true });
+        // }
     };
 
     handleUserLogout = () => {
-        if (localStorage.getItem("logged")) { 
-            localStorage.removeItem("logged")
             handleLogout();
-            this.props.history.replace("/")
-            this.setState({ userLoggedIn: false })
-        }
+            this.setState({  userAuthenticated:false }) 
+            window.location.reload();
     }
 
 
@@ -241,7 +277,7 @@ class Index extends Component {
                             cartProducts={cartProducts}
                             onMenuClick={this.handleMenuClick}
                             onLinkClick={this.handleClick}
-                            userLoggedIn={this.state.userLoggedIn}
+                            userAuthenticated={this.state.userAuthenticated}
                             onUserLogout={this.handleUserLogout}
                         />
                         {this.homePageComponents()}
@@ -253,7 +289,7 @@ class Index extends Component {
                                 path="/home/login"
                                 component={props => (
                                     <Login {...props}
-                                        userLoggedIn={this.state.userLoggedIn}
+                                        userAuthenticated={this.state.userAuthenticated}
                                         onUserLogin={this.handleUserLogin} />
                                 )}
                             />
@@ -318,7 +354,7 @@ class Index extends Component {
                         cartProducts={cartProducts}
                         onMenuClick={this.handleMenuClick}
                         onLinkClick={this.handleClick}
-                        userLoggedIn={this.state.userLoggedIn}
+                        userAuthenticated={this.state.userAuthenticated}
                         onUserLogout={this.handleUserLogout}
                     />
                     <div className="menu-items">

@@ -21,7 +21,6 @@ class Nav extends Component {
 
     cartQuantity = () => {
         const cartProducts = this.props.cartProducts;
-        // console.log(this.props.cartProducts)
         let quantity = 0;
         for (let product of cartProducts) {
             quantity += parseInt(product.quantity);
@@ -43,7 +42,7 @@ class Nav extends Component {
     render() {
         const { handleLinkClick, handleMenuClick } = this;
         const { products } = this.props;
-        if (!localStorage.getItem("logged")){
+        if (!this.props.userAuthenticated){
             return (
                 <div id="nav-main">
                     <ul className="nav-main" ref="nav">
