@@ -1,6 +1,3 @@
-
-
-
 export function handleLogout  () {
     fetch("/LogoutAPI/", {
         headers: { "Content-Type": "application/json" },

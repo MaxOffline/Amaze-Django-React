@@ -14,7 +14,6 @@ class ProductDetails extends Component {
     //call the setSelectValues then change the updated to true to prevent rerendering to prevent the
     // MaximumDepthExceeded error.
     componentDidMount() {
-        console.log(this.product)
         if (!this.state.updated && this.product) {
             this.setSelectValues();
             this.setState({ updated: true });

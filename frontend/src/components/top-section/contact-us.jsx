@@ -4,7 +4,6 @@ import Footer from "./../bottom-section/footer";
 class ContactUs extends Component {
     handleSubmit = event => {
         event.preventDefault();
-        console.log("Magic happens");
     };
     render() {
         return (

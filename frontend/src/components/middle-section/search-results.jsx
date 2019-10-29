@@ -13,8 +13,8 @@ class SearchResults extends Component {
             return (
                 <div className="products-list-section" ref="productresult">
                     {searchedProducts.map(product => (
-                        <div key={product._id}>
-                            <Link to={{ pathname: "/home/productdetails", state: { product, title: product._id } }}>
+                        <div key={product.product_id}>
+                            <Link to={{ pathname: "/home/productdetails", state: { product, title: product.product_id } }}>
                                 <img src={product.imgUrl} alt={product.title} className="featured-show" />
                             </Link>
                             <div className="price-add">
