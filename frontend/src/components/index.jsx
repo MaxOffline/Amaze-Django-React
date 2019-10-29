@@ -31,15 +31,15 @@ class Index extends Component {
 
     mounted = false;
 
-    componentDidMount() {
+    async componentDidMount() {
         console.log("component mounted")
-        fetch("/DBProductsAPI/", {
+        await fetch("/DBProductsAPI/", {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
             method: "GET",
-        }).then( (response) => {
-            response.json().then((data) => {
+        }).then( async (response) => {
+            await response.json().then((data) => {
                 if (data){
                     const  products =  JSON.parse(data[1]).map(product => product.fields)
                     this.setState({ products, loading: false, userAuthenticated:data[0] });
