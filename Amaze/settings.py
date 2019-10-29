@@ -127,7 +127,7 @@ USE_TZ = True
 # So it will go thought your app and look for a directory called static and read all the files from.
 # We could possibly name is anything else but then we need to make sure that
 # The value of the STATIC_URL must match the name of the directory containing the static files.
-STATIC_URL = '/static/'
+STATIC_URL = '/staticfiles/'
 
 # Location of static files in production enviroment.
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
