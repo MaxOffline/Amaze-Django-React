@@ -1,5 +1,5 @@
 import os
-import django_heroku
+# import django_heroku
 
 """Build paths inside the project like this: os.path.join(BASE_DIR, ...)"""
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -127,7 +127,7 @@ USE_TZ = True
 # So it will go thought your app and look for a directory called static and read all the files from.
 # We could possibly name is anything else but then we need to make sure that
 # The value of the STATIC_URL must match the name of the directory containing the static files.
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 
 # Location of static files in production enviroment.
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
@@ -145,4 +145,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
