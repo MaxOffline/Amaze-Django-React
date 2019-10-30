@@ -40,7 +40,8 @@ class Index extends Component {
             method: "GET",
         })
         const data = await response.json();
-        if (data){
+        // response.status === 200 could be replaced with if(data)
+        if (response.status === 200 ){
             const  products =  JSON.parse(data[1]).map(product => product.fields)
             this.setState({ products, loading: false, userAuthenticated:data[0] });
         }

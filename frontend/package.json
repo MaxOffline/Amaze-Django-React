@@ -24,7 +24,7 @@
         "build": "react-scripts build &&  rm -R ../staticfiles/js && rm -R ../staticfiles/css && cp -r build/static/js ../staticfiles/ && cp -r build/static/css ../staticfiles/ && rm -R ../index.html && cp -r build/index.html ../ &&  rm -R ../static/js && rm -R ../static/css && cp -r build/static/js ../static/ && cp -r build/static/css ../static/",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "move": "react-scripts build &&  rm -R ../staticfiles/js && rm -R ../staticfiles/css && cp -r build/static/js ../staticfiles/ && cp -r build/static/css ../staticfiles/ && rm -R ../index.html && cp -r build/index.html ../ &&  rm -R ../static/js && rm -R ../static/css && cp -r build/static/js ../static/ && cp -r build/static/css ../static/"
+        "move": "react-scripts build &&  rm -R ../staticfiles/js && rm -R ../staticfiles/css && cp -r build/static/js ../staticfiles/ && cp -r build/static/css ../staticfiles/ && rm -R ../index.html && cp -r build/index.html ../ "
     },
     "eslintConfig": {
         "extends": "react-app"
