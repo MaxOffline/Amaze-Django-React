@@ -96,7 +96,7 @@ class ProductsList(APIView):
         user_authenticated = False
         if request.user.is_authenticated:
             user_authenticated = True
-        return Response({products, user_authenticated })
+        return Response([products, user_authenticated] )
 
 """ Cart Section """
 class CartList(APIView):

@@ -13,8 +13,8 @@ import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { handleLogout } from "../services/logout";
 import Cookies from 'js-cookie'
+import Ajax from "../services/Ajax";
 
 class Index extends Component {
     state = {
@@ -33,29 +33,20 @@ class Index extends Component {
 
     async componentDidMount() {
         console.log("component mounted")
-        const response = await fetch("/DBProductsAPI/", {
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            mode: "same-origin",
-            method: "GET",
-        })
+
+        const response =  await Ajax(/DBProductsAPI/, "GET")
         const data = await response.json();
-        // response.status === 200 could be replaced with if(data)
-        if (response.status === 200 ){
-            const  products =  JSON.parse(data[1]).map(product => product.fields)
-            this.setState({ products, loading: false, userAuthenticated:data[0] });
+        if (response.status === 200 && data){
+            const  products =  JSON.parse(data[0]).map(product => product.fields)
+            this.setState({ products, loading: false, userAuthenticated:data[1] });
         }
 
         if (this.state.userAuthenticated){
-            const response = await fetch("/CartProducts/", {
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                mode: "same-origin",
-                method: "GET",
-            })
-            
+
+            const response = await  Ajax(/CartProducts/, "GET")
             let cartProducts = await response.json();
-            if (response.status === 200){
+            
+            if (response.status === 200 && cartProducts){
                 cartProducts = JSON.parse(cartProducts).map(product => product.fields)
                 this.setState({ cartProducts, loading:false  });
             }
@@ -93,7 +84,7 @@ class Index extends Component {
     };
     csrftoken = Cookies.get('csrftoken');
 
-    handleAddToCart = (product, quantity) => {
+    handleAddToCart = async (product, quantity) => {
         // Add the quantity to the product
         product.quantity = quantity
         quantity = parseInt(quantity)
@@ -112,19 +103,8 @@ class Index extends Component {
             }else{
                 cartProducts.push(product)
             }
-            fetch("/CartProducts/", {
-                headers: {
-                    "Content-Type": "application/json" ,
-                    'X-CSRFToken': this.csrftoken,
-                    "Accept": "application/json",
-                },
-                credentials: "same-origin",
-                mode: "same-origin",
-                method: "POST",
-                body: JSON.stringify(product)
-            }).then(response => {
-                window.location.reload();
-            })
+            const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
+            await response.then(window.location.reload())
         // If user idn't authenticated
         }else{
                 if (foundProduct){
@@ -143,7 +123,7 @@ class Index extends Component {
 
     }
 
-    handleQuantityUpdate = (id, quantity) => {
+    handleQuantityUpdate =async (id, quantity) => {
         quantity = parseInt(quantity)
         let cartProducts = [...this.state.cartProducts];
         let foundProduct = cartProducts.find(prod => prod.product_id === parseInt(id));
@@ -162,19 +142,24 @@ class Index extends Component {
             }
 
             foundProduct.quantity = difference
-            fetch("/CartProducts/", {
-                headers: {
-                    "Content-Type": "application/json" ,
-                    'X-CSRFToken': this.csrftoken,
-                    "Accept": "application/json",
-                },
-                credentials: "same-origin",
-                mode: "same-origin",
-                method: "POST",
-                body: JSON.stringify(foundProduct)
-            }).then(response => {
+
+            const response = await Ajax("/CartProducts/", "POST", JSON.stringify(foundProduct))
+            if (response.status === 200){
                 window.location.reload();
-            })
+            }
+            // fetch("/CartProducts/", {
+            //     headers: {
+            //         "Content-Type": "application/json" ,
+            //         'X-CSRFToken': this.csrftoken,
+            //         "Accept": "application/json",
+            //     },
+            //     credentials: "same-origin",
+            //     mode: "same-origin",
+            //     method: "POST",
+            //     body: JSON.stringify(foundProduct)
+            // }).then(response => {
+            //     window.location.reload();
+            // })
             // this.handleAddToCart(foundProduct, difference)
 
 
@@ -237,13 +222,20 @@ class Index extends Component {
     handleUserLogin = () => {
         // if (!this.state.userAuthenticated && this.mounted) {
             this.setState({ userAuthenticated:true });
+            window.location.replace("/")
         // }
     };
 
-    handleUserLogout = () => {
-            handleLogout();
-            this.setState({  userAuthenticated:false }) 
-            window.location.reload();
+    handleUserLogout = async () => {
+            // handleLogout();
+            const response = await Ajax("/LogoutAPI/", "GET")
+            
+            if (response.status === 200){
+                this.setState({  userAuthenticated:false }) 
+                window.location.reload();
+            }
+            
+
     }
 
 
