@@ -39,7 +39,7 @@ class Register extends Component {
                     refs.forEach(ref => (ref.value = ""));
 
                     // store the id and password in the local storage
-                    localStorage.setItem("logged", true)
+                    // localStorage.setItem("logged", true)
                     this.props.onUserLogin();
                     alert(`Thank you for signing up ${this.state.first_name}`)
                     // Redirect to the following URL

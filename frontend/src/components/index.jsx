@@ -240,7 +240,7 @@ class Index extends Component {
 
 
     menuOnAuthenticationItems = () => {
-        if (localStorage.getItem("logged")) {
+        if (this.state.userAuthenticated) {
             return <li className="sign-in-lin" onClick = {() => this.handleUserLogout()}>Logout</li>
         }else{
             return (
