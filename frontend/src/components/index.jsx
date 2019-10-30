@@ -33,42 +33,37 @@ class Index extends Component {
 
     async componentDidMount() {
         console.log("component mounted")
-        await fetch("/DBProductsAPI/", {
+        const response = await fetch("/DBProductsAPI/", {
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             mode: "same-origin",
             method: "GET",
-        }).then( async (response) => {
-            await response.json().then((data) => {
-                if (data){
-                    const  products =  JSON.parse(data[1]).map(product => product.fields)
-                    this.setState({ products, loading: false, userAuthenticated:data[0] });
-                }
-
-            })
         })
+        const data = await response.json();
+        if (data){
+            const  products =  JSON.parse(data[1]).map(product => product.fields)
+            this.setState({ products, loading: false, userAuthenticated:data[0] });
+        }
 
         if (this.state.userAuthenticated){
-            fetch("/CartProducts/", {
+            const response = await fetch("/CartProducts/", {
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
                 mode: "same-origin",
                 method: "GET",
-            }).then( (response) => {
-                if (response.status === 200){
-                    response.json().then(cartProducts => {
-                        cartProducts = JSON.parse(cartProducts).map(product => product.fields)
-                        this.setState({ cartProducts, loading:false  });
-                    })
-                }
+            })
+            
+            let cartProducts = await response.json();
+            if (response.status === 200){
+                cartProducts = JSON.parse(cartProducts).map(product => product.fields)
+                this.setState({ cartProducts, loading:false  });
             }
-            )
-        // Else, get it from localStorage
-        }else{
-            const cartProducts = JSON.parse(localStorage.getItem("cart"));
-            if(cartProducts)
-                this.setState({cartProducts, loading:false});
-        }
+            // Else, get it from localStorage
+            }else{
+                const cartProducts = JSON.parse(localStorage.getItem("cart"));
+                if(cartProducts)
+                    this.setState({cartProducts, loading:false});
+            }
 
         this.mounted = true;
 
