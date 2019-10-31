@@ -77,7 +77,7 @@ class Products extends Component {
                     <div className="products-list-section">
                         {this.state.selectedProducts.map(product => (
                             <div key={product.product_id}>
-                                <Link to={{ pathname: "/home/productdetails", state: { product, title: product.producct_id } ``}}>
+                                <Link to={{ pathname: "/home/productdetails", state: { product, title: product.producct_id }}}>
                                     <img src={product.imgUrl} alt={product.title} className="featured-show" />
                                 </Link>
                                 <div className="price-add">
