@@ -159,8 +159,20 @@ class CartList(APIView):
     def patch(self, request, pk=None):
         return Response({"message": "Patch"})
 
-    def delete(self, request, pk=None):
-        return Response({"message": "Deleted"})
+    def delete(self, request, pk):
+
+        if request.user.is_authenticated:
+            current_user = User.objects.get(username = request.user.username)
+            cart = Cart.objects.get(user = request.user.id)
+            try:
+                getProduct = cart.cartproduct_set.get(product_id=pk).delete()
+                return Response({"message": "Deleted"})
+            except CartProduct.DoesNotExist:
+                return Response("DoesNotExist", status = status.HTTP_200_OK)
+            else:
+                return Response({"another freagging error"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 

@@ -118,9 +118,6 @@ class Index extends Component {
                 }
 
         }
-
-
-
     }
 
     handleQuantityUpdate =async (id, quantity) => {
@@ -147,22 +144,6 @@ class Index extends Component {
             if (response.status === 200){
                 window.location.reload();
             }
-            // fetch("/CartProducts/", {
-            //     headers: {
-            //         "Content-Type": "application/json" ,
-            //         'X-CSRFToken': this.csrftoken,
-            //         "Accept": "application/json",
-            //     },
-            //     credentials: "same-origin",
-            //     mode: "same-origin",
-            //     method: "POST",
-            //     body: JSON.stringify(foundProduct)
-            // }).then(response => {
-            //     window.location.reload();
-            // })
-            // this.handleAddToCart(foundProduct, difference)
-
-
         }else{
             console.log("User isn't authenticated")
             // foundProduct.quantity = parseInt(quantity);
@@ -251,6 +232,14 @@ class Index extends Component {
         }
     }
 
+
+
+
+    handleProductRemove = async (productId) => {
+        const response = await Ajax(`/RemoveProduct/${productId}/`, "DELETE")
+        response.status === 200?window.location.reload():console.log("failed");
+    }
+
     render() {
         const { history } = this.props;
         const { products, cartProducts, searchInput, selectedCategory } = this.state;
@@ -286,6 +275,7 @@ class Index extends Component {
                                 component={props => (
                                     <Cart
                                         onQuantityUpdate={this.handleQuantityUpdate}
+                                        onProductRemove = {this.handleProductRemove}
                                         cartProducts={cartProducts}
                                         {...props}
                                     />

@@ -59,6 +59,7 @@ class Cart extends Component {
                                         <em>Quantity: </em>
                                         {this.returnOptionElements(product.quantity, product.product_id)}
                                     </span>
+                                    <button className = "delete_btn" onClick = {() => this.props.onProductRemove(product.product_id)}>Remove</button>
                                 </div>
                             </div>
                         ))}
