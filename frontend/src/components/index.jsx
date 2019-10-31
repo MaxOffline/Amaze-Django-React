@@ -104,7 +104,7 @@ class Index extends Component {
                 cartProducts.push(product)
             }
             const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-            await response.then(window.location.reload())
+            response.status === 200? window.location.reload(): console.log("something went wrong");
         // If user idn't authenticated
         }else{
                 if (foundProduct){
