@@ -161,7 +161,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 CORS_ORIGIN_ALLOW_ALL = True
 # Maybe used if having CSRF issues/
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 # Activate Django-Heroku.
