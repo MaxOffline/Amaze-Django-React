@@ -1,7 +1,6 @@
 from django.contrib import admin
-from backend.models import Products, Cart, CartProduct, TestModel
+from backend.models import Products, Cart, CartProduct
 
 admin.site.register(CartProduct)
-admin.site.register(TestModel)
 admin.site.register(Products)
 admin.site.register(Cart)

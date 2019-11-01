@@ -51,6 +51,3 @@ class CartProduct (models.Model):
         return self.title
 
 
-class TestModel(models.Model):
-    test_field = models.IntegerField(default=0)
-
