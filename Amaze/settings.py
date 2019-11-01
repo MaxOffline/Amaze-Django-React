@@ -25,7 +25,11 @@ SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
 DEBUG = False
 
 # Allowing all hosts for now
-ALLOWED_HOSTS = ["*","http://amaze-me.herokuapp.com"]
+ALLOWED_HOSTS = [
+    "*",
+    "http://amaze-me.herokuapp.com"
+    ,"ec2-54-235-180-123.compute-1.amazonaws.com"
+    ]
 
 
 # Changing templates location for production.
