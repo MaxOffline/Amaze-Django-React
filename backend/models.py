@@ -50,3 +50,7 @@ class CartProduct (models.Model):
     def __str__(self):
         return self.title
 
+
+class TestModel(models.Model):
+    test_field = models.IntegerField(default=0)
+
