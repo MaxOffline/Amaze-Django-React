@@ -160,9 +160,11 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 # added to solve CORS
 CORS_ORIGIN_ALLOW_ALL = True
 # Maybe used if having CSRF issues/
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000","http://amaze-me.herokuapp.com/"]
+CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000","http://amaze-me.herokuapp.com/"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
