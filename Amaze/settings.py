@@ -1,9 +1,9 @@
 import os
 import django_heroku
+
+# For heroku DB link
 import psycopg2
-
 DATABASE_URL = os.environ['DATABASE_URL']
-
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 """Build paths inside the project like this: os.path.join(BASE_DIR, ...)"""
@@ -26,9 +26,7 @@ DEBUG = False
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
-    "*",
     "http://amaze-me.herokuapp.com"
-    ,"ec2-54-235-180-123.compute-1.amazonaws.com"
     ]
 
 
@@ -158,16 +156,17 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 
 # added to solve CORS
-CORS_ORIGIN_ALLOW_ALL = True
 # Maybe used if having CSRF issues/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000","http://amaze-me.herokuapp.com/"]
-CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000","http://amaze-me.herokuapp.com/"]
+CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
+CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# to link with heroku DB
 import dj_database_url
 DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
