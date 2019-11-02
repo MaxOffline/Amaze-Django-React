@@ -256,6 +256,7 @@ class Index extends Component {
                             onLinkClick={this.handleClick}
                             userAuthenticated={this.state.userAuthenticated}
                             onUserLogout={this.handleUserLogout}
+                            menuOn = {this.state.menuOn}
                         />
                         {this.homePageComponents()}
                         <Switch>
@@ -334,10 +335,10 @@ class Index extends Component {
                         onLinkClick={this.handleClick}
                         userAuthenticated={this.state.userAuthenticated}
                         onUserLogout={this.handleUserLogout}
+                        menuOn = {this.state.menuOn}
                     />
                     <div className="menu-items">
                         <form className="search-form-menu" onSubmit={this.handleSearchSubmit}>
-                            <FontAwesomeIcon className="search-icon-menu" icon={faSearch} onClick={this.handleSearchClick} />
                             <input
                                 className="search-field-menu"
                                 type="search"

@@ -39,7 +39,7 @@ input, input:before, input:after {
 .nav-main {
     display: flex;
     justify-content: space-around;
-  background: #050831;
+  background: rgba(6,0,6,0.87);
   padding: 0;
   margin: 0;
   min-height: 7vh;
@@ -50,24 +50,25 @@ input, input:before, input:after {
 }
 
 .home-link {
-  font-family: "Pacifico", sans-serif;
+  /* font-family: -apple-system, BlinkMacSystemFont, sans-serif; */
   font-size: 25px;
   border: none;
-  color: #f94;
+  color: #be9b64;
   outline: none;
   margin-top: auto;
   margin-bottom: auto;
   cursor: pointer;
+  font-style: italic;
 }
 
 .products-link,
 .sign-in-link,
 .sign-up-link,
 .contact-us-link {
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 15px;
   border: none;
-  color: #009688;
+  color: #be9b64;
   outline: none;
   list-style-type: none;
   margin-top: auto;
@@ -78,7 +79,7 @@ input, input:before, input:after {
 .sign-in-link:hover,
 .sign-up-link:hover,
 .contact-us-link:hover {
-  color: #b2ebf2;
+  color: white;
   cursor: pointer;
 }
 
@@ -91,22 +92,22 @@ input, input:before, input:after {
   margin-right: 10px;
 }
 .search-icon:hover {
-  color: #b2ebf2;
+  color: white;
   cursor: pointer;
 }
 
 .search-field {
   display: none;
   border: none;
-  border-radius: 5px;
-  height: 7vh;
+  border-radius: 6px;
+  height: 5vh;
   width: 70%;
   animation-name: search;
   animation-duration: 0.2s;
   outline: none;
   background: none;
-  color: #b2ebf2;
-  font-family: "Ubuntu", sans-serif;
+  color: darkgray;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
 }
 
@@ -135,7 +136,7 @@ input, input:before, input:after {
   font-weight: normal;
 }
 .search-exit:hover {
-  color: #b2ebf2;
+  color: white;
   cursor: pointer;
 }
 
@@ -152,16 +153,16 @@ input, input:before, input:after {
   cursor: pointer;
   display: inline-block;
   font-size: 15px;
-  color: #f94;
+  color: #be9b64;
   margin-top: auto;
   margin-bottom: auto;
 }
 
 .cart-count {
   display: inline-block;
-  color: #f94;
+  color: #be9b64;
   font-size: 16px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   margin-right: 5px;
   margin-top: auto;
   margin-bottom: auto;
@@ -171,13 +172,13 @@ input, input:before, input:after {
 .delete_btn {
     margin: 1.6vh auto 0px auto;
     background-color: red;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid red;
     padding: 6px;
     color: white;
     font-weight: 600;
     font-size: 13px;
-    font-family: Ubuntu,sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .delete_btn:hover{
@@ -195,13 +196,13 @@ input, input:before, input:after {
   margin: auto;
   font-size: 30px;
   cursor: pointer;
-  color: #050831;
+  color: rgba(6,0,6,0.87);
 }
 .prev-arrow {
   margin: auto;
   font-size: 30px;
   cursor: pointer;
-  color: #050831;
+  color: rgba(6,0,6,0.87);
 }
 
 .next-arrow:hover,
@@ -247,11 +248,11 @@ input, input:before, input:after {
 
 .add-to-cart-button {
     font-size: 13px;
-    font-family: Ubuntu,sans-serif;
-    border-radius: 4px;
-    border: 1px solid #050831;
-    background-color: #050831;
-    color: #b2ebf2;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    border-radius: 6px;
+    border: 1px solid rgba(6,0,6,0.87);
+    background-color: rgba(6,0,6,0.87);
+    color: #be9b64;
     cursor: pointer;
     outline: none;
     margin-right: auto;
@@ -266,23 +267,21 @@ input, input:before, input:after {
 
 .add-to-cart-icon {
   font-size: 12px;
-  color: #b2ebf2;
+  color: #be9b64;
   margin-left: 5px;
   cursor: pointer;
 }
 
 .price-add span {
   font-size: 13px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 600;
   margin-top: 1.2vh;
 }
 
 .total {
-  font-size: 30px;
-  font-family: "Ubuntu", sans-serif;
-  font-weight: 600;
-  min-height: 30vh;
+    font-size: 30px;
+    align-self: center;
 }
 
 /* Products Section */
@@ -294,9 +293,9 @@ input, input:before, input:after {
 }
 
 .products-category-selection-menu {
-  background-color: #050831;
+  background-color: rgba(6,0,6,0.87);
   color: #009688;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   text-align: center;
   padding-top: 10px;
 }
@@ -304,10 +303,10 @@ input, input:before, input:after {
   display: block;
   text-decoration: none;
   font-size: 18px;
-  font-family: "Ubuntu", sans-serif;
-  color: #009688;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #be9b64;
   border: none;
-  background-color: #050831;
+  background-color: transparent;
   position: fixed;
   top: 60px;
   left: 4%;
@@ -317,10 +316,10 @@ input, input:before, input:after {
   display: block;
   text-decoration: none;
   font-size: 18px;
-  font-family: "Ubuntu", sans-serif;
-  color: #009688;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #be9b64;
   border: none;
-  background-color: #050831;
+  background-color: transparent;
   position: fixed;
   top: 90px;
   left: 4%;
@@ -328,12 +327,12 @@ input, input:before, input:after {
 }
 .category-link:visited,
 .category-link-two {
-  color: #009688;
+  color: #be9b64;
   text-decoration: none;
 }
 .category-link:hover,
 .category-link-two:hover {
-  color: #b2ebf2;
+  color: #be9b64;
 }
 
 .products-list-section {
@@ -341,7 +340,7 @@ input, input:before, input:after {
     flex-flow: wrap;
     text-align: center;
     padding-top: 10px;
-    font-family: "Ubuntu", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     padding-top: 20px;
     min-height: 85vh;
 }
@@ -350,6 +349,8 @@ input, input:before, input:after {
 .sign-up {
   padding-top: 20px;
   min-height: 85vh;
+  background-color: rgba(6,0,6,0.87);
+
 }
 .sign-up form {
   display: grid;
@@ -366,10 +367,10 @@ input, input:before, input:after {
   margin-right:12px;
   margin-bottom: 20px;
   border: 1px solid #c6c6cb;
-  border-radius: 3px;
-  padding: 20px 0 20px;
+  border-radius: 6px;
+  padding: 9px;
   font-size: 17px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #fff;
   color: #333;
 }
@@ -378,11 +379,11 @@ input, input:before, input:after {
   margin-right: auto;
   margin-left: auto;
   margin-bottom: 20px;
-  border: 1px solid #c6c6cb;
-  border-radius: 3px;
-  padding: 20px 0 20px;
+  border: 1px solid darkgray;
+  border-radius: 6px;
+  padding: 9px;
   font-size: 17px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #fff;
   color: #333;
 }
@@ -393,10 +394,10 @@ input, input:before, input:after {
   margin-left: auto;
   margin-bottom: 20px;
   border: 1px solid #c6c6cb;
-  border-radius: 3px;
-  padding: 20px 0 20px;
+  border-radius: 6px;
+  padding: 9px;
   font-size: 17px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: #fff;
   color: #333;
 }
@@ -406,18 +407,19 @@ input, input:before, input:after {
   margin-left: auto;
   font-size: 19px;
   padding: 5px 20px 5px 20px;
-  font-family: "Ubuntu", sans-serif;
-  background-color: #050831;
-  color: #b2ebf2;
-  border: 1px solid #c6c6cb;
-  border-radius: 3px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: rgba(6,0,6,0.87);
+  color: #be9b64;
+  border: 1px solid #be9b64;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 /* Sign-in */
 .sign-in {
   padding-top: 20px;
-  min-height: 85vh;
+  min-height: 87vh;
+  background: rgba(6,0,6,.87);
 }
 .sign-in form {
   display: grid;
@@ -428,6 +430,7 @@ input, input:before, input:after {
 .contact-us {
   padding-top: 20px;
   min-height: 85vh;
+  background-color: rgba(6,0,6,0.87);
 }
 .contact-us form {
   display: grid;
@@ -435,33 +438,33 @@ input, input:before, input:after {
   text-align: center;
 }
 .contact-us .input {
-  margin-left: 20px;
+    max-width: 75vw;
 }
 
 /* Footer */
 .footer {
   margin-top: 0;
-  background: #050831;
-  font-family: "Ubuntu", sans-serif;
+  background: rgba(6,0,6,0.87);
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 13px;
   letter-spacing: 0.001mm;
   padding-bottom: 10px;
-  color: #f94;
+  color: #be9b64;
   min-height: 5vh;
   max-height: 5vh;
 }
 .footer span a {
   margin-right: 10px;
-  color: #009688;
+  color: #be9b64;
   text-decoration: none;
 }
 .footer span a:visited {
-  color: #009688;
+  color: #be9b64;
 }
 
 .menu-bars {
   display: none;
-  color: #b2ebf2;
+  color: #be9b64;
 }
 
 /* Product Details */
@@ -475,13 +478,14 @@ input, input:before, input:after {
 }
 
 .product-details h1 {
-  font-family: "Ubuntu", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 /* ************************************Responsiveness*************************************** */
 @media screen and (max-width: 500px) {
   .nav-main {
     grid-template-columns: 33.3333% 33.3333% 33.333%;
-    min-height: 10vh;
+    min-height: 6vh;
+    max-height: 6vh;
     min-width: 100vw;
   }
   .home-link {
@@ -495,10 +499,8 @@ input, input:before, input:after {
   }
   .menu-bars {
     display: block;
-    font-size: 40px;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 5px;
   }
   .products-link {
     display: none;
@@ -532,10 +534,15 @@ input, input:before, input:after {
     grid-template-columns: 1fr;
   }
   .menu-items {
-    background: #050831;
-    min-height: 90vh;
-    max-height: 90vh;
+    background: rgba(6,0,6,0.87);
+    animation-name: menu-items;
+    animation-duration: 1s;
+    height:94vh;
   }
+  @keyframes menu-items {
+  from {height: 0vh;}
+  to {height: 94vh}
+}
   .search-icon-menu {
     font-size: 30px;
     cursor: pointer;
@@ -545,35 +552,34 @@ input, input:before, input:after {
   }
   .search-field-menu {
     border: none;
-    border-radius: 5px;
-    height: 8vh;
-    width: 80%;
+    border-radius: 6px;
+    height: 5vh;
+    width: 100%;
     outline: none;
     background: none;
     color: #e91e63;
-    font-family: "Ubuntu", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 19px;
-    background-color: #b2ebf2;
+    background-color: darkgray;
   }
   .search-form-menu {
-    padding-top: 15px;
-    border-bottom: 2px solid #b2ebf25e;
-    padding-bottom: 15px;
+    padding: 3vw 12vw 3vw 10vw;
+    border-bottom: 1px solid #ccd18e5e;
   }
   .nav-main-menu {
     display: grid;
     grid-template-columns: 1fr;
     padding: 0;
     margin-top: 20px;
-    color: #f94;
+    color: #be9b64;
   }
   .nav-main-menu li {
     list-style-type: none;
     margin: auto;
     margin-bottom: 10px;
     font-size: 30px;
-    font-family: "Ubuntu", sans-serif;
-    border-bottom: 2px solid #b2ebf25e;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    border-bottom: 1px solid #ccd18e5e;
     padding-bottom: 10px;
     min-width: 70vw;
   }
@@ -598,6 +604,10 @@ input, input:before, input:after {
   }
   .products-list-section {
     grid-template-columns: 1fr;
+  }
+  .products-list-section > div {
+      margin-right: auto;
+      margin-left: auto;
   }
   .products-category-selection-menu {
     display: grid;
@@ -632,13 +642,13 @@ input, input:before, input:after {
   .price-add span select {
     font-size: 20px;
   }
-}
 
+}
 @media screen and (min-width: 501px) and (max-width: 768px) {
   .nav-main {
     grid-template-columns: 33.3333% 33.3333% 33.333%;
-    min-height: 12vh;
-    max-height: 12vh;
+    min-height: 6vh;
+    max-height: 6vh;
     min-width: 100vw;
   }
   .first-li {
@@ -649,10 +659,8 @@ input, input:before, input:after {
   }
   .menu-bars {
     display: block;
-    font-size: 60px;
     margin-top: auto;
     margin-bottom: auto;
-    margin-left: 5px;
   }
   .products-link {
     display: none;
@@ -677,7 +685,7 @@ input, input:before, input:after {
   }
   .home-link {
     text-align: center;
-    font-size: 40px;
+    font-size:3vh;   
   }
   .show {
     width: 300px;
@@ -687,10 +695,15 @@ input, input:before, input:after {
     grid-template-columns: 1fr 1fr;
   }
   .menu-items {
-    background: #050831;
-    min-height: 90vh;
-    max-height: 90vh;
+    background: rgba(6,0,6,0.87);
+    animation-name: menu-items;
+    animation-duration: 1s;
+    height:94vh;
   }
+  @keyframes menu-items {
+  from {height: 0vh;}
+  to {height: 94vh}
+}
   .search-icon-menu {
     font-size: 30px;
     cursor: pointer;
@@ -700,35 +713,34 @@ input, input:before, input:after {
   }
   .search-field-menu {
     border: none;
-    border-radius: 5px;
-    height: 8vh;
-    width: 80%;
+    border-radius: 6px;
+    height: 5vh;
+    width: 100%;
     outline: none;
     background: none;
     color: #e91e63;
-    font-family: "Ubuntu", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     font-size: 19px;
-    background-color: #b2ebf2;
+    background-color: darkgray;
   }
   .search-form-menu {
-    padding-top: 15px;
-    border-bottom: 2px solid #b2ebf25e;
-    padding-bottom: 15px;
+    padding: 3vw 12vw 3vw 10vw;
+    border-bottom: 1px solid #ccd18e5e;
   }
   .nav-main-menu {
     display: grid;
     grid-template-columns: 1fr;
     padding: 0;
     margin-top: 20px;
-    color: #f94;
+    color: #be9b64;
   }
   .nav-main-menu li {
     list-style-type: none;
     margin: auto;
     margin-bottom: 10px;
     font-size: 30px;
-    font-family: "Ubuntu", sans-serif;
-    border-bottom: 2px solid #b2ebf25e;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    border-bottom: 1px solid #ccd18e5e;
     padding-bottom: 10px;
     min-width: 70vw;
   }

@@ -37,6 +37,17 @@ class Nav extends Component {
         this.props.history.replace("/products")
     };
 
+    returnBasketElement = () => {
+        if (window.innerWidth > 768) {
+            return  (
+            <p className="cart-count"
+                onClick={() => this.props.onLinkClick("/home/cart")}>Basket({this.cartQuantity()})
+            </p> 
+            )
+        }
+        
+    }
+
 
 
     render() {
@@ -47,7 +58,9 @@ class Nav extends Component {
                 <div id="nav-main">
                     <ul className="nav-main" ref="nav">
                         <li className="menu-bars" onClick={() => handleMenuClick()}>
-                            <FontAwesomeIcon icon={faBars} />
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="33" height="33" fill="#be9b64">
+                                <path d="M 0 9 L 0 11 L 50 11 L 50 9 Z M 0 24 L 0 26 L 50 26 L 50 24 Z M 0 39 L 0 41 L 50 41 L 50 39 Z"/>
+                            </svg>
                         </li>
                         <li className="first-li" />
                         <li className="home-link"
@@ -73,9 +86,7 @@ class Nav extends Component {
                             replace={this.props.history.replace}
                         />
                         <div ref="cart" className="cart-main">
-                            <p className="cart-count"
-                                onClick={() => this.props.onLinkClick("/home/cart")}>Basket({this.cartQuantity()})
-                            </p>
+                            {this.returnBasketElement()}
     
                             <FontAwesomeIcon
                                 icon={faShoppingCart}

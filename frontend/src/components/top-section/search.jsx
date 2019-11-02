@@ -12,7 +12,7 @@ class Search extends Component {
     handleBlur = () => {
         // * Refactor * This code to be replaced by CSS by implementing new styles to a new class and simply changing the className in JS.
         this.refs.searchinput.setAttribute("style", "display:none");
-        this.props.cartRef.setAttribute("style", "display:inline-block");
+        // this.props.cartRef.setAttribute("style", "display:inline-block");
         this.refs.searchexit.setAttribute("style", "display:none");
         // this.props.navRef.setAttribute(
         //     "style",
@@ -25,7 +25,7 @@ class Search extends Component {
         this.refs.searchinput.setAttribute("style", "display:inline-block");
         this.refs.searchinput.focus();
         this.refs.searchexit.setAttribute("style", "display:inline-block");
-        this.props.cartRef.setAttribute("style", "display:none");
+        // this.props.cartRef.setAttribute("style", "display:none");
         // this.props.navRef.setAttribute(
         //     "style",
         //     "grid-template-columns: 11% 11% 11% 11% 11% 11% 34%"
