@@ -1,6 +1,5 @@
 import os
 import django_heroku
-from Amaze import credentials
 
 
 
@@ -16,8 +15,7 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = credentials.SECRET_KEY
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -37,14 +35,20 @@ ALLOWED_HOSTS = [
 if not DEBUG:
     TEMP = os.path.join(BASE_DIR)
     DATABASE_URL = os.environ['DATABASE_URL']
+
 # Developement settings
 else:
+    from Amaze import credentials
+    # POSTGRES DB settings and credentials
+    credentials.DATABASES
     DATABASE_URL = os.environ['DATABASE_URL'] = credentials.HEROKU_DB_URL
 
 # For heroku DB link
 import psycopg2
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
 
 # Application definition
 
@@ -106,8 +110,7 @@ WSGI_APPLICATION = 'Amaze.wsgi.application'
 #     }
 # }
 
-# POSTGRES DB settings and credentials
-credentials.DATABASES
+
 
 
 # Password validation
