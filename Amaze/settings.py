@@ -1,10 +1,8 @@
 import os
 import django_heroku
+from Amaze import credentials
 
-# For heroku DB link
-import psycopg2
-DATABASE_URL = os.environ['DATABASE_URL']
-conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+
 
 """Build paths inside the project like this: os.path.join(BASE_DIR, ...)"""
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,20 +17,33 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+mph-zqf14h*@0svn#n0(oyz9nbzdv(o)12oz=+^+q53_%3rhq'
+SECRET_KEY = credentials.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
+    "127.0.0.1",
     "http://amaze-me.herokuapp.com"
     ]
 
 
-# Changing templates location for production.
+
+
+
+
+# Production settings.
 if not DEBUG:
     TEMP = os.path.join(BASE_DIR)
+    DATABASE_URL = os.environ['DATABASE_URL']
+# Developement settings
+else:
+    DATABASE_URL = os.environ['DATABASE_URL'] = credentials.HEROKU_DB_URL
+
+# For heroku DB link
+import psycopg2
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 
 # Application definition
@@ -95,16 +106,8 @@ WSGI_APPLICATION = 'Amaze.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd8tviudv0oi5et',
-        'USER': 'wtqkxdhoiidepw',
-        'PASSWORD': '2f696377fa3679714b78ed032656b42693888f20c2f68a11beb2e8eb43754421',
-        'HOST': 'ec2-54-235-180-123.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
-}
+# POSTGRES DB settings and credentials
+credentials.DATABASES
 
 
 # Password validation
