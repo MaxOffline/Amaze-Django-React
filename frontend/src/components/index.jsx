@@ -91,20 +91,20 @@ class Index extends Component {
         const cartProducts = [...this.state.cartProducts];
         const foundProduct = await cartProducts.find(prod => prod.product_id === product.product_id);
         if (this.state.userAuthenticated){
-            let quantityTotal = 0
-            if (foundProduct){
-                quantityTotal = (foundProduct.quantity + quantity)
-                if (quantityTotal > 10){
-                    alert("Maximum quantity to purchase is 10 items.")
-                    return;
-                }else{
-                    const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-                    response.status === 200? window.location.reload(): console.log("something went wrong");
-                }
-            }else{
+            // let quantityTotal = 0
+            // if (foundProduct){
+            //     quantityTotal = (foundProduct.quantity + quantity)
+            //     if (quantityTotal > 10){
+            //         alert("Maximum quantity to purchase is 10 items.")
+            //         return;
+            //     }else{
+            //         const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
+            //         response.status === 200? window.location.reload(): console.log("something went wrong");
+            //     }
+            // }else{
                 const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-                response.status === 200? window.location.reload(): console.log("something went wrong");
-            }
+                response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
+            // }
         // If user idn't authenticated
         }else{
                 if (foundProduct){

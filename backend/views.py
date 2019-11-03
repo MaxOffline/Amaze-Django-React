@@ -128,11 +128,14 @@ class CartList(APIView):
                 current_user = User.objects.get(username = request.user.username)
                 cart = Cart.objects.get(user = request.user.id)
                 try:
-                    getProduct = cart.cartproduct_set.get(
+                    incoming_quantity = serializer.validated_data.get('quantity')
+                    get_product = cart.cartproduct_set.get(
                         product_id=serializer.validated_data.get('product_id')
                         )
-                    getProduct.quantity += serializer.validated_data.get('quantity')
-                    getProduct.save()
+                    if (get_product.quantity + incoming_quantity) > 10:
+                        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    get_product.quantity += serializer.validated_data.get('quantity')
+                    get_product.save()
                     
                 except CartProduct.DoesNotExist:
 
@@ -147,7 +150,7 @@ class CartList(APIView):
                         price=serializer.validated_data.get('price'),
                         imgUrl=serializer.validated_data.get('imgUrl'),
                         quantity=serializer.validated_data.get('quantity'))
-                return Response("allow", status = status.HTTP_200_OK)
+                    return Response("allow", status = status.HTTP_200_OK)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -165,7 +168,7 @@ class CartList(APIView):
             current_user = User.objects.get(username = request.user.username)
             cart = Cart.objects.get(user = request.user.id)
             try:
-                getProduct = cart.cartproduct_set.get(product_id=pk).delete()
+                get_product = cart.cartproduct_set.get(product_id=pk).delete()
                 return Response({"message": "Deleted"})
             except CartProduct.DoesNotExist:
                 return Response("DoesNotExist", status = status.HTTP_200_OK)
