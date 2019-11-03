@@ -89,7 +89,7 @@ class Index extends Component {
         product.quantity = quantity
         quantity = parseInt(quantity)
         const cartProducts = [...this.state.cartProducts];
-        const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
+        const foundProduct = await cartProducts.find(prod => prod.product_id === product.product_id);
         if (this.state.userAuthenticated){
             let quantityTotal = 0
             if (foundProduct){
