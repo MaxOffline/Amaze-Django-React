@@ -98,13 +98,11 @@ class Index extends Component {
                     alert("Maximum quantity to purchase is 10 items.")
                     return;
                 }else{
-                    foundProduct.quantity += quantity
+                    const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
+                    response.status === 200? window.location.reload(): console.log("something went wrong");
                 }
-            }else{
-                cartProducts.push(product)
             }
-            const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-            response.status === 200? window.location.reload(): console.log("something went wrong");
+            
         // If user idn't authenticated
         }else{
                 if (foundProduct){
