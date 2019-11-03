@@ -101,8 +101,10 @@ class Index extends Component {
                     const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
                     response.status === 200? window.location.reload(): console.log("something went wrong");
                 }
+            }else{
+                const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
+                response.status === 200? window.location.reload(): console.log("something went wrong");
             }
-            
         // If user idn't authenticated
         }else{
                 if (foundProduct){
