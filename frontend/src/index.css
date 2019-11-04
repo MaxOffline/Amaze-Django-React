@@ -156,6 +156,7 @@ input, input:before, input:after {
   position: absolute;
   margin-right: 10px;
   font-size: 2vh;
+  cursor: pointer;
 }
 
 .cart-main svg path {
