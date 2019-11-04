@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 class Cart extends Component {
     // Make a select element with options
-    returnOptionElements = (quantity, id) => {
+    returnOptionElements = (quantity, id, product) => {
         let optionElements = [];
         for (let i = 1; i <= 10; i++) {
             if (i !== 10) {
@@ -15,7 +15,7 @@ class Cart extends Component {
                 optionElements.push(element);
                 return (
                     // Default value is equals to selected on one of the elements in regular HTML5 but it's placed in the select element.
-                    <select id={id} defaultValue={quantity} onChange={this.handleSelectChange} >
+                    <select id={id} defaultValue={quantity} onChange={(event) =>this.handleSelectChange(product, event.currentTarget.value)} >
                         {optionElements}
                     </select>
                 );
@@ -23,10 +23,9 @@ class Cart extends Component {
         }
     };
 
-    handleSelectChange = event => {
-        const id = event.currentTarget.id;
-        const quantity = event.currentTarget.value;
-        this.props.onQuantityUpdate(id, quantity);
+    handleSelectChange = (product, quantity) => {
+        product.quantity = parseInt(quantity) 
+        this.props.onQuantityUpdate(product);
     };
 
     returnCartTotal = () => {
@@ -57,7 +56,7 @@ class Cart extends Component {
                                     </span>
                                     <span>
                                         <em>Quantity: </em>
-                                        {this.returnOptionElements(product.quantity, product.product_id)}
+                                        {this.returnOptionElements(product.quantity, product.product_id, product)}
                                     </span>
                                     <button className = "delete_btn" onClick = {() => this.props.onProductRemove(product.product_id)}>Remove</button>
                                 </div>

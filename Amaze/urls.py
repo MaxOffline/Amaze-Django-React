@@ -13,6 +13,8 @@ urlpatterns = [
     path("DBProductsAPI/", ProductsList.as_view()),
     # Cart products/ add to cart
     path("CartProducts/", CartList.as_view()),
+    # Update product quantity
+    path("UpdateProduct/<int:pk>/", CartList.as_view()),
     # Delete product
     path("RemoveProduct/<int:pk>/", CartList.as_view()),
     # Signup endpoint

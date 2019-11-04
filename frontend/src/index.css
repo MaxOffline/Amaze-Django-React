@@ -42,8 +42,8 @@ input, input:before, input:after {
   background: rgba(6,0,6,0.87);
   padding: 0;
   margin: 0;
-  min-height: 7vh;
-  max-height: 7vh;
+  min-height: 5vh;
+  max-height: 5vh;
 }
 .nav-main li {
   list-style-type: none;
@@ -66,7 +66,7 @@ input, input:before, input:after {
 .sign-up-link,
 .contact-us-link {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
+  font-size: 14px;
   border: none;
   color: #be9b64;
   outline: none;
@@ -103,7 +103,8 @@ input, input:before, input:after {
   height: 5vh;
   width: 70%;
   animation-name: search;
-  animation-duration: 0.2s;
+  animation-duration: 1s;
+  animation-direction: reverse;
   outline: none;
   background: none;
   color: darkgray;
@@ -112,11 +113,11 @@ input, input:before, input:after {
 }
 
 @keyframes search {
-  0% {
-    display: none;
+  from {
+    width: 70%;
   }
-  100% {
-    display: inline;
+  to {
+    width: 0;
   }
 }
 
@@ -124,6 +125,7 @@ input, input:before, input:after {
   margin-top: auto;
   margin-bottom: auto;
 }
+
 .search-exit-container {
   display: none;
   margin-left: 10px;
@@ -143,10 +145,21 @@ input, input:before, input:after {
 /* Cart-Section */
 
 .cart-main {
+  position: relative;
   margin-top: auto;
   margin-bottom: auto;
   padding: 0;
   display: inline-block;
+}
+
+.cart-main svg {
+  position: absolute;
+  margin-right: 10px;
+  font-size: 2vh;
+}
+
+.cart-main svg path {
+  fill:#be9b64;
 }
 
 .cart-icon {
@@ -160,13 +173,20 @@ input, input:before, input:after {
 
 .cart-count {
   display: inline-block;
-  color: #be9b64;
-  font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  margin-right: 5px;
   margin-top: auto;
   margin-bottom: auto;
   cursor: pointer;
+  background-color: #be9b64;
+  height: 16px;
+  width: 16px;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 12px;
+  color: rgba(6,0,6,0.87);
+  position: absolute;
+  top: -15px;
+  left: 4px;
 }
 
 .delete_btn {
@@ -348,7 +368,7 @@ input, input:before, input:after {
 /* Sign-up */
 .sign-up {
   padding-top: 20px;
-  min-height: 85vh;
+  min-height: 90vh;
   background-color: rgba(6,0,6,0.87);
 
 }
@@ -418,7 +438,7 @@ input, input:before, input:after {
 /* Sign-in */
 .sign-in {
   padding-top: 20px;
-  min-height: 87vh;
+  min-height: 90vh;
   background: rgba(6,0,6,.87);
 }
 .sign-in form {
@@ -450,8 +470,6 @@ input, input:before, input:after {
   letter-spacing: 0.001mm;
   padding-bottom: 10px;
   color: #be9b64;
-  min-height: 5vh;
-  max-height: 5vh;
 }
 .footer span a {
   margin-right: 10px;
@@ -479,6 +497,11 @@ input, input:before, input:after {
 
 .product-details h1 {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+
+.menu-bars svg{
+  width:7vw;
 }
 /* ************************************Responsiveness*************************************** */
 @media screen and (max-width: 500px) {
@@ -522,6 +545,11 @@ input, input:before, input:after {
   }
   .cart-main {
     text-align: center;
+  }
+
+  .cart-main svg{
+    position:unset;
+    font-size: 3vh;
   }
   .home-link {
     text-align: center;
@@ -682,6 +710,10 @@ input, input:before, input:after {
   }
   .cart-main {
     text-align: center;
+  }
+  .cart-main svg{
+    position:unset;
+    font-size: 3vh;
   }
   .home-link {
     text-align: center;

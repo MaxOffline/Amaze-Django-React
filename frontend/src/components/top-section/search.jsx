@@ -9,27 +9,7 @@ class Search extends Component {
         this.props.replace("/home/search");
     };
 
-    handleBlur = () => {
-        // * Refactor * This code to be replaced by CSS by implementing new styles to a new class and simply changing the className in JS.
-        this.refs.searchinput.setAttribute("style", "display:none");
-        // this.props.cartRef.setAttribute("style", "display:inline-block");
-        this.refs.searchexit.setAttribute("style", "display:none");
-        // this.props.navRef.setAttribute(
-        //     "style",
-        //     "grid-template-columns: 11% 11% 11% 11% 11% 11%  34%"
-        // );
-    };
-
     handleSearchClick = () => {
-        // * Refactor* This code to be replaced by CSS by implementing new styles to a new class and simply changing the className in JS.
-        this.refs.searchinput.setAttribute("style", "display:inline-block");
-        this.refs.searchinput.focus();
-        this.refs.searchexit.setAttribute("style", "display:inline-block");
-        // this.props.cartRef.setAttribute("style", "display:none");
-        // this.props.navRef.setAttribute(
-        //     "style",
-        //     "grid-template-columns: 11% 11% 11% 11% 11% 11% 34%"
-        // );
     };
 
     // We will need to render a search form so we can use the onSubmit method
@@ -44,13 +24,13 @@ class Search extends Component {
                     <FontAwesomeIcon
                         className="search-icon"
                         icon={faSearch}
-                        onClick={this.handleSearchClick}
+                        onClick={() => this.props.onSearchClick()}
                     />
                     <input
                         className="search-field"
                         type="search"
                         name="search"
-                        onBlur={this.handleBlur}
+                        onBlur={() =>this.props.onSearchBlur()}
                         placeholder="     Search ..."
                         ref="searchinput"
                         autoFocus
@@ -59,7 +39,7 @@ class Search extends Component {
                         <FontAwesomeIcon
                             className="search-exit"
                             icon={faTimes}
-                            onClick={this.handleBlur}
+                            onClick={() =>this.props.onSearchBlur()}
                         />
                     </div>
                 </form>

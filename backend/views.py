@@ -57,6 +57,11 @@ class Signup(APIView):
                 )
                 user.cart_set.create(user = request.user.username)
                 user.save()
+                user = authenticate(
+                    username=serializer.validated_data.get('username'),
+                    password=serializer.validated_data.get('password')
+                    )
+                login(request, user)
                 return Response("allow", status = status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -137,7 +142,7 @@ class CartList(APIView):
                     get_product.quantity += serializer.validated_data.get('quantity')
                     get_product.save()
                     
-                except CartProduct.DoesNotExist:
+                except:
 
                     createProduct = cart.cartproduct_set.create(
                         product_id=serializer.validated_data.get('product_id'),
@@ -155,8 +160,19 @@ class CartList(APIView):
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # Replace the whole object with every field with the new input in the request
-    def put(self, request, pk=None):
-        return Response({"message": "Put"})
+    def put(self, request, pk):
+        serializer = CartProductSerializer(data=request.data)
+        # print(serializer.data)
+        if serializer.is_valid():
+            if request.user.is_authenticated:
+                # current_user = User.objects.get(username = request.user.username)
+                cart = Cart.objects.get(user = request.user.id)
+                get_product = cart.cartproduct_set.get(product_id=pk)
+                get_product.quantity = serializer.validated_data.get('quantity')
+                get_product.save()
+                return Response({"message": "Updated"},status = status.HTTP_200_OK)
+
+
 
     # Update only the field/fields submitted in the request.
     def patch(self, request, pk=None):
@@ -165,7 +181,7 @@ class CartList(APIView):
     def delete(self, request, pk):
 
         if request.user.is_authenticated:
-            current_user = User.objects.get(username = request.user.username)
+            # current_user = User.objects.get(username = request.user.username)
             cart = Cart.objects.get(user = request.user.id)
             try:
                 get_product = cart.cartproduct_set.get(product_id=pk).delete()

@@ -11,8 +11,6 @@ import NewArrivals from "./middle-section/new-arrivals";
 import Products from "./middle-section/products";
 import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Cookies from 'js-cookie'
 import Ajax from "../services/Ajax";
 
@@ -32,8 +30,6 @@ class Index extends Component {
     mounted = false;
 
     async componentDidMount() {
-        console.log("component mounted")
-
         const response =  await Ajax(/DBProductsAPI/, "GET")
         const data = await response.json();
         if (response.status === 200 && data){
@@ -76,12 +72,12 @@ class Index extends Component {
     };
 
     //To be replaced by refs or a CSS class
-    handleSelectClick = () => {
-        const navContainer = document.getElementById("nav-main");
-        if (navContainer.style.display === "grid")
-            navContainer.style.display = "none";
-        else navContainer.style.display = "grid";
-    };
+    // handleSelectClick = () => {
+    //     const navContainer = document.getElementById("nav-main");
+    //     if (navContainer.style.display === "grid")
+    //         navContainer.style.display = "none";
+    //     else navContainer.style.display = "grid";
+    // };
     csrftoken = Cookies.get('csrftoken');
 
     handleAddToCart = async (product, quantity) => {
@@ -120,36 +116,14 @@ class Index extends Component {
         }
     }
 
-    handleQuantityUpdate =async (id, quantity) => {
-        quantity = parseInt(quantity)
-        let cartProducts = [...this.state.cartProducts];
-        let foundProduct = cartProducts.find(prod => prod.product_id === parseInt(id));
-        let difference = 0
-        // if the current quantity in the state is smaller than the quantity given
+    handleQuantityUpdate =async (product) => {
         if (this.state.userAuthenticated){
-            switch (true){
-                case (quantity > foundProduct.quantity) :
-                    difference = (quantity - foundProduct.quantity)
-                    break;
-                case (foundProduct.quantity > quantity):
-                    difference  = -(foundProduct.quantity - quantity)
-                    break;
-                default:
-                    break;
-            }
-
-            foundProduct.quantity = difference
-
-            const response = await Ajax("/CartProducts/", "POST", JSON.stringify(foundProduct))
-            if (response.status === 200){
-                window.location.reload();
-            }
+            const response = await Ajax(`/UpdateProduct/${product.product_id}/`, "PUT", JSON.stringify(product))
+            response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
         }else{
+            // Needs tested
             console.log("User isn't authenticated")
-            // foundProduct.quantity = parseInt(quantity);
-            // this.setState({ cartProducts });
-            // localStorage.setItem("cart", JSON.stringify(cartProducts))
-
+            localStorage.setItem("cart", JSON.stringify(product))
             
         }
 
