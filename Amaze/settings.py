@@ -18,7 +18,7 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
