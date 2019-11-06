@@ -141,7 +141,7 @@ class CartList(APIView):
                         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
                     get_product.quantity += serializer.validated_data.get('quantity')
                     get_product.save()
-                    
+                    return Response("allow", status = status.HTTP_200_OK)                    
                 except:
 
                     createProduct = cart.cartproduct_set.create(
