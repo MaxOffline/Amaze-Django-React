@@ -15,15 +15,15 @@ I will try to use as much native as I can to avoid future issues.
 
 ### On going development.
 
-* User authenticaion
 * Data-base architecting.
 
 ### Coming updates.
 
-* Flex-box
 * Axios
 * Joi
 * Stripe
+
+
 
 
 
