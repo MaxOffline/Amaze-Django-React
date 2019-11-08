@@ -310,7 +310,7 @@ input, input:before, input:after {
 .products-main {
   display: grid;
   grid-template-columns: 0.7fr 5fr;
-  min-height: 85vh;
+  min-height: 91vh;
 }
 
 .products-category-selection-menu {
@@ -363,13 +363,13 @@ input, input:before, input:after {
     padding-top: 10px;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     padding-top: 20px;
-    min-height: 85vh;
+    min-height: 91vh;
 }
 
 /* Sign-up */
 .sign-up {
   padding-top: 20px;
-  min-height: 90vh;
+  min-height: 91vh;
   background-color: rgba(6,0,6,0.87);
 
 }
@@ -439,7 +439,7 @@ input, input:before, input:after {
 /* Sign-in */
 .sign-in {
   padding-top: 20px;
-  min-height: 90vh;
+  min-height: 91vh;
   background: rgba(6,0,6,.87);
 }
 .sign-in form {
@@ -450,7 +450,7 @@ input, input:before, input:after {
 /* Contact-us */
 .contact-us {
   padding-top: 20px;
-  min-height: 85vh;
+  min-height: 91vh;
   background-color: rgba(6,0,6,0.87);
 }
 .contact-us form {

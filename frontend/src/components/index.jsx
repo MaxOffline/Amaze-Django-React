@@ -87,26 +87,20 @@ class Index extends Component {
         const cartProducts = [...this.state.cartProducts];
         const foundProduct = await cartProducts.find(prod => prod.product_id === product.product_id);
         if (this.state.userAuthenticated){
-            // let quantityTotal = 0
-            // if (foundProduct){
-            //     quantityTotal = (foundProduct.quantity + quantity)
-            //     if (quantityTotal > 10){
-            //         alert("Maximum quantity to purchase is 10 items.")
-            //         return;
-            //     }else{
-            //         const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-            //         response.status === 200? window.location.reload(): console.log("something went wrong");
-            //     }
-            // }else{
                 const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
                 response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
-            // }
         // If user idn't authenticated
         }else{
+
                 if (foundProduct){
-                    foundProduct.quantity += quantity
-                    localStorage.setItem("cart", JSON.stringify(cartProducts))
-                    this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
+                    if ((foundProduct.quantity+quantity) > 10){
+                        alert("Maximum quantity to purchase is 10 items.")
+                        return;
+                    }else{
+                        foundProduct.quantity += quantity
+                        localStorage.setItem("cart", JSON.stringify(cartProducts))
+                        this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
+                    }
                 }else{
                     cartProducts.push(product)
                     localStorage.setItem("cart", JSON.stringify(cartProducts))
@@ -121,10 +115,15 @@ class Index extends Component {
             const response = await Ajax(`/UpdateProduct/${product.product_id}/`, "PUT", JSON.stringify(product))
             response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
         }else{
-            // Needs tested
             console.log("User isn't authenticated")
-            localStorage.setItem("cart", JSON.stringify(product))
-            
+            const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
+            const foundProduct = localStorageCartItems.find(prod => prod.product_id === product.product_id)
+            const index = localStorageCartItems.indexOf(foundProduct);
+            foundProduct.quantity = product.quantity
+            localStorageCartItems.splice(index, 1)
+            localStorageCartItems.push(foundProduct)
+            localStorage.setItem("cart", JSON.stringify(localStorageCartItems))
+            this.setState({cartProducts:localStorageCartItems})
         }
 
     };
@@ -210,8 +209,17 @@ class Index extends Component {
 
 
     handleProductRemove = async (productId) => {
-        const response = await Ajax(`/RemoveProduct/${productId}/`, "DELETE")
-        response.status === 200?window.location.reload():console.log("failed");
+        if (this.state.userAuthenticated){
+            const response = await Ajax(`/RemoveProduct/${productId}/`, "DELETE")
+            response.status === 200?window.location.reload():console.log("failed");
+        }else{
+            const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
+            const foundProduct = localStorageCartItems.find(product => product.product_id === productId)
+            const index = localStorageCartItems.indexOf(foundProduct);
+            localStorageCartItems.splice(index, 1)
+            localStorage.setItem("cart", JSON.stringify(localStorageCartItems))
+            this.setState({cartProducts:localStorageCartItems})
+        }
     }
 
     render() {
