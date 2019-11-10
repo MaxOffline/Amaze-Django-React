@@ -45,9 +45,9 @@ class CartProduct (models.Model):
 
 
 
-# class ResetCode (models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = True, null = True)
-#     reset_code = models.IntegerField(default = random.randint(100000, 1000000),blank = True, null = True)
+class ResetCode (models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank = True, null = True)
+    reset_code = models.IntegerField(default = random.randint(100000, 1000000),blank = True, null = True)
 
-#     def __str__(self):
-#         return self.user.username
+    def __str__(self):
+        return self.user.username
