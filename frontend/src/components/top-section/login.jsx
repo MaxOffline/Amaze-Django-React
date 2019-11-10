@@ -38,8 +38,7 @@ class Login extends Component {
                     // redirect.
                     this.props.history.replace("/");
                 }else{
-                    // Do something if user isn't authenticated
-                    console.log("user not logged in")
+                    this.refs.validation.style.display = "block"
                 }
             } )
         })
@@ -56,6 +55,9 @@ class Login extends Component {
     render() {
         return (
             <React.Fragment>
+                <div  className = "validation-errors" ref="validation" style={{display:"none", backgroundColor:"rgba(6,0,6,.87)"}}>
+                    <p>Your login information are incorrect.</p>
+                </div>
                 <div className="sign-in">
                     <form onSubmit={this.handleSubmit}>
                         <DjangoCSRFToken />

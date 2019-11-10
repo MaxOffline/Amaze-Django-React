@@ -377,6 +377,16 @@ input, input:before, input:after {
   display: grid;
   grid-template-columns: 1fr;
 }
+
+.validation-errors {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #bf0000d6;
+    background: rgba(6,0,6,.87);
+    text-align: center;
+    font-size: 12px;
+    padding-top: 3vh;
+    list-style-type: disc;
+}
 .first-last-input {
   margin-right: auto;
   margin-left: auto;

@@ -1,61 +1,102 @@
 import React, { Component } from "react";
 import Footer from "../bottom-section/footer";
 import DjangoCSRFToken from "django-react-csrftoken";
-
+import {passwordValidation, returnValidationItems} from "../../services/validation";
 class Register extends Component {
     state = {
         username: "",
         first_name: "",
         last_name: "",
         email: "",
-        password: ""
+        password: "",
+        validation: {
+            password : false,
+            confirmPassword:false,
+            usernameValid : false,
+            passwordsMatch: false,
+            passwordHasEnoughLength: false, 
+            passwordContainsUpperCase: false,
+            passwordContainsNumbers: false,
+            passwordContainsSpecials: false,
+            emailsMatch: false,
+            firstName:false,
+            lastName:false,
+            email:false,
+            confirmEmail: false
+
+        }
     };
 
-    handleSubmit = event => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        fetch("/SignupAPI/", {
-            headers: { "Content-Type": "application/json" },
-            mode: "same-origin",
-            method: "POST",
-            body: JSON.stringify({
-                username: this.state.username,
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                email: this.state.email,
-                password: this.state.password
-            })
-        }).then( async response => {
-            await response.json().then(data => {
-                if (data === "allow"){
-                    const refs = [
-                        this.refs.username,
-                        this.refs.password,
-                        this.refs.confirm_password,
-                        this.refs.email,
-                        this.refs.confirm_email,
-                        this.refs.first_name,
-                        this.refs.last_name
-                    ];
-                    refs.forEach(ref => (ref.value = ""));
+        this.refs.validation.style.display = "none";
+        this.refs.usernameValidation.style.display = "none";
+        const passwordValidationResult = passwordValidation(this.refs.password.value, this.refs.confirm_password.value)
+        const emailsMatch = (this.refs.email.value === this.refs.confirm_email.value)
+        if (!(passwordValidationResult[5] && emailsMatch && this.refs.email.value && this.refs.confirm_email.value)){
+            this.refs.validation.style.display = "block";
+        
+        }
+        if (passwordValidationResult[5] && emailsMatch && this.refs.first_name.value && this.refs.last_name.value && this.refs.email.value && this.refs.confirm_email.value){
+            fetch("/SignupAPI/", {
+                headers: { "Content-Type": "application/json" },
+                mode: "same-origin",
+                method: "POST",
+                body: JSON.stringify({
+                    username: this.state.username,
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
+                    password: this.state.password
+                })
+            }).then( async response => {
+                await response.json().then(data => {
+                    if (data === "allow"){
+                        this.refs.usernameValidation.style.display = "none";
+                        this.refs.validation.style.display = "none";
+                        const refs = [
+                            this.refs.username,
+                            this.refs.password,
+                            this.refs.confirm_password,
+                            this.refs.email,
+                            this.refs.confirm_email,
+                            this.refs.first_name,
+                            this.refs.last_name
+                        ];
+                        refs.forEach(ref => (ref.value = ""));
+    
+                        // store the id and password in the local storage
+                        // localStorage.setItem("logged", true)
+                        this.props.onUserLogin();
+                        alert(`Thank you for signing up ${this.state.first_name}`)
+                        // Redirect to the following URL
+                        this.props.history.replace("/");
+                    }else{
+                        this.refs.usernameValidation.style.display = "block";
+                    
+                    }
+                    
+                })
+    
+            });
+        }else{
+            this.setState({validation:{
+                password: this.refs.password.value,
+                confirmPassword: this.refs.confirm_password.value,
+                firstName : this.refs.first_name.value,
+                lastName: this.refs.last_name.value,
+                email: this.refs.email.value,
+                confirmEmail: this.refs.confirm_email.value,
+                passwordsMatch:passwordValidationResult[0],
+                passwordHasEnoughLength:passwordValidationResult[1],
+                passwordContainsUpperCase:passwordValidationResult[2],
+                passwordContainsNumbers:passwordValidationResult[3],
+                passwordContainsSpecials:passwordValidationResult[4],
+                emailsMatch,
+            }})
+        }
 
-                    // store the id and password in the local storage
-                    // localStorage.setItem("logged", true)
-                    this.props.onUserLogin();
-                    alert(`Thank you for signing up ${this.state.first_name}`)
-                    // Redirect to the following URL
-                    this.props.history.replace("/");
-                }else{
-                    alert("Username is already taken")
-                }
-                
-            })
-
-        });
     };
-
-
-
-
 
     handleChange = event => {
         this.setState({
@@ -66,6 +107,7 @@ class Register extends Component {
     render() {
         return (
             <React.Fragment>
+                {returnValidationItems(this.state)}
                 <div className="sign-up">
                     <form onSubmit={this.handleSubmit}>
                         <DjangoCSRFToken />
