@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from backend.models import Cart, CartProduct, ResetCode
+from backend.models import Cart, CartProduct
 
 # class name has to match the model name Seriazliers
 
@@ -36,7 +36,7 @@ class LogoutSerializer(serializers.Serializer):
     password = serializers.CharField(max_length=25)
 
 
-class ResetCodeSerializer(serializers.Serializer):
-    class Meta:
-        model = ResetCode
-        exclude = ['user']
+# class ResetCodeSerializer(serializers.Serializer):
+#     class Meta:
+#         model = ResetCode
+#         exclude = ['user']
