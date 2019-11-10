@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
-
-
-
+import random
 # Company Products.
 class Products (models.Model):
     product_id = models.IntegerField(blank = False)
@@ -20,10 +16,6 @@ class Products (models.Model):
     def __str__(self):
         return self.title
 
-
-
-
-
 # User Cart Products
 class Cart (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank = True, null = True)
@@ -32,8 +24,6 @@ class Cart (models.Model):
         if self.user.username:
             return str(self.user.username)
         return str(self.user)
-
-
 
 class CartProduct (models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
@@ -53,3 +43,11 @@ class CartProduct (models.Model):
         return self.title
 
 
+
+
+class ResetCode (models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    reset_code = models.IntegerField(default = random.randint(100000, 1000000))
+
+    def __str__(self):
+        return self.user.username
