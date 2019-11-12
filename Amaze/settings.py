@@ -18,7 +18,7 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
@@ -168,6 +168,16 @@ CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
 CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = credentials.EMAIL
+EMAIL_HOST_PASSWORD = credentials.PASSWORD
+EMAIL_PORT = 587
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

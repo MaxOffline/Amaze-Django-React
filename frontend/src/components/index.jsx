@@ -13,6 +13,7 @@ import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
 import Cookies from 'js-cookie'
 import Ajax from "../services/Ajax";
+import PasswordReset from "./middle-section/password-reset";
 
 class Index extends Component {
     state = {
@@ -251,6 +252,12 @@ class Index extends Component {
                                     <Login {...props}
                                         userAuthenticated={this.state.userAuthenticated}
                                         onUserLogin={this.handleUserLogin} />
+                                )}
+                            />
+                            <Route
+                                path="/home/reset-password"
+                                component={props => (
+                                    <PasswordReset {...props}/>
                                 )}
                             />
                             <Route

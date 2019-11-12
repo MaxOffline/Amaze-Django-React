@@ -1,3 +1,8 @@
+# ******Local Directories******
+from Amaze import settings
+from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer,ResetPasswordSerializer
+from backend import serializers
+from backend.models import Products, Cart, CartProduct
 # ******Django******
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -6,17 +11,16 @@ from django.views import View
 from django.http import Http404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from django.core import serializers as sers
+from django.core.mail import send_mail
+import random
+import json
 # ******Rest Framework*******
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-# ******Local Directories******
-from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer
-from backend import serializers
-from django.core import serializers as sers
-from backend.models import Products, Cart, CartProduct
-import json
+
 
 
 """ Home Page View """
@@ -106,6 +110,8 @@ class ProductsList(APIView):
 """ Cart Section """
 class CartList(APIView):
 
+    # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.CartProductSerializer
 
     def get(self, request):
 
@@ -117,8 +123,7 @@ class CartList(APIView):
             return Response({cart_products})
         return Response("Error", status=status.HTTP_400_BAD_REQUEST)
 
-            # Needs to be defined so we can get HTML form option in the API view
-    serializer_class = serializers.CartProductSerializer
+
 
 
     def post(self, request):
@@ -194,8 +199,79 @@ class CartList(APIView):
 
 
 
+class SendEmail(APIView):
+    
+    # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.SendEmailSerializer
+    def post(self, request):
+        serializer = SendEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                email=serializer.validated_data.get('email')
+                found_user = User.objects.get(email=email)
+                reset_model = found_user.resetcode_set.get(user = found_user.pk)
+                reset_code = str(reset_model.reset_code)
+                send_mail(
+                    'Amaze verification code.',
+                    reset_code,
+                    settings.EMAIL_HOST_USER,
+                    ['cbv.python@gmail.com'],
+                    fail_silently=True,
+                )
+                return Response("Email Exists", status = status.HTTP_200_OK)
+                # reset_code = sers.serialize("json", reset_model.reset_code)
+                # return Response({reset_code})
+
+            except:
+                return Response("Email provided does not exist.", status=status.HTTP_400_BAD_REQUEST)
 
 
 
 
+class CheckCodeMatch(APIView):
+    
+    # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.ResetCodeSerializer
 
+    def post(self, request):
+        serializer = ResetCodeSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                email=serializer.validated_data.get('email')
+                reset_code=serializer.validated_data.get('reset_code')
+                found_user = User.objects.get(email=email)
+                reset_model = found_user.resetcode_set.get(user=found_user.pk)
+                existing_code = reset_model.reset_code
+                if existing_code == reset_code:
+                    return Response("Code Matched", status = status.HTTP_200_OK)
+                # reset_code = sers.serialize("json", reset_model.reset_code)
+                # return Response({reset_code})
+
+            except:
+                return Response("Code Is Incorrect.", status=status.HTTP_400_BAD_REQUEST)
+
+class ResetPassword(APIView):
+    
+    # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.ResetPasswordSerializer
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                email=serializer.validated_data.get('email')
+                reset_code=serializer.validated_data.get('reset_code')
+                password=serializer.validated_data.get('password')
+                confirm_password=serializer.validated_data.get('confirm_password')
+                found_user = User.objects.get(email=email)
+                reset_model = found_user.resetcode_set.get(user=found_user.pk)
+                existing_code = reset_model.reset_code
+                if existing_code == reset_code:
+                    found_user.set_password(password)
+                    reset_model.reset_code = random.randint(100000, 1000000)
+                    found_user.save()
+                    reset_model.save()
+                return Response("Password has been reset.", status = status.HTTP_200_OK)
+            except:
+                return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)
+        return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)

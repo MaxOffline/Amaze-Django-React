@@ -444,6 +444,7 @@ input, input:before, input:after {
   border: 1px solid #be9b64;
   border-radius: 6px;
   cursor: pointer;
+  width:23vw;
 }
 
 /* Sign-in */
@@ -456,6 +457,28 @@ input, input:before, input:after {
   display: grid;
   grid-template-columns: 1fr;
 }
+
+.sign-in a {
+  margin-top:6px;
+  background-color:transparent;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  text-align: start;
+  color:blue;
+  text-decoration: none;
+}
+
+.sign-in a:visited{
+  color:blue;
+}
+.password-reset {
+  padding-top: 20px;
+    min-height: 91vh;
+    background: rgba(6,0,6,.87);
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+}
+
 
 /* Contact-us */
 .contact-us {
