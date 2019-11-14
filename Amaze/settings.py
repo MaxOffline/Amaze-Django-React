@@ -1,5 +1,6 @@
 import os
 import django_heroku
+from Amaze import credentials
 
 
 
@@ -38,7 +39,6 @@ if not DEBUG:
 
 # Developement settings
 else:
-    from Amaze import credentials
     # POSTGRES DB settings and credentials
     credentials.DATABASES
     DATABASE_URL = os.environ['DATABASE_URL'] = credentials.HEROKU_DB_URL
