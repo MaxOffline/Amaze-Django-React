@@ -444,7 +444,7 @@ input, input:before, input:after {
   border: 1px solid #be9b64;
   border-radius: 6px;
   cursor: pointer;
-  width:23vw;
+  width:188px;
 }
 
 /* Sign-in */
@@ -477,6 +477,14 @@ input, input:before, input:after {
     display: grid;
     grid-template-columns: 1fr;
     text-align: center;
+}
+
+.forgot-password-button {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 12px;
+  width: 188px;
+  font-size: 12px;
 }
 
 

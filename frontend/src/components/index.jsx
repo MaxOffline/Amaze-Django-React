@@ -11,7 +11,6 @@ import NewArrivals from "./middle-section/new-arrivals";
 import Products from "./middle-section/products";
 import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
-import Cookies from 'js-cookie'
 import Ajax from "../services/Ajax";
 import PasswordReset from "./middle-section/password-reset";
 
@@ -72,15 +71,7 @@ class Index extends Component {
         } else this.redirect(url);
     };
 
-    //To be replaced by refs or a CSS class
-    // handleSelectClick = () => {
-    //     const navContainer = document.getElementById("nav-main");
-    //     if (navContainer.style.display === "grid")
-    //         navContainer.style.display = "none";
-    //     else navContainer.style.display = "grid";
-    // };
-    csrftoken = Cookies.get('csrftoken');
-
+    
     handleAddToCart = async (product, quantity) => {
         // Add the quantity to the product
         product.quantity = quantity

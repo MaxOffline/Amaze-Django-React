@@ -79,7 +79,7 @@ class Login extends Component {
                             onChange={this.handleChange}
                         />
                         <button type="submit" className="sign-up-input">Login</button>
-                        <div style={{marginRight:"auto", marginLeft:"auto", marginTop:5, width:"23vw"}}>
+                        <div className = "forgot-password-button">
                             <Link to="/home/reset-password">Forgot password?</Link>
                         </div>
                     </form>
