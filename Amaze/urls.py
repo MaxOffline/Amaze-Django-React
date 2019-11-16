@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 # ******Local Directories******
-from backend.views import ProductsList,CartList,Signup, Login, Logout, SendEmail,CheckCodeMatch, ResetPassword
+from backend.views import ProductsList,CartList,Signup, Login, Logout, SendEmail,CheckCodeMatch, ResetPassword, PaymentProcessing
 urlpatterns = [
     # admin path needs to be on top due to react router issues
     path('admin/', admin.site.urls),
@@ -21,12 +21,14 @@ urlpatterns = [
     path("LoginAPI/", Login.as_view()),
     # Logout endpoint
     path("LogoutAPI/", Logout.as_view()),
-    # Send validation email 
+    # Send validation email
     path("SendEmail/", SendEmail.as_view()),
     # Confirm the verification code.
     path("ConfirmCode/", CheckCodeMatch.as_view()),
     # Reset Passwords
     path("ResetPassword/", ResetPassword.as_view()),
+    # Payment Processing
+    path("PaymentProcess/", PaymentProcessing.as_view()),
     # backend application url connection
     path("", include("backend.urls")),
 ]

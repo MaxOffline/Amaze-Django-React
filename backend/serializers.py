@@ -51,3 +51,9 @@ class ResetPasswordSerializer(serializers.Serializer):
     reset_code = serializers.IntegerField()
 
 
+class PaymentProcessingSerializer(serializers.Serializer):
+    token = serializers.CharField(max_length=50)
+
+
+
+

@@ -1,6 +1,6 @@
 # ******Local Directories******
 from Amaze import settings
-from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer,ResetPasswordSerializer
+from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer, ResetPasswordSerializer, PaymentProcessingSerializer
 from backend import serializers
 from backend.models import Products, Cart, CartProduct
 # ******Django******
@@ -19,7 +19,11 @@ import json
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+
+# ****** Stripe***********
+import stripe
+from backend import credentials
+
 
 
 
@@ -275,3 +279,22 @@ class ResetPassword(APIView):
             except:
                 return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)
         return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class PaymentProcessing(APIView):
+    serializer_class = serializers.PaymentProcessingSerializer
+    def post(self, request):
+        serializer = PaymentProcessingSerializer(data=request.data)
+        if serializer.is_valid():
+            stripe.api_key = credentials.STRIP_API_KEY
+            token = serializer.validated_data.get("token")
+            charge = stripe.Charge.create(
+            amount=100,
+            currency='usd',
+            receipt_email='cbv.python@gmail.com',
+            description='Example charge',
+            source=token,
+            )
+            return Response(charge, status = status.HTTP_200_OK)
+            
