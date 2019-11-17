@@ -17,6 +17,8 @@ index-main {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+
 }
 
 input, input:before, input:after {
@@ -39,7 +41,7 @@ input, input:before, input:after {
 .nav-main {
     display: flex;
     justify-content: space-around;
-  background: rgba(6,0,6,0.87);
+  background: rgb(18, 11, 18);
   padding: 0;
   margin: 0;
   min-height: 5vh;
@@ -184,7 +186,7 @@ input, input:before, input:after {
   text-align: center;
   border-radius: 12px;
   font-size: 12px;
-  color: rgba(6,0,6,0.87);
+  color: rgb(18, 11, 18);
   position: absolute;
   top: -15px;
   left: 4px;
@@ -217,13 +219,13 @@ input, input:before, input:after {
   margin: auto;
   font-size: 30px;
   cursor: pointer;
-  color: rgba(6,0,6,0.87);
+  color: rgb(18, 11, 18);
 }
 .prev-arrow {
   margin: auto;
   font-size: 30px;
   cursor: pointer;
-  color: rgba(6,0,6,0.87);
+  color: rgb(18, 11, 18);
 }
 
 .next-arrow:hover,
@@ -271,8 +273,8 @@ input, input:before, input:after {
     font-size: 13px;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     border-radius: 6px;
-    border: 1px solid rgba(6,0,6,0.87);
-    background-color: rgba(6,0,6,0.87);
+    border: 1px solid rgb(18, 11, 18);
+    background-color: rgb(18, 11, 18);
     color: #be9b64;
     cursor: pointer;
     outline: none;
@@ -314,7 +316,7 @@ input, input:before, input:after {
 }
 
 .products-category-selection-menu {
-  background-color: rgba(6,0,6,0.87);
+  background-color: rgb(18, 11, 18);
   color: #009688;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   text-align: center;
@@ -370,7 +372,7 @@ input, input:before, input:after {
 .sign-up {
   padding-top: 20px;
   min-height: 91vh;
-  background-color: rgba(6,0,6,0.87);
+  background-color: rgb(18, 11, 18);
 
 }
 .sign-up form {
@@ -381,7 +383,7 @@ input, input:before, input:after {
 .validation-errors {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     color: #bf0000d6;
-    background: rgba(6,0,6,.87);
+    background: #120b12;
     text-align: center;
     font-size: 12px;
     padding-top: 3vh;
@@ -439,7 +441,7 @@ input, input:before, input:after {
   font-size: 19px;
   padding: 5px 20px 5px 20px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: rgba(6,0,6,0.87);
+  background-color: rgb(18, 11, 18);
   color: #be9b64;
   border: 1px solid #be9b64;
   border-radius: 6px;
@@ -451,7 +453,7 @@ input, input:before, input:after {
 .sign-in {
   padding-top: 20px;
   min-height: 91vh;
-  background: rgba(6,0,6,.87);
+  background: #120b12;
 }
 .sign-in form {
   display: grid;
@@ -473,7 +475,7 @@ input, input:before, input:after {
 .password-reset {
   padding-top: 20px;
     min-height: 91vh;
-    background: rgba(6,0,6,.87);
+    background: #120b12;
     display: grid;
     grid-template-columns: 1fr;
     text-align: center;
@@ -501,7 +503,7 @@ input, input:before, input:after {
 .contact-us {
   padding-top: 20px;
   min-height: 91vh;
-  background-color: rgba(6,0,6,0.87);
+  background-color: rgb(18, 11, 18);
 }
 .contact-us form {
   display: grid;
@@ -515,7 +517,7 @@ input, input:before, input:after {
 /* Footer */
 .footer {
   margin-top: 0;
-  background: rgba(6,0,6,0.87);
+  background: rgb(18, 11, 18);
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 13px;
   letter-spacing: 0.001mm;
@@ -613,7 +615,7 @@ input, input:before, input:after {
     grid-template-columns: 1fr;
   }
   .menu-items {
-    background: rgba(6,0,6,0.87);
+    background: rgb(18, 11, 18);
     animation-name: menu-items;
     animation-duration: 1s;
     height:94vh;
@@ -636,10 +638,10 @@ input, input:before, input:after {
     width: 100%;
     outline: none;
     background: none;
-    color: #e91e63;
+    color: rgb(18, 11, 18);
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 19px;
-    background-color: darkgray;
+    font-size: 18px;
+    background-color: #be9b64;
   }
   .search-form-menu {
     padding: 3vw 12vw 3vw 10vw;
@@ -656,7 +658,7 @@ input, input:before, input:after {
     list-style-type: none;
     margin: auto;
     margin-bottom: 10px;
-    font-size: 30px;
+    font-size: 18px;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     border-bottom: 1px solid #ccd18e5e;
     padding-bottom: 10px;
@@ -778,7 +780,7 @@ input, input:before, input:after {
     grid-template-columns: 1fr 1fr;
   }
   .menu-items {
-    background: rgba(6,0,6,0.87);
+    background: rgb(18, 11, 18);
     animation-name: menu-items;
     animation-duration: 1s;
     height:94vh;

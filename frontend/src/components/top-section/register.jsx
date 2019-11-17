@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Footer from "../bottom-section/footer";
 import DjangoCSRFToken from "django-react-csrftoken";
 import {passwordValidation, returnValidationItems} from "../../services/validation";
+import Ajax from "../../services/Ajax";
 class Register extends Component {
     state = {
         username: "",
@@ -9,6 +10,7 @@ class Register extends Component {
         last_name: "",
         email: "",
         password: "",
+        emailCode: null,
         validation: {
             password : false,
             confirmPassword:false,
@@ -23,62 +25,41 @@ class Register extends Component {
             lastName:false,
             email:false,
             confirmEmail: false
-
         }
     };
+    // ***************Refs******************
+    codeForm = React.createRef();
+    code = React.createRef();
+    incorrectCode = React.createRef();
+    signUp = React.createRef();
+
 
     handleSubmit = async (event) => {
         event.preventDefault();
         this.refs.validation.style.display = "none";
         this.refs.usernameValidation.style.display = "none";
+
+        // Will return a an array of booleans that reflects different password validations, refer to validation.js
         const passwordValidationResult = passwordValidation(this.refs.password.value, this.refs.confirm_password.value)
         const emailsMatch = (this.refs.email.value === this.refs.confirm_email.value)
+
+        // If there is anything wrong with the validation, we will show the validation div therefore see the errors.
         if (!(passwordValidationResult[5] && emailsMatch && this.refs.email.value && this.refs.confirm_email.value)){
             this.refs.validation.style.display = "block";
-        
         }
+        // If everything is valid, send the request.
         if (passwordValidationResult[5] && emailsMatch && this.refs.first_name.value && this.refs.last_name.value && this.refs.email.value && this.refs.confirm_email.value){
-            fetch("/SignupAPI/", {
-                headers: { "Content-Type": "application/json" },
-                mode: "same-origin",
-                method: "POST",
-                body: JSON.stringify({
-                    username: this.state.username,
-                    first_name: this.state.first_name,
-                    last_name: this.state.last_name,
-                    email: this.state.email,
-                    password: this.state.password
-                })
-            }).then( async response => {
-                await response.json().then(data => {
-                    if (data === "allow"){
-                        this.refs.usernameValidation.style.display = "none";
-                        this.refs.validation.style.display = "none";
-                        const refs = [
-                            this.refs.username,
-                            this.refs.password,
-                            this.refs.confirm_password,
-                            this.refs.email,
-                            this.refs.confirm_email,
-                            this.refs.first_name,
-                            this.refs.last_name
-                        ];
-                        refs.forEach(ref => (ref.value = ""));
-    
-                        // store the id and password in the local storage
-                        // localStorage.setItem("logged", true)
-                        this.props.onUserLogin();
-                        alert(`Thank you for signing up ${this.state.first_name}`)
-                        // Redirect to the following URL
-                        this.props.history.replace("/");
-                    }else{
-                        this.refs.usernameValidation.style.display = "block";
-                    
-                    }
-                    
-                })
-    
-            });
+            
+            // Send a request to send the validation code to the email.
+            const response = await Ajax(/EmailCode/, "POST", JSON.stringify({email:this.state.email}))
+            response.json().then(data => this.setState({emailCode: String(data[0])}))
+            if (response.status === 200 ){
+                this.signUp.current.style.display = "none";
+                this.codeForm.current.style.display = "block";
+            } else {
+                alert("Something has went wrong sending the code.");
+            }
+            //  We will set the state with all the values to get the validation error messages.
         }else{
             this.setState({validation:{
                 password: this.refs.password.value,
@@ -87,7 +68,7 @@ class Register extends Component {
                 lastName: this.refs.last_name.value,
                 email: this.refs.email.value,
                 confirmEmail: this.refs.confirm_email.value,
-                passwordsMatch:passwordValidationResult[0],
+                passwordsMatch:passwordValidationResult[0], 
                 passwordHasEnoughLength:passwordValidationResult[1],
                 passwordContainsUpperCase:passwordValidationResult[2],
                 passwordContainsNumbers:passwordValidationResult[3],
@@ -98,6 +79,36 @@ class Register extends Component {
 
     };
 
+
+    handleCodeFormSubmit = async (event) => {
+        event.preventDefault();
+
+        // if the confirmation code matches then we will sign the user up
+        if (this.code.current.value === this.state.emailCode){
+            const response = await Ajax(/SignupAPI/,"POST", JSON.stringify({
+                username: this.state.username,
+                first_name: this.state.first_name,
+                last_name: this.state.last_name,
+                email: this.state.email,
+                password: this.state.password
+            }))
+                
+            if (response.status === 200) {
+                // Hide the validation errors and then
+                this.refs.usernameValidation.style.display = "none";
+                this.refs.validation.style.display = "none";
+                // Log user in
+                this.props.onUserLogin();
+                alert(`Thank you for signing up ${this.state.first_name}`)
+                this.props.history.replace("/");
+            } else {
+                        this.refs.usernameValidation.style.display = "block";
+                        }
+        } else {
+            this.incorrectCode.current.style.display = "block";
+        }
+    }
+
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -107,8 +118,8 @@ class Register extends Component {
     render() {
         return (
             <React.Fragment>
-                {returnValidationItems(this.state)}
-                <div className="sign-up">
+                {returnValidationItems(this.state.validation)}
+                <div ref = {this.signUp} className="sign-up">
                     <form onSubmit={this.handleSubmit}>
                         <DjangoCSRFToken />
                         <div className="first-last-input">
@@ -413,6 +424,15 @@ class Register extends Component {
 
                         <button type="submit" className="sign-up-input">Sign Up</button>
                     </form>
+                </div>
+                <div>
+                <div className="password-reset">
+                    <form ref = {this.codeForm} onSubmit = {this.handleCodeFormSubmit} style={{display:"none"}}>
+                        <p ref={this.incorrectCode} style={{display:"none", color:"#bf0000d6"}}>The code provided does not match.</p>
+                        <input ref = {this.code} placeholder="Verification code" className = "input" />
+                        <button  className = "sign-up-input"  style = {{display:"block"}}>Confirm code.</button>
+                    </form>
+                    </div>
                 </div>
 
                 <Footer />

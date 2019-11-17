@@ -53,6 +53,12 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 class PaymentProcessingSerializer(serializers.Serializer):
     token = serializers.CharField(max_length=50)
+    amount = serializers.IntegerField()
+
+
+class SendSignUpEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(max_length=50)
+
 
 
 

@@ -1,6 +1,6 @@
 # ******Local Directories******
-from Amaze import settings
-from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer, ResetPasswordSerializer, PaymentProcessingSerializer
+from Amaze import settings, credentials
+from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer, ResetPasswordSerializer, PaymentProcessingSerializer, SendSignUpEmailSerializer
 from backend import serializers
 from backend.models import Products, Cart, CartProduct
 # ******Django******
@@ -13,16 +13,16 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.core import serializers as sers
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404
+import time
 import random
 import json
 # ******Rest Framework*******
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 # ****** Stripe***********
 import stripe
-from backend import credentials
 
 
 
@@ -33,7 +33,6 @@ from backend import credentials
 class index(View):
 
     def get(self, request):
-        
         return render(request, "index.html", {})
 
 
@@ -48,31 +47,26 @@ class Signup(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
-            try:
-                #  Try and except statatements are for handling the User.DoesNotExist error
-                exists = User.objects.get(
-                    username=serializer.validated_data.get('username'))
-                return Response("Account already exists")
-            #  If username is NOT in the database already
-            except:
+            query = User.objects.filter(username=serializer.validated_data.get('username')) | User.objects.filter(email  = serializer.validated_data.get('email'))
+            if query:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
                 # Create user instance
-                user = User.objects.create_user(
+                    user = User.objects.create_user(
                     username=serializer.validated_data.get('username'),
                     first_name=serializer.validated_data.get('first_name'),
                     last_name=serializer.validated_data.get('last_name'),
                     email=serializer.validated_data.get('email'),
                     password=serializer.validated_data.get('password')
-                )
-                user.cart_set.create(user = request.user.username)
-                user.save()
-                user = authenticate(
+                    )
+                    user.cart_set.create(user = request.user.username)
+                    user.save()
+                    user = authenticate(
                     username=serializer.validated_data.get('username'),
                     password=serializer.validated_data.get('password')
                     )
-                login(request, user)
-                return Response("allow", status = status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+                    login(request, user)
+                    return Response("allow", status = status.HTTP_200_OK)
 
 class Logout(APIView):
 
@@ -202,11 +196,13 @@ class CartList(APIView):
 
 
 
-
+# This Send Email is only for the forgot password form.
 class SendEmail(APIView):
     
     # Needs to be defined so we can get HTML form option in the API view
     serializer_class = serializers.SendEmailSerializer
+
+    # Send code.
     def post(self, request):
         serializer = SendEmailSerializer(data=request.data)
         if serializer.is_valid():
@@ -219,7 +215,7 @@ class SendEmail(APIView):
                     'Amaze verification code.',
                     reset_code,
                     settings.EMAIL_HOST_USER,
-                    ['cbv.python@gmail.com'],
+                    [email],
                     fail_silently=True,
                 )
                 return Response("Email Exists", status = status.HTTP_200_OK)
@@ -229,6 +225,20 @@ class SendEmail(APIView):
             except:
                 return Response("Email provided does not exist.", status=status.HTTP_400_BAD_REQUEST)
 
+    # Change code after 30 minutes.
+    def put(self, request):
+        time.sleep(1800)
+        serializer = SendEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                email=serializer.validated_data.get('email')
+                found_user = User.objects.get(email=email)
+                reset_model = found_user.resetcode_set.get(user = found_user.pk)
+                reset_model.reset_code = random.randint(100000, 1000000)
+                reset_model.save()
+                return Response({"Timer started"}, status = status.HTTP_200_OK)
+            except:
+                return Response("Error", status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -283,14 +293,16 @@ class ResetPassword(APIView):
 
 
 class PaymentProcessing(APIView):
+
     serializer_class = serializers.PaymentProcessingSerializer
     def post(self, request):
         serializer = PaymentProcessingSerializer(data=request.data)
         if serializer.is_valid():
             stripe.api_key = credentials.STRIP_API_KEY
             token = serializer.validated_data.get("token")
+            amount = serializer.validated_data.get("amount")
             charge = stripe.Charge.create(
-            amount=100,
+            amount=amount*100,
             currency='usd',
             receipt_email='cbv.python@gmail.com',
             description='Example charge',
@@ -298,3 +310,30 @@ class PaymentProcessing(APIView):
             )
             return Response(charge, status = status.HTTP_200_OK)
             
+
+
+
+
+class SendSignUpEmail(APIView):
+    
+    # Needs to be defined so we can get HTML form option in the API view
+    serializer_class = serializers.SendSignUpEmailSerializer
+
+    # Send code.
+    def post(self, request):
+        serializer = SendSignUpEmailSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                email=serializer.validated_data.get('email')
+                email_code = random.randint(100000, 1000000)
+                send_mail(
+                    'Amaze verification code.',
+                    str(email_code),
+                    settings.EMAIL_HOST_USER,
+                    [email],
+                    fail_silently=True,
+                )
+                return Response({email_code}, status = status.HTTP_200_OK)
+
+            except :
+                return Response("Email provided does not exist.", status=status.HTTP_400_BAD_REQUEST)

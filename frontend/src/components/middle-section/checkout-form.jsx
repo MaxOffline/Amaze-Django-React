@@ -1,23 +1,25 @@
 import React, {Component} from 'react';
-import {CardElement, injectStripe} from 'react-stripe-elements';
+import {
+    CardElement,
+    injectStripe,
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement
+} from 'react-stripe-elements';
 import Cookies from 'js-cookie'
 
 
 class CheckoutForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {complete: false};
-        this.submit = this.submit.bind(this);
-}
 
-    async submit(ev) {
+        state = {complete: false};
+
+    submit = async (ev) => {
         const csrftoken = Cookies.get('csrftoken');
-
         let {token} = await this.props.stripe.createToken({name: "Name"});
         let response = await fetch("/PaymentProcess/", {
         headers: { "Content-Type": "application/json",'X-CSRFToken':csrftoken, "Accept": "application/json"},
         method: "POST",
-        body: JSON.stringify({token:token.id})
+        body: JSON.stringify({token:token.id, amount:this.props.total})
         });
     
         if (response.ok){response.json().then(data =>console.log(data))}
@@ -26,9 +28,11 @@ class CheckoutForm extends Component {
     render() {
         return (
         <div className="checkout">
-            <p>Would you like to complete the purchase?</p>
-            <CardElement />
-            <button onClick={this.submit}>Purchase</button>
+            <p>Enter your card details</p>
+            <CardNumberElement />
+            <CardExpiryElement/>
+            <CardCvcElement/>
+            <button onClick={this.submit}>Place Order</button>
         </div>
         );
     }

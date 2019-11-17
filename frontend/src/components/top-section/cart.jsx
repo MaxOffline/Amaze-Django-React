@@ -65,7 +65,13 @@ class Cart extends Component {
                             </div>
                         ))}
                         <div className="total">Subtotal: {this.returnCartTotal()}$</div>
-
+                        <StripeProvider apiKey="pk_live_FpgQMGTteK1NU6HlsuEJpkEG00o76EGZqd">
+                            <div className="example">
+                            <Elements>
+                                <CheckoutForm total = {this.returnCartTotal}/>
+                            </Elements>
+                            </div>
+                        </StripeProvider>
                     </div>
                     <Footer />
                 </React.Fragment>
@@ -75,15 +81,6 @@ class Cart extends Component {
                 <React.Fragment>
                     <div className="products-list-section">
                         <h1 style={{ height: "100%", textAlign:"center", width:"100%" }}>Your cart is empty !</h1>
-                        <StripeProvider apiKey="pk_live_FpgQMGTteK1NU6HlsuEJpkEG00o76EGZqd">
-                            <div className="example">
-                            <h1>React Stripe Elements Example</h1>
-                            <Elements>
-                                <CheckoutForm />
-                            </Elements>
-                            </div>
-                        </StripeProvider>
-                        
                     </div>
                     <Footer />
                 </React.Fragment>

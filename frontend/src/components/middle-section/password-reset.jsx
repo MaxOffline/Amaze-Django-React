@@ -24,6 +24,9 @@ class PasswordReset extends Component {
     handleEmailFormSubmit = async (event) => {
         event.preventDefault();
         const response = await Ajax(/SendEmail/, "POST", JSON.stringify({email:this.emailAddress.current.value}));
+        // Send a request to change verfication code in 30 minutes
+        Ajax(/SendEmail/, "PUT", JSON.stringify({email:this.emailAddress.current.value}));
+
         if (response.status === 200){
             this.emailForm.current.style.display = "none";
             this.codeForm.current.style.display = "block";

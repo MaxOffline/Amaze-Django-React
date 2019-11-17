@@ -33,49 +33,63 @@ const passwordValidation = (firstPassword, secondPassword) => {
 
 
 
-const returnValidationItems = state => {
+const returnValidationItems = ({
+    password,
+    confirmPassword,
+    passwordContainsUpperCase,
+    passwordContainsSpecials,
+    passwordHasEnoughLength,
+    passwordContainsNumbers,
+    passwordsMatch,
+    email,
+    confirmEmail,
+    emailsMatch,
+    usernameValid,
+    firstName,
+    lastName
+    }) => {
     let passwordMessages = []
     let emailMessages = []
-    if (!state.validation.password || !state.validation.confirmPassword){
+    if (!password || !confirmPassword){
     passwordMessages =[<p>Password is required.</p>];
     }else{
-        if (!state.validation.passwordContainsUpperCase){
+        if (!passwordContainsUpperCase){
             passwordMessages.push(<p>Password must contain at least one uppercase character.</p>);
         }
-        if (!state.validation.passwordContainsSpecials){
+        if (!passwordContainsSpecials){
             passwordMessages.push(<p>Password must contain at least one special character.</p>);
         }
-        if (!state.validation.passwordHasEnoughLength){
+        if (!passwordHasEnoughLength){
             passwordMessages.push(<p> Password must be at least 8 characters.</p>);
         }
-        if (!state.validation.passwordContainsNumbers){
+        if (!passwordContainsNumbers){
             passwordMessages.push(<p>Password must contain at least one number.</p>);
         }
-        if (!state.validation.passwordsMatch){
+        if (!passwordsMatch){
             passwordMessages.push(<p>Passwords don't match.</p>);
         }
     }
-    if (!state.validation.email || !state.validation.confirmEmail){
+    if (!email || !confirmEmail){
     emailMessages = [<p>Email is required.</p>];
     }else{
-        if (!state.validation.emailsMatch){
+        if (!emailsMatch){
             emailMessages.push(<p>Emails don't match.</p>);
         }
-        if (!state.validation.confirmEmail){
+        if (!confirmEmail){
             emailMessages.push(<p>Confirm Email is required.</p>);
         }
-        if (!state.validation.email){
+        if (!email){
             emailMessages.push(<p>Email is required.</p>);
         }
     }
 
     return<React.Fragment>
                     <div className = "validation-errors" ref="usernameValidation"  style={{display:"none", backgroundColor:"rgba(6,0,6,.87)"}}>
-                        {state.validation.usernameValid?"":<p>Username is taken, please try a differenct one.</p>}
+                        {usernameValid?"":<p>Username is taken, please try a differenct one.</p>}
                     </div>
                     <div  className = "validation-errors" ref="validation" style={{display:"none", backgroundColor:"rgba(6,0,6,.87)"}}>
-                            {state.validation.firstName?"":<p>First name is required.</p>}
-                            {state.validation.lastName?"":<p>Last name is required.</p>}
+                            {firstName?"":<p>First name is required.</p>}
+                            {lastName?"":<p>Last name is required.</p>}
                             {passwordMessages.map(msg => msg)}
                             {emailMessages.map(msg => msg)}
                     </div>

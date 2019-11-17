@@ -216,7 +216,7 @@ class Index extends Component {
 
     render() {
         const { history } = this.props;
-        const { products, cartProducts, searchInput, selectedCategory } = this.state;
+        const { products, cartProducts, searchInput, selectedCategory, userAuthenticated } = this.state;
         if (!this.state.menuOn) {
             return (
                 <React.Fragment>
@@ -259,6 +259,7 @@ class Index extends Component {
                                         onProductRemove = {this.handleProductRemove}
                                         cartProducts={cartProducts}
                                         {...props}
+                                        userAuthenticated = {userAuthenticated}
                                     />
                                 )}
                             />
