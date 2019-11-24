@@ -301,10 +301,11 @@ class PaymentProcessing(APIView):
             stripe.api_key = credentials.STRIP_API_KEY
             token = serializer.validated_data.get("token")
             amount = serializer.validated_data.get("amount")
+            email = serializer.validated_data.get("email")
             charge = stripe.Charge.create(
             amount=amount*100,
             currency='usd',
-            receipt_email='cbv.python@gmail.com',
+            receipt_email=email,
             description='Example charge',
             source=token,
             )

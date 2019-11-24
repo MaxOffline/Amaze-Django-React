@@ -39,17 +39,17 @@ class CheckoutForm extends Component {
                                         this.email.current.value
                                         )
 
-      if(validation.allValid){
+    if(validation.allValid){
         const csrftoken = Cookies.get('csrftoken');
         let {token} = await this.props.stripe.createToken({name: "Name"});
         let response = await fetch("/PaymentProcess/", {
         headers: { "Content-Type": "application/json",'X-CSRFToken':csrftoken, "Accept": "application/json"},
         method: "POST",
-        body: JSON.stringify({token:token.id, amount:this.props.total})
+        body: JSON.stringify({token:token.id, amount:this.props.total, email:this.email.current.value})
         });
     
         if (response.ok){response.json().then(data =>console.log(data))}
-      } else {
+    } else {
         Object.entries(validation.validationResults).forEach(entry => {
             const key = entry[0];
             const value = entry[1];
@@ -76,7 +76,7 @@ class CheckoutForm extends Component {
                     break;
             }
         })
-      }
+    }
     }
 
     render() {
