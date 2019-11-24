@@ -309,6 +309,8 @@ class PaymentProcessing(APIView):
             source=token,
             )
             return Response(charge, status = status.HTTP_200_OK)
+        return Response("Card information are incorrect.", status=status.HTTP_400_BAD_REQUEST)
+        
             
 
 
