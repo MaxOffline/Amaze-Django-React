@@ -25,9 +25,9 @@ DEBUG = False
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "http://amaze-me.herokuapp.com",
-    "https://amaze-me.herokuapp.com",
-    "https://www.barbadense.com",
-    "http://www.barbadense.com"
+    "amaze-meherokuapp.com",
+    "https://barbadense.com",
+    "http://barbadense.com"
     ]
 
 
@@ -176,7 +176,21 @@ CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', 'https://amaze-me.herok
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
-
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+        },
+    },
+}
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
