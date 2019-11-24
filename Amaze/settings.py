@@ -80,8 +80,8 @@ MIDDLEWARE = [
 ]
 
 # Added to redirect from HTTP to HTTPS
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'Amaze.urls'
 
@@ -170,7 +170,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 
 # added to solve CORS
 # Maybe used if having CSRF issues/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com','https://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
 CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', 'https://amaze-me.herokuapp.com',"http://127.0.0.1:8000"]
 CORS_ALLOW_CREDENTIALS = True
