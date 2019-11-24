@@ -170,7 +170,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontend/build/static")]
 
 # added to solve CORS
 # Maybe used if having CSRF issues/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CSRF_TRUSTED_ORIGINS=['http://amaze-me.herokuapp.com','https://amaze-me.herokuapp.com', "http://127.0.0.1:8000"]
 CORS_ORIGIN_WHITELIST =['http://amaze-me.herokuapp.com', 'https://amaze-me.herokuapp.com',"http://127.0.0.1:8000"]
 CORS_ALLOW_CREDENTIALS = True
