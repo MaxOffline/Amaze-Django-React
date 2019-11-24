@@ -201,7 +201,7 @@ EMAIL_PORT = 587
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+django_heroku.settings(locals(),logging=False)
 
 # to link with heroku DB
 import dj_database_url
