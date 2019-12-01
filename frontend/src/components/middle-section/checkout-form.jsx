@@ -8,6 +8,8 @@ import {
 } from 'react-stripe-elements';
 import Cookies from 'js-cookie'
 import {paymentFieldValidation} from '../../services/validation';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faTimes } from "@fortawesome/free-solid-svg-icons";
 
 
 class CheckoutForm extends Component {
@@ -19,13 +21,6 @@ class CheckoutForm extends Component {
     city = React.createRef();
     zipCode = React.createRef();
     email = React.createRef();
-    validationFirstName = React.createRef();
-    validationLastName = React.createRef();
-    validationStreetAddress = React.createRef();
-    validationCity = React.createRef();
-    validationZipcode = React.createRef();
-    validationEmail = React.createRef();
-
 
 
     submit = async (event) => {
@@ -53,28 +48,7 @@ class CheckoutForm extends Component {
         Object.entries(validation.validationResults).forEach(entry => {
             const key = entry[0];
             const value = entry[1];
-            switch (true){
-                case (key === "firstName"):
-                        value? this.validationFirstName.current.style.display = "none" : this.validationFirstName.current.style.display = "block";
-                        break;
-                case (key === "lastName"):
-                        value ? this.validationLastName.current.style.display = "none" : this.validationLastName.current.style.display = "block";
-                        break;
-                case (key === "streetAddress"):
-                        value ? this.validationStreetAddress.current.style.display = "none" : this.validationStreetAddress.current.style.display = "block";
-                        break;
-                case (key === "city"):
-                        value ? this.validationCity.current.style.display = "none" :this.validationCity.current.style.display = "block";
-                        break;
-                case (key === "zip"):
-                        value ? this.validationZipcode.current.style.display = "none" : this.validationZipcode.current.style.display = "block";
-                        break;
-                case (key === "email"):
-                        value ? this.validationEmail.current.style.display = "none" : this.validationEmail.current.style.display = "block";
-                        break;
-                default:
-                    break;
-            }
+            value ? this[key].current.style.border = "1px solid #be9b64": this[key].current.style.border = ".5px solid red";
         })
     }
     }
@@ -82,22 +56,54 @@ class CheckoutForm extends Component {
     render() {
         return (
         <form className="checkout">
-            <p ref  = {this.validationFirstName} style={{display: "none"}}>First name is required.</p>
-            <p ref  = {this.validationLastName} style={{display: "none"}}>Last name is required.</p>
-            <p ref  = {this.validationStreetAddress} style={{display: "none"}}>Street address is required.</p>
-            <p ref  = {this.validationCity} style={{display: "none"}}>City is required.</p>
-            <p ref  = {this.validationZipcode} style={{display: "none"}}>Zipcode is invalid.</p>
-            <p ref  = {this.validationEmail} style={{display: "none"}}>Email is invalid.</p>
-            <input type="text" placeholder="      First Name:" ref={this.firstName}/>
-            <input type="text" placeholder="      Last Name:" ref={this.lastName}/>
-            <input type="text" placeholder="      Street Address:" ref={this.streetAddress}/>
-            <input type="text" placeholder="      City:" ref={this.city}/>
-            <input type="text" placeholder="      Zipcode:" ref={this.zipCode}/>
-            <input type="text" placeholder="      Email:" ref={this.email}/>
-            <CardNumberElement/>
-            <CardExpiryElement/>
-            <CardCvcElement/>
-            <input type="submit" onClick={this.submit} placeholder="submit"/>
+            <FontAwesomeIcon
+                className="search-exit"
+                icon={faTimes}
+                onClick={this.props.handleClose}
+                style = {{marginLeft:"auto"}}
+            />
+            <input type="text" className = "StripeElement" placeholder="      First Name:" ref={this.firstName}/>
+            <input type="text" className = "StripeElement" placeholder="      Last Name:" ref={this.lastName}/>
+            <input type="text" className = "StripeElement" placeholder="      Street Address:" ref={this.streetAddress}/>
+            <input type="text" className = "StripeElement" placeholder="      City:" ref={this.city}/>
+            <input type="text" className = "StripeElement" placeholder="      Zipcode:" ref={this.zipCode}/>
+            <input type="text" className = "StripeElement" placeholder="      Email:" ref={this.email}/>
+            <CardNumberElement 
+            style={{base: {
+                fontSize: '12px',
+                backgroundColor:"rgb(18, 11, 18)",
+                textAlign:"center",
+                marginTop:"5px",
+                fontFamily:"-apple-system,BlinkMacSystemFont,sans-serif",
+                color:"#be9b64"
+                }}}/>
+            <CardExpiryElement style={{base: {
+                fontSize: '12px',
+                backgroundColor:"rgb(18, 11, 18)",
+                textAlign:"center",
+                marginTop:"5px",
+                fontFamily:"-apple-system,BlinkMacSystemFont,sans-serif",
+                color:"#be9b64"
+                }}}/>
+            <CardCvcElement style={{base: {
+                fontSize: '12px',
+                backgroundColor:"rgb(18, 11, 18)",
+                textAlign:"center",
+                marginTop:"5px",
+                fontFamily:"-apple-system,BlinkMacSystemFont,sans-serif",
+                color:"#be9b64"
+                }}}/>
+            <input 
+                type="submit"
+                className = "StripeElement"
+                onClick={this.submit}
+                placeholder="submit"
+                style = {{
+                    width: "50%",
+                    marginLeft: "auto",
+                    marginRight: "auto"
+                }}
+                />
         </form>
         );
     }

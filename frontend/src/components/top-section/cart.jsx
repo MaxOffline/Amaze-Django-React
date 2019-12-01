@@ -5,6 +5,9 @@ import {Elements, StripeProvider} from 'react-stripe-elements';
 import CheckoutForm from '../middle-section/checkout-form';
 
 class Cart extends Component {
+
+
+    checkoutContainer = React.createRef();
     // Make a select element with options
     returnOptionElements = (quantity, id, product) => {
         let optionElements = [];
@@ -38,6 +41,13 @@ class Cart extends Component {
         }
         return total;
     };
+    handleCheckoutClick = () => {
+        this.checkoutContainer.current.style.display = "block";
+    }
+
+    handleClose = () => {
+        this.checkoutContainer.current.style.display = "none";
+    }
 
     render() {
         if (this.props.cartProducts.length > 0) {
@@ -64,15 +74,17 @@ class Cart extends Component {
                                 </div>
                             </div>
                         ))}
-                        <div className="total">Subtotal: {this.returnCartTotal()}$</div>
-                        <StripeProvider apiKey="pk_live_FpgQMGTteK1NU6HlsuEJpkEG00o76EGZqd">
-                            <div className="example">
-                            <Elements>
-                                <CheckoutForm total = {this.returnCartTotal}/>
-                            </Elements>
-                            </div>
-                        </StripeProvider>
+                    <div className="total">Subtotal: {this.returnCartTotal()}$ 
+                        <button onClick={this.handleCheckoutClick} className="checkout-button">Check-out</button>
                     </div>
+                    </div>
+                    <StripeProvider apiKey="pk_live_FpgQMGTteK1NU6HlsuEJpkEG00o76EGZqd">
+                        <div ref={this.checkoutContainer}  className="checkout-container">
+                        <Elements>
+                            <CheckoutForm  handleClose = {this.handleClose} total = {this.returnCartTotal}/>
+                        </Elements>
+                        </div>
+                    </StripeProvider>
                     <Footer />
                 </React.Fragment>
             );

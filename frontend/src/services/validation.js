@@ -105,13 +105,13 @@ const paymentFieldValidation = (firstName, lastName, streetAddress, city, zip, e
     lastName ? validationResults.lastName = true : validationResults.lastName = false;
     streetAddress ? validationResults.streetAddress = true : validationResults.streetAddress = false;
     city ? validationResults.city = true : validationResults.city = false;
-    /^\d{5}$|^\d{5}-\d{4}$/.test(zip) ? validationResults.zip = true : validationResults.zip = false;
+    /^\d{5}$|^\d{5}-\d{4}$/.test(zip) ? validationResults.zipCode = true : validationResults.zipCode = false;
     /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) ? validationResults.email = true : validationResults.email = false;
     const allValid = validationResults.firstName &&
-                                 validationResults.lastName &&
-                                 validationResults.streetAddress &&
-                                 validationResults.city &&
-                                 validationResults.zipValid &&
+                                validationResults.lastName &&
+                                validationResults.streetAddress &&
+                                validationResults.city &&
+                                validationResults.zipValid &&
                                 validationResults.emailValid;
 
     return { allValid, validationResults }
