@@ -29,16 +29,27 @@ class Index extends Component {
 
     mounted = false;
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.fetchAllProducts();
+        this.mounted = true;
+    }
+
+    componentWillUnmount() {
+        this.setState({loading:true, userAuthenticated:false})
+        this.mounted = false;
+    }
+
+
+    fetchAllProducts = async () => {
         const response =  await Ajax(/DBProductsAPI/, "GET")
         const data = await response.json();
+
         if (response.status === 200 && data){
             const  products =  JSON.parse(data[0]).map(product => product.fields)
             this.setState({ products, loading: false, userAuthenticated:data[1] });
         }
 
         if (this.state.userAuthenticated){
-
             const response = await  Ajax(/CartProducts/, "GET")
             let cartProducts = await response.json();
             
@@ -49,18 +60,14 @@ class Index extends Component {
             // Else, get it from localStorage
             }else{
                 const cartProducts = JSON.parse(localStorage.getItem("cart"));
-                if(cartProducts)
+                if(cartProducts) {
                     this.setState({cartProducts, loading:false});
+                }
             }
 
-        this.mounted = true;
-
     }
 
-    componentWillUnmount() {
-        this.setState({loading:true, userAuthenticated:false})
-        this.mounted = false;
-    }
+
 
     redirect = this.props.history.replace;
 
@@ -71,19 +78,33 @@ class Index extends Component {
         } else this.redirect(url);
     };
 
+
+    updateCartFromDB = async () => {
+        const response = await  Ajax(/CartProducts/, "GET")
+        let cartProducts = await response.json();
+
+        if (response.status === 200 && cartProducts){
+            cartProducts = JSON.parse(cartProducts).map(product => product.fields)
+            this.setState({ cartProducts, loading:false  });
+        }
+
+    }
+
     
     handleAddToCart = async (product, quantity) => {
         // Add the quantity to the product
         product.quantity = quantity
-        quantity = parseInt(quantity)
-        const cartProducts = [...this.state.cartProducts];
-        const foundProduct = await cartProducts.find(prod => prod.product_id === product.product_id);
         if (this.state.userAuthenticated){
-                const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product))
-                response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
-        // If user idn't authenticated
+            // Add the product to the DB
+                const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product));
+            // If product is successfully added
+            // Send another request to get the products in the DB...
+            // The reason we aren't using the state is because we are using a single source of truth.
+                response.status === 200 ? this.updateCartFromDB() :alert("Maximum quantity to purchase is 10 items.");
+                
         }else{
-
+            const cartProducts = [...this.state.cartProducts];
+            const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
                 if (foundProduct){
                     if ((foundProduct.quantity+quantity) > 10){
                         alert("Maximum quantity to purchase is 10 items.")
@@ -105,7 +126,7 @@ class Index extends Component {
     handleQuantityUpdate =async (product) => {
         if (this.state.userAuthenticated){
             const response = await Ajax(`/UpdateProduct/${product.product_id}/`, "PUT", JSON.stringify(product))
-            response.status === 200? window.location.reload(): alert("Maximum quantity to purchase is 10 items.");
+            response.status === 200? this.updateCartFromDB(): alert("Maximum quantity to purchase is 10 items.");
         }else{
             console.log("User isn't authenticated")
             const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
@@ -127,6 +148,7 @@ class Index extends Component {
     handleCategoryChange = selectedCategory => {
         this.setState({ selectedCategory });
     };
+
     homePageComponents = () => {
         const featuredProducts = this.state.products.filter(
             product => product.featured === true
@@ -148,7 +170,7 @@ class Index extends Component {
             );
         }
     };
-    ;
+
     handleMenuClick = () => {
         if (!this.state.menuOn) {
             this.setState({ menuOn: true });
@@ -203,7 +225,7 @@ class Index extends Component {
     handleProductRemove = async (productId) => {
         if (this.state.userAuthenticated){
             const response = await Ajax(`/RemoveProduct/${productId}/`, "DELETE")
-            response.status === 200?window.location.reload():console.log("failed");
+            response.status === 200?this.updateCartFromDB():alert("Something went wrong");
         }else{
             const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
             const foundProduct = localStorageCartItems.find(product => product.product_id === productId)
