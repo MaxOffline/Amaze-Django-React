@@ -56,7 +56,7 @@ class Login extends Component {
     render() {
         return (
             <React.Fragment>
-                <div  className = "validation-errors" ref="validation" style={{display:"none", backgroundColor:"rgba(6,0,6,.87)"}}>
+                <div  className = "validation-errors" ref="validation" style={{display:"none", backgroundColor:"#120b12"}}>
                     <p>Your login information are incorrect.</p>
                 </div>
                 <div className="sign-in">
