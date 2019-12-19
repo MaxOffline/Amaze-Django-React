@@ -84,10 +84,10 @@ const returnValidationItems = ({
     }
 
     return <React.Fragment>
-        <div className="validation-errors" ref="usernameValidation" style={{ display: "none", backgroundColor: "rgba(6,0,6,.87)" }}>
+        <div className="validation-errors" ref="usernameValidation" style={{ display: "none", backgroundColor: "#120b12" }}>
             {usernameValid ? "" : <p>Username is taken, please try a differenct one.</p>}
         </div>
-        <div className="validation-errors" ref="validation" style={{ display: "none", backgroundColor: "rgba(6,0,6,.87)" }}>
+        <div className="validation-errors" ref="validation" style={{ display: "none", backgroundColor: "#120b12" }}>
             {firstName ? "" : <p>First name is required.</p>}
             {lastName ? "" : <p>Last name is required.</p>}
             {passwordMessages.map(msg => msg)}
