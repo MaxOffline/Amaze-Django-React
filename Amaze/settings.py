@@ -19,7 +19,7 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
@@ -29,10 +29,6 @@ ALLOWED_HOSTS = [
     "https://barbadense.com",
     "http://barbadense.com"
     ]
-
-
-
-
 
 
 # Production settings.
@@ -80,8 +76,8 @@ MIDDLEWARE = [
 ]
 
 # Added to redirect from HTTP to HTTPS
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'Amaze.urls'
 

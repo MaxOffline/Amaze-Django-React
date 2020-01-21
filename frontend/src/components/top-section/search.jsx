@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
-
+import { CONTROLLERS } from "../../services/handlers";
 class Search extends Component {
     handleSearchSubmit = event => {
         event.preventDefault();
-        this.props.onSearchInputSubmit(this.refs.searchinput.value);
+        CONTROLLERS.handleMenuClick(this.refs.searchinput.value);
         this.props.replace("/home/search");
     };
 
-    handleSearchClick = () => {
-    };
-
-    // We will need to render a search form so we can use the onSubmit method
-    // to search the datebase then get the results and redirect to a new component and page
-    // called SearchResults
-    // We will implement that by adding a route in the application and utilize the replace or push
-    // methods in the history of the props.
     render() {
         return (
             <React.Fragment>

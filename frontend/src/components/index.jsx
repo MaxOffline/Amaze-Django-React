@@ -13,6 +13,10 @@ import ProductDetails from "./product-details";
 import SearchResults from "./middle-section/search-results";
 import Ajax from "../services/Ajax";
 import PasswordReset from "./middle-section/password-reset";
+import {CONTROLLERS} from "../services/handlers";
+export const handler = {
+    indexThis(){return this},
+}
 
 class Index extends Component {
     state = {
@@ -28,17 +32,24 @@ class Index extends Component {
     };
 
     mounted = false;
-
+    redirect = this.props.history.replace;
+    
     componentDidMount() {
+
         this.fetchAllProducts();
         this.mounted = true;
+
+        window.returnTheThis = function() {
+            return this
+        }.bind(this)
+
+        handler.indexThis = handler.indexThis.bind(this)
     }
 
     componentWillUnmount() {
         this.setState({loading:true, userAuthenticated:false})
         this.mounted = false;
     }
-
 
     fetchAllProducts = async () => {
         const response =  await Ajax(/DBProductsAPI/, "GET")
@@ -67,18 +78,6 @@ class Index extends Component {
 
     }
 
-
-
-    redirect = this.props.history.replace;
-
-    handleClick = url => {
-        if (window.innerWidth <= 768) {
-            this.redirect(url);
-            this.setState({ menuOn: false });
-        } else this.redirect(url);
-    };
-
-
     updateCartFromDB = async () => {
         const response = await  Ajax(/CartProducts/, "GET")
         let cartProducts = await response.json();
@@ -90,64 +89,17 @@ class Index extends Component {
 
     }
 
-    
-    handleAddToCart = async (product, quantity) => {
-        // Add the quantity to the product
-        product.quantity = quantity
-        if (this.state.userAuthenticated){
-            // Add the product to the DB
-                const response = await Ajax(/CartProducts/, "POST", JSON.stringify(product));
-            // If product is successfully added
-            // Send another request to get the products in the DB...
-            // The reason we aren't using the state is because we are using a single source of truth.
-                response.status === 200 ? this.updateCartFromDB() :alert("Maximum quantity to purchase is 10 items.");
-                
+    menuOnAuthenticationItems = () => {
+        if (this.state.userAuthenticated) {
+            return <li className="sign-in-lin" onClick = {CONTROLLERS.handleUserLogout}>Logout</li>
         }else{
-            const cartProducts = [...this.state.cartProducts];
-            const foundProduct = cartProducts.find(prod => prod.product_id === product.product_id);
-                if (foundProduct){
-                    if ((foundProduct.quantity+quantity) > 10){
-                        alert("Maximum quantity to purchase is 10 items.")
-                        return;
-                    }else{
-                        foundProduct.quantity += quantity
-                        localStorage.setItem("cart", JSON.stringify(cartProducts))
-                        this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
-                    }
-                }else{
-                    cartProducts.push(product)
-                    localStorage.setItem("cart", JSON.stringify(cartProducts))
-                    this.setState({cartProducts:JSON.parse(localStorage.getItem("cart"))})
-                }
-
+            return (
+            <React.Fragment>
+                <li className="sign-in-lin" onClick={() => CONTROLLERS.handleNavLinkClick("/home/login")}>Sign In</li>
+                <li className="sign-up-lin" onClick={() => CONTROLLERS.handleNavLinkClick("/home/register")}>Sign Up</li>
+            </React.Fragment>)
         }
     }
-
-    handleQuantityUpdate =async (product) => {
-        if (this.state.userAuthenticated){
-            const response = await Ajax(`/UpdateProduct/${product.product_id}/`, "PUT", JSON.stringify(product))
-            response.status === 200? this.updateCartFromDB(): alert("Maximum quantity to purchase is 10 items.");
-        }else{
-            console.log("User isn't authenticated")
-            const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
-            const foundProduct = localStorageCartItems.find(prod => prod.product_id === product.product_id)
-            const index = localStorageCartItems.indexOf(foundProduct);
-            foundProduct.quantity = product.quantity
-            localStorageCartItems.splice(index, 1)
-            localStorageCartItems.push(foundProduct)
-            localStorage.setItem("cart", JSON.stringify(localStorageCartItems))
-            this.setState({cartProducts:localStorageCartItems})
-        }
-
-    };
-
-    handleSearchInput = searchInput => {
-        this.setState({ searchInput });
-    };
-
-    handleCategoryChange = selectedCategory => {
-        this.setState({ selectedCategory });
-    };
 
     homePageComponents = () => {
         const featuredProducts = this.state.products.filter(
@@ -163,7 +115,6 @@ class Index extends Component {
                     />
                     <Featured
                         featuredProducts={featuredProducts}
-                        onAddToCart={this.handleAddToCart}
                     />
                     <Footer />
                 </React.Fragment>
@@ -171,70 +122,7 @@ class Index extends Component {
         }
     };
 
-    handleMenuClick = () => {
-        if (!this.state.menuOn) {
-            this.setState({ menuOn: true });
-            this.props.history.replace("/home");
-        } else {
-            this.setState({ menuOn: false });
-        }
-    };
 
-    handleSearchSubmit = event => {
-        event.preventDefault();
-        this.handleSearchInput(this.refs.searchinput.value);
-        this.handleMenuClick();
-        this.props.history.replace("/home/search");
-    };
-
-    handleUserLogin = () => {
-        // if (!this.state.userAuthenticated && this.mounted) {
-            this.setState({ userAuthenticated:true });
-            window.location.replace("/")
-        // }
-    };
-
-    handleUserLogout = async () => {
-            // handleLogout();
-            const response = await Ajax("/LogoutAPI/", "GET")
-            
-            if (response.status === 200){
-                this.setState({  userAuthenticated:false }) 
-                window.location.reload();
-            }
-            
-
-    }
-
-
-    menuOnAuthenticationItems = () => {
-        if (this.state.userAuthenticated) {
-            return <li className="sign-in-lin" onClick = {() => this.handleUserLogout()}>Logout</li>
-        }else{
-            return (
-            <React.Fragment>
-                <li className="sign-in-lin" onClick={() => this.handleClick("/home/login")}>Sign In</li>
-                <li className="sign-up-lin" onClick={() => this.handleClick("/home/register")}>Sign Up</li>
-            </React.Fragment>)
-        }
-    }
-
-
-
-
-    handleProductRemove = async (productId) => {
-        if (this.state.userAuthenticated){
-            const response = await Ajax(`/RemoveProduct/${productId}/`, "DELETE")
-            response.status === 200?this.updateCartFromDB():alert("Something went wrong");
-        }else{
-            const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
-            const foundProduct = localStorageCartItems.find(product => product.product_id === productId)
-            const index = localStorageCartItems.indexOf(foundProduct);
-            localStorageCartItems.splice(index, 1)
-            localStorage.setItem("cart", JSON.stringify(localStorageCartItems))
-            this.setState({cartProducts:localStorageCartItems})
-        }
-    }
 
     render() {
         const { history } = this.props;
@@ -244,27 +132,23 @@ class Index extends Component {
                 <React.Fragment>
                     <div className="index-main" ref="main">
                         <Nav
-                            onSearchInputSubmit={this.handleSearchInput}
                             history={history}
                             products={products}
                             cartProducts={cartProducts}
-                            onMenuClick={this.handleMenuClick}
-                            onLinkClick={this.handleClick}
                             userAuthenticated={this.state.userAuthenticated}
-                            onUserLogout={this.handleUserLogout}
                             menuOn = {this.state.menuOn}
                         />
                         {this.homePageComponents()}
                         <Switch>
                             <Route path="/home/register" component={props => (
-                                <Register {...props}  onUserLogin={this.handleUserLogin} />)} 
+                                <Register {...props}  onUserLogin={CONTROLLERS.handleUserLogin} />)} 
                             />
                             <Route
                                 path="/home/login"
                                 component={props => (
                                     <Login {...props}
                                         userAuthenticated={this.state.userAuthenticated}
-                                        onUserLogin={this.handleUserLogin} />
+                                        onUserLogin={CONTROLLERS.handleUserLogin} />
                                 )}
                             />
                             <Route
@@ -277,8 +161,8 @@ class Index extends Component {
                                 path="/home/cart"
                                 component={props => (
                                     <Cart
-                                        onQuantityUpdate={this.handleQuantityUpdate}
-                                        onProductRemove = {this.handleProductRemove}
+                                        onQuantityUpdate={CONTROLLERS.handleQuantityUpdate}
+                                        onProductRemove = {CONTROLLERS.handleProductRemove}
                                         cartProducts={cartProducts}
                                         {...props}
                                         userAuthenticated = {userAuthenticated}
@@ -291,7 +175,7 @@ class Index extends Component {
                                     <SearchResults
                                         products={products}
                                         searchInput={searchInput}
-                                        onAddToCart={this.handleAddToCart}
+                                        onAddToCart={CONTROLLERS.handleAddToCart}
                                         {...props}
                                     />
                                 )}
@@ -301,9 +185,9 @@ class Index extends Component {
                                 component={props => (
                                     <Products
                                         products={products}
-                                        onAddToCart={this.handleAddToCart}
+                                        onAddToCart={CONTROLLERS.handleAddToCart}
                                         selectedCategory={selectedCategory}
-                                        onCategoryChange={this.handleCategoryChange}
+                                        onCategoryChange={CONTROLLERS.handleCategoryChange}
                                         {...props}
                                     />
                                 )}
@@ -317,7 +201,7 @@ class Index extends Component {
                                 component={props => (
                                     <ProductDetails
                                         {...props}
-                                        onAddToCart={this.handleAddToCart}
+                                        onAddToCart={CONTROLLERS.handleAddToCart}
                                     />
                                 )}
                             />
@@ -330,18 +214,14 @@ class Index extends Component {
             return (
                 <React.Fragment>
                     <Nav
-                        onSearchInputSubmit={this.handleSearchInput}
                         history={history}
                         products={products}
                         cartProducts={cartProducts}
-                        onMenuClick={this.handleMenuClick}
-                        onLinkClick={this.handleClick}
                         userAuthenticated={this.state.userAuthenticated}
-                        onUserLogout={this.handleUserLogout}
                         menuOn = {this.state.menuOn}
                     />
                     <div className="menu-items">
-                        <form className="search-form-menu" onSubmit={this.handleSearchSubmit}>
+                        <form className="search-form-menu" onSubmit={CONTROLLERS.handleSearchSubmit}>
                             <input
                                 className="search-field-menu"
                                 type="search"
@@ -354,10 +234,10 @@ class Index extends Component {
                         </form>
 
                         <ul className="nav-main-menu" ref="nav">
-                            <li className="products-lin" onClick={() => this.handleClick("/home/products")}>Products</li>
+                            <li className="products-lin" onClick={() => CONTROLLERS.handleNavLinkClick("/home/products")}>Products</li>
                             {/* Login, logout and sign-up */}
                             {this.menuOnAuthenticationItems()}
-                            <li className="contact-us-lin" onClick={() => this.handleClick("/home/contact-us")}>Contact Us</li>
+                            <li className="contact-us-lin" onClick={() => CONTROLLERS.handleNavLinkClick("/home/contact-us")}>Contact Us</li>
                         </ul>
 
                     </div>
@@ -368,7 +248,7 @@ class Index extends Component {
                                 <SearchResults
                                     products={products}
                                     searchInput={searchInput}
-                                    onAddToCart={this.handleAddToCart}
+                                    onAddToCart={CONTROLLERS.handleAddToCart}
                                     {...props}
                                 />
                             )}

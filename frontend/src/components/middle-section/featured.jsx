@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { CONTROLLERS } from "../../services/handlers";
 
 // All Images needs to be replaced with a loading icon incase images aren't loaded from the server yet
 class Featured extends Component {
@@ -81,9 +82,9 @@ class Featured extends Component {
                             </span>
                             <button
                                 className="add-to-cart-button"
-                                onClick={() => { this.props.onAddToCart(product, this.state.selectValues[product.product_id]) }}>Add to Cart
+                                onClick={() => { CONTROLLERS.handleAddToCart(product, this.state.selectValues[product.product_id]) }}>Add to Cart
                                 <FontAwesomeIcon className="add-to-cart-icon" icon={faShoppingCart}
-                                    onClick={() => this.props.onAddToCart(product, this.state.selectValues[product.product_id])} />
+                                    onClick={() => CONTROLLERS.handleAddToCart(product, this.state.selectValues[product.product_id])} />
                             </button>
                         </div>
                     </div>
