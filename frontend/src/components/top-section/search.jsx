@@ -5,7 +5,7 @@ import { CONTROLLERS } from "../../services/handlers";
 class Search extends Component {
     handleSearchSubmit = event => {
         event.preventDefault();
-        CONTROLLERS.handleMenuClick(this.refs.searchinput.value);
+        CONTROLLERS.handleSearchSubmit(this.refs.searchinput.value);
         this.props.replace("/home/search");
     };
 

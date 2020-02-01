@@ -106,19 +106,10 @@ export const CONTROLLERS = {
         } else { 
             indexThis.redirect(url);
         }
-    },
-    
-    handleSearchInput(searchInput) {
+    },    
+    handleSearchSubmit(searchInput) {
         const indexThis = handler.indexThis();
         indexThis.setState({ searchInput });
-    },
-    
-    handleSearchSubmit(event) {
-        const indexThis = handler.indexThis();
-        event.preventDefault();
-        indexThis.handleSearchInput(indexThis.refs.searchinput.value);
-        indexThis.handleMenuClick();
-        indexThis.props.history.replace("/home/search");
     },
     
     handleCategoryChange(selectedCategory) {
