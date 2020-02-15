@@ -118,9 +118,9 @@ export const CONTROLLERS = {
     },
     
     handleMenuClick() {
-        this.state = handler.indexThis().state;
+        const state = handler.indexThis().state;
         const indexThis = handler.indexThis();
-        if (!this.state.menuOn) {
+        if (!state.menuOn) {
             indexThis.setState({ menuOn: true });
             indexThis.props.history.replace("/home");
         } else {
