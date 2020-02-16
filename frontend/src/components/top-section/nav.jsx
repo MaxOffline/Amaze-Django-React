@@ -57,7 +57,7 @@ class Nav extends Component {
         if (window.innerWidth > 768) {
             return  (
             <p className="cart-count"
-                onClick={() => () => CONTROLLERS.handleNavLinkClick("/home/cart")}>{this.cartQuantity()}
+                onClick={() => CONTROLLERS.handleNavLinkClick("/home/cart")}>{this.cartQuantity()}
             </p> 
             )
         }
