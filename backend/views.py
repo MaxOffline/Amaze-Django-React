@@ -1,8 +1,17 @@
 # ******Local Directories******
 from Amaze import settings, credentials
-from backend.serializers import CartProductSerializer, SignupSerializer, LoginSerializer, LogoutSerializer,ResetCodeSerializer, SendEmailSerializer, ResetPasswordSerializer, PaymentProcessingSerializer, SendSignUpEmailSerializer
+from backend.serializers import (
+CartProductSerializer,
+SignupSerializer,
+LoginSerializer,
+LogoutSerializer,
+ResetCodeSerializer,
+SendEmailSerializer,
+ResetPasswordSerializer,
+PaymentProcessingSerializer,
+SendSignUpEmailSerializer)
 from backend import serializers
-from backend.models import Products, Cart, CartProduct
+from backend.models import Products, Cart, CartProduct, ResetCode
 # ******Django******
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -60,6 +69,8 @@ class Signup(APIView):
                     password=serializer.validated_data.get('password')
                     )
                     user.cart_set.create(user = request.user.username)
+                    user.resetcode_set.create(user = user)
+                    user.reset_code = random.randint(100000, 1000000)
                     user.save()
                     user = authenticate(
                     username=serializer.validated_data.get('username'),
@@ -222,7 +233,8 @@ class SendEmail(APIView):
                 # reset_code = sers.serialize("json", reset_model.reset_code)
                 # return Response({reset_code})
 
-            except:
+            except Exception as e:
+                print(e)
                 return Response("Email provided does not exist.", status=status.HTTP_400_BAD_REQUEST)
 
     # Change code after 30 minutes.
