@@ -43,7 +43,7 @@ class CheckoutForm extends Component {
         body: JSON.stringify({token:token.id, amount:this.props.total, email:this.email.current.value})
         });
     
-        if (response.ok){response.json().then(data =>console.log(data))}
+        // if (response.ok){response.json().then(data =>console.log(data))}
     } else {
         Object.entries(validation.validationResults).forEach(entry => {
             const key = entry[0];
