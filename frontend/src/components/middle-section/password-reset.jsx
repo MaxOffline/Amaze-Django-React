@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Ajax from "../../services/Ajax";
+import { CONTROLLERS } from '../../services/handlers';
 
 
 class PasswordReset extends Component {
@@ -20,9 +21,13 @@ class PasswordReset extends Component {
     firstPassword = React.createRef();
     secondPassword = React.createRef();
     incorrectCode = React.createRef();
-    
+    sendCodeButton = React.createRef();
+    confirmCodeButton = React.createRef();
+    resetPasswordButton = React.createRef();
+
     handleEmailFormSubmit = async (event) => {
         event.preventDefault();
+        CONTROLLERS.disableButton(this.sendCodeButton);
         const response = await Ajax(/SendEmail/, "POST", JSON.stringify({email:this.emailAddress.current.value}));
         // Send a request to change verfication code in 30 minutes
         Ajax(/SendEmail/, "PUT", JSON.stringify({email:this.emailAddress.current.value}));
@@ -37,8 +42,9 @@ class PasswordReset extends Component {
     }
 
 
-    handleCodeFormSubmit = async (event) => {
+    handleCodeConfirm = async (event) => {
         event.preventDefault();
+        CONTROLLERS.disableButton(this.confirmCodeButton);
         const response = await Ajax(/ConfirmCode/, "POST", JSON.stringify({email:this.emailAddress.current.value, reset_code:this.code.current.value}));
         if (response.status === 200){
             this.codeForm.current.style.display = "none";
@@ -51,7 +57,7 @@ class PasswordReset extends Component {
 
     handlePasswordReset = async (event) => {
         event.preventDefault();
-        console.log(this.state.email, this.state.password, this.state.confirmPassword, this.state.resetCode)
+        CONTROLLERS.disableButton(this.resetPasswordButton);
         const response = await Ajax(/ResetPassword/, "POST", JSON.stringify({
             email:this.state.email, 
             password:this.state.password,
@@ -79,17 +85,17 @@ class PasswordReset extends Component {
                 <p>Please provide an e-mail to send you a verification code.</p>
                 <p ref={this.emailNoExist} style={{display:"none", color:"#bf0000d6"}}>Email provided does not exist.</p>
                 <input ref = {this.emailAddress} placeholder="Email Address" className = "input"/>
-                <button  className = "sign-up-input" style = {{display:"block", fontSize:"1.4vw"}}>Send Code.</button>
+                <button  ref = {this.sendCodeButton} className = "sign-up-input"  style = {{display:"block", fontSize:"1.4vw"}}>Send Code.</button>
             </form>
-            <form ref = {this.codeForm} onSubmit = {this.handleCodeFormSubmit} style={{display:"none"}}>
+            <form ref = {this.codeForm} onSubmit = {this.handleCodeConfirm} style={{display:"none"}}>
                 <p ref={this.incorrectCode} style={{display:"none", color:"#bf0000d6"}}>The code provided does not match.</p>
                 <input ref = {this.code} placeholder="Verification code"className = "input"/>
-                <button  className = "sign-up-input"  style = {{display:"block"}}>Confirm code.</button>
+                <button  ref = {this.confirmCodeButton}  className = "sign-up-input"  style = {{display:"block"}}>Confirm code.</button>
             </form>
             <form ref = {this.newPasswordsForm} style={{display:"none"}} onSubmit = {this.handlePasswordReset}>
-                <input ref = {this.firstPassword} style = {{display:"block"}} placeholder = "Password" onChange = {this.handleChange} name = "password" className = "input"/>
-                <input ref = {this.secondPassword} style = {{display:"block"}} placeholder = "Confirm password" onChange = {this.handleChange} name = "confirmPassword" className = "input"/>
-                <button className = "sign-up-input"  style = {{display:"block"}}>Reset password</button>
+                <input ref = {this.firstPassword} type = "password" style = {{display:"block"}} placeholder = "Password" onChange = {this.handleChange} name = "password" className = "input"/>
+                <input ref = {this.secondPassword} type = "password" style = {{display:"block"}} placeholder = "Confirm password" onChange = {this.handleChange} name = "confirmPassword" className = "input"/>
+                <button ref = {this.resetPasswordButton} className = "sign-up-input"  style = {{display:"block"}}>Reset password</button>
             </form>
         </div>);
     }
