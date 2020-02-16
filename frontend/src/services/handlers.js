@@ -50,7 +50,6 @@ export const CONTROLLERS = {
             const response = await Ajax(`/UpdateProduct/${product.product_id}/`, "PUT", JSON.stringify(product))
             response.status === 200? indexThis.updateCartFromDB(): alert("Maximum quantity to purchase is 10 items.");
         }else{
-            console.log("User isn't authenticated")
             const localStorageCartItems = JSON.parse(localStorage.getItem("cart"))
             const foundProduct = localStorageCartItems.find(prod => prod.product_id === product.product_id)
             const index = localStorageCartItems.indexOf(foundProduct);
@@ -127,6 +126,10 @@ export const CONTROLLERS = {
             indexThis.setState({ menuOn: false });
         }
     },
+
+    disableButton(ref){
+        ref.current.disabled = true;
+    }
     // *******************************************************************************************************************************
 }
 
