@@ -77,7 +77,7 @@ class Nav extends Component {
                         </li>
                         <li className="first-li" />
                         <li className="home-link"
-                            onClick={() => CONTROLLERS.handleNavLinkClick("/home")}>Bardadense</li>
+                            onClick={() => CONTROLLERS.handleNavLinkClick("/home")}>Kinzy</li>
     
                         <li className="products-link"
                             onClick={() => CONTROLLERS.handleNavLinkClick("/home/products")}>Products</li>
@@ -115,7 +115,7 @@ class Nav extends Component {
                         </li>
                         <li className="first-li" />
                         <li className="home-link"
-                            onClick={ () => CONTROLLERS.handleNavLinkClick("/home")}>Bardadense</li>
+                            onClick={ () => CONTROLLERS.handleNavLinkClick("/home")}>Kinzy</li>
     
                         <li className="products-link"
                             onClick={() => CONTROLLERS.handleNavLinkClick("/home/products")}>Products</li>

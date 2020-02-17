@@ -19,15 +19,15 @@ TEMP = os.path.join(BASE_DIR, "frontend/build")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Allowing all hosts for now
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "http://amaze-me.herokuapp.com",
     "amaze-meherokuapp.com",
-    "https://barbadense.com",
-    "http://barbadense.com"
+    "https://www.kinzy.co",
+    "http://www.kinzy.co"
     ]
 
 
@@ -76,8 +76,8 @@ MIDDLEWARE = [
 ]
 
 # Added to redirect from HTTP to HTTPS
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_SSL_REDIRECT = True
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# SECURE_SSL_REDIRECT = True
 
 ROOT_URLCONF = 'Amaze.urls'
 
